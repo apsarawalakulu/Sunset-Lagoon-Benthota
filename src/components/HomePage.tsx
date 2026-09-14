@@ -11,36 +11,51 @@ function Eyebrow({ children, light = false }: { children: React.ReactNode; light
 }
 
 function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: string; title: string; intro?: string; light?: boolean }) {
-  return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl leading-[1.05] sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}>{title}</h2>{intro && <p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p>}</div>;
+  return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}>{title}</h2>{intro && <p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p>}</div>;
 }
 
 export function HomePage() {
   return <div className="overflow-x-clip bg-background">
     <SiteNavbar />
     <main>
-      <section id="home" className="relative flex min-h-[min(900px,100svh)] items-end overflow-hidden text-primary-foreground">
-        <img src={images.hero.src} alt={images.hero.alt} width={images.hero.width} height={images.hero.height} fetchPriority="high" className="hero-drift absolute inset-0 size-full object-cover" />
+      <section id="home" className="relative flex min-h-[min(920px,100svh)] items-center justify-center overflow-hidden bg-foreground text-primary-foreground">
+        <img src={images.hero.src} alt={images.hero.alt} width={images.hero.width} height={images.hero.height} fetchPriority="high" className="hero-drift absolute inset-0 size-full object-cover opacity-70" />
         <div className="hero-overlay absolute inset-0" />
-        <div className="relative mx-auto w-full max-w-screen-2xl px-5 pb-20 pt-36 sm:px-8 sm:pb-24 lg:px-12 lg:pb-28">
-          <div className="hero-copy max-w-4xl">
-            <Eyebrow light>Bentota · Sri Lanka</Eyebrow>
-            <h1 className="max-w-4xl font-serif text-5xl leading-[0.96] sm:text-7xl lg:text-[6.6rem]">Discover the Hidden Beauty of Bentota</h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-primary-foreground/80 sm:text-lg">Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.</p>
-            <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-              <Button asChild variant="hero" size="lg"><a href="#experience">Explore the safari <ArrowRight className="transition-transform group-hover:translate-x-1" /></a></Button>
-              <Button asChild variant="heroOutline" size="lg"><a href="#gallery">View experiences</a></Button>
-            </div>
+        <div className="hero-copy relative mx-auto max-w-5xl px-6 pb-24 pt-36 text-center sm:px-8">
+          <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-accent">Bentota · Sri Lanka</p>
+          <h1 className="mt-8 font-serif text-5xl font-light leading-[0.92] tracking-tight sm:text-7xl lg:text-[6.6rem]">Discover the Hidden <span className="italic">Beauty</span> of Bentota</h1>
+          <p className="mx-auto mt-10 max-w-md text-sm font-light leading-relaxed text-primary-foreground/80 sm:text-base">Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.</p>
+          <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <Button asChild variant="gold" size="lg" className="px-12 tracking-[0.3em]"><a href="#experience">Begin the journey</a></Button>
+            <Button asChild variant="heroOutline" size="lg" className="px-10 tracking-[0.3em]"><a href="#gallery">View the river</a></Button>
           </div>
-          <a href="#about" aria-label="Scroll to our story" className="absolute bottom-5 right-6 flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground/70 sm:bottom-8 lg:right-12"><span className="hidden sm:inline">Follow the river</span><span className="grid size-10 place-items-center rounded-full border border-primary-foreground/40"><ArrowDown className="size-4 animate-bounce" /></span></a>
+          <a href="#about" aria-label="Scroll to our story" className="absolute inset-x-0 bottom-4 mx-auto flex w-fit flex-col items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-primary-foreground/60"><span>Follow the river</span><span className="hairline-down block h-12 w-px text-primary-foreground/70" /><ArrowDown className="size-3.5 animate-bounce" /></a>
         </div>
       </section>
 
-      <section id="about" className="section-pad scroll-mt-20">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-12 lg:gap-20">
-          <div className="relative lg:col-span-7"><div className="aspect-[4/3] overflow-hidden"><img src={images.introduction.src} alt={images.introduction.alt} width={images.introduction.width} height={images.introduction.height} loading="lazy" className="size-full object-cover transition-transform duration-1000 hover:scale-[1.02]" /></div><div className="absolute -bottom-7 right-5 bg-primary px-6 py-5 text-primary-foreground sm:right-[-2rem]"><p className="font-serif text-2xl italic">River-born journeys</p><p className="mt-1 text-[9px] uppercase tracking-[0.22em] text-primary-foreground/60">Bentota · Sri Lanka</p></div></div>
-          <div className="pt-8 lg:col-span-5 lg:pt-0"><SectionTitle eyebrow="The Sunset Lagoon experience" title="Where the River Becomes Your Adventure" /><p className="mt-7 text-base leading-8 text-muted-foreground">Sunset Lagoon offers a local way to experience Bentota—following the river through mangroves, tropical greenery and peaceful natural surroundings. Every journey is an invitation to slow down and see the landscape from the water.</p><a href="#story" className="mt-8 inline-flex items-center gap-2 border-b border-primary pb-1 text-xs font-bold uppercase tracking-widest text-primary">Discover our story <ArrowRight className="size-4" /></a></div>
+      <section id="about" className="section-pad scroll-mt-20 bg-sand">
+        <div className="mx-auto grid max-w-7xl gap-14 px-5 sm:px-8 lg:grid-cols-12 lg:gap-24">
+          <div className="lg:col-span-5">
+            <div className="aspect-[4/5] overflow-hidden"><img src={images.introduction.src} alt={images.introduction.alt} width={images.introduction.width} height={images.introduction.height} loading="lazy" className="size-full object-cover transition-transform duration-1000 hover:scale-[1.03]" /></div>
+            <div className="mt-10 flex items-center gap-4"><span className="h-px w-8 bg-accent-strong" /><span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent-strong">The Sunset Lagoon experience</span></div>
+          </div>
+          <div className="lg:col-span-7">
+            <h2 className="font-serif text-4xl font-light leading-tight tracking-tight sm:text-5xl lg:text-6xl">An intimate escape into the <span className="italic text-primary">untamed beauty</span> of the river.</h2>
+            <div className="mt-12 grid gap-10 sm:grid-cols-2">
+              <p className="text-sm leading-8 text-muted-foreground sm:text-base">Sunset Lagoon offers a local way to experience Bentota—following the river through mangroves, tropical greenery and peaceful natural surroundings.</p>
+              <p className="text-sm leading-8 text-muted-foreground sm:text-base">Every journey is an invitation to slow down, watch the light shift across the water and see this landscape the way the river reveals it.</p>
+            </div>
+            <div className="mt-16 flex flex-wrap gap-x-14 gap-y-8">
+              {experiences.map((experience, index) => <div key={experience.id} className="flex flex-col">
+                <span className="font-serif text-4xl font-light">0{index + 1}.</span>
+                <span className="mt-2 text-[9px] font-bold uppercase tracking-[0.22em] text-muted-foreground">{experience.title}</span>
+              </div>)}
+            </div>
+            <a href="#story" className="mt-14 inline-flex items-center gap-5 group"><span className="h-px w-12 bg-foreground transition-all duration-500 group-hover:w-20 group-hover:bg-accent-strong" /><span className="text-[10px] font-bold uppercase tracking-[0.35em] transition-colors group-hover:text-accent-strong">Discover our story</span></a>
+          </div>
         </div>
       </section>
+
 
       <section id="experience" className="section-pad scroll-mt-20 bg-sand">
         <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12">
