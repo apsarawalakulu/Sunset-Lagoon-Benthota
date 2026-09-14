@@ -21,7 +21,7 @@
 @theme inline {
   --font-sans: "DM Sans", sans-serif;
   --font-serif: "DM Serif Display", serif;
-  --font-brand: "Cormorant Garamond", "DM Serif Display", serif;
+  --font-brand: "Kaushan Script", "Cormorant Garamond", cursive;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
