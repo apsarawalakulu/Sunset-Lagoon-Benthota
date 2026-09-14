@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/data/siteConfig";
+import logo from "@/assets/sunset-lagoon-logo.png.asset.json";
 
 export function SiteNavbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -25,7 +26,7 @@ export function SiteNavbar() {
     <header className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled || open ? "border-b border-border bg-background/95 text-foreground shadow-sm backdrop-blur" : "text-primary-foreground"}`}>
       <nav className="mx-auto grid h-20 max-w-screen-2xl grid-cols-[minmax(0,1fr)_auto] items-center px-5 sm:px-8 lg:grid-cols-[auto_1fr_auto] lg:px-12" aria-label="Main navigation">
         <a href="#home" className="flex min-w-0 items-center gap-3" aria-label="Sunset Lagoon home">
-          <span className={`grid size-10 shrink-0 place-items-center rounded-full border font-serif text-xl italic ${scrolled || open ? "border-primary/30" : "border-primary-foreground/40"}`}>S</span>
+          <img src={logo.url} alt="Sunset Lagoon Boat House logo" width={40} height={40} className="size-11 shrink-0 rounded-full object-contain" />
           <span className="min-w-0 leading-none">
             <span className="block truncate font-serif text-xl">Sunset Lagoon</span>
             <span className="mt-1 block truncate text-[9px] font-semibold uppercase tracking-[0.24em] opacity-70">Boat House · Bentota</span>
