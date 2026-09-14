@@ -28,7 +28,7 @@ export function SiteNavbar() {
         <a href="#home" className="flex min-w-0 items-center gap-3" aria-label="Sunset Lagoon home">
           <img src={logo.url} alt="Sunset Lagoon Boat House logo" width={40} height={40} className="size-11 shrink-0 rounded-full object-contain" />
           <span className="min-w-0 leading-none">
-            <span className="block truncate font-serif text-xl">Sunset Lagoon</span>
+            <span className="block truncate font-brand text-[1.6rem] font-semibold tracking-[0.02em]">Sunset Lagoon</span>
             <span className="mt-1 block truncate text-[9px] font-semibold uppercase tracking-[0.24em] opacity-70">Boat House · Bentota</span>
           </span>
         </a>
