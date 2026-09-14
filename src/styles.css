@@ -19,8 +19,8 @@
  */
 
 @theme inline {
-  --font-sans: "DM Sans", sans-serif;
-  --font-serif: "DM Serif Display", serif;
+  --font-sans: "Karla", sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
   --font-brand: "Kaushan Script", "Cormorant Garamond", cursive;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -68,27 +68,27 @@
 
 :root {
   --radius: 0.35rem;
-  --background: oklch(0.975 0.012 88);
-  --foreground: oklch(0.205 0.035 150);
+  --background: oklch(0.966 0.014 88);
+  --foreground: oklch(0.21 0.033 154);
   --card: oklch(0.99 0.008 90);
-  --card-foreground: oklch(0.205 0.035 150);
+  --card-foreground: oklch(0.21 0.033 154);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.285 0.067 150);
-  --primary-foreground: oklch(0.97 0.012 88);
+  --primary: oklch(0.275 0.042 152);
+  --primary-foreground: oklch(0.92 0.022 88);
   --secondary: oklch(0.86 0.042 88);
   --secondary-foreground: oklch(0.245 0.05 150);
   --muted: oklch(0.925 0.024 92);
-  --muted-foreground: oklch(0.47 0.025 145);
-  --accent: oklch(0.73 0.12 67);
+  --muted-foreground: oklch(0.44 0.03 150);
+  --accent: oklch(0.66 0.11 68);
   --accent-foreground: oklch(0.19 0.035 150);
-  --accent-strong: oklch(0.57 0.12 58);
-  --sand: oklch(0.935 0.035 87);
+  --accent-strong: oklch(0.55 0.11 62);
+  --sand: oklch(0.90 0.024 88);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.83 0.025 92);
-  --input: oklch(0.83 0.025 92);
-  --ring: oklch(0.57 0.12 58);
+  --border: oklch(0.855 0.02 90);
+  --input: oklch(0.855 0.02 90);
+  --ring: oklch(0.55 0.11 62);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -159,7 +159,7 @@
 
 @utility section-pad { padding-block: clamp(5rem, 9vw, 9rem); }
 
-.hero-overlay { background: linear-gradient(90deg, oklch(0.12 0.03 150 / .8) 0%, oklch(0.12 0.03 150 / .42) 48%, transparent 85%), linear-gradient(0deg, oklch(0.12 0.03 150 / .45), transparent 52%); }
+.hero-overlay { background: radial-gradient(ellipse at center, oklch(0.14 0.028 154 / .45) 0%, oklch(0.11 0.026 154 / .78) 70%), linear-gradient(0deg, oklch(0.11 0.026 154 / .9), oklch(0.11 0.026 154 / .35) 55%); }
 .story-overlay { background: linear-gradient(90deg, oklch(0.12 0.03 150 / .88), oklch(0.12 0.03 150 / .32)); }
 .hero-copy { animation: hero-reveal 1s ease-out both; }
 .hero-drift { animation: hero-drift 16s ease-out both; }
@@ -171,11 +171,12 @@
 @keyframes hero-reveal { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes hero-drift { from { transform: scale(1.04); } to { transform: scale(1); } }
 
+@utility hairline-down { background: linear-gradient(to bottom, transparent, currentColor); }
+
 @media (max-width: 767px) {
   .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 190px; }
   .gallery-grid > :first-child { grid-column: span 2; }
   .gallery-grid > :nth-child(2), .gallery-grid > :nth-child(5) { grid-row: span 1; }
-  .hero-overlay { background: linear-gradient(0deg, oklch(0.12 0.03 150 / .76), oklch(0.12 0.03 150 / .18) 85%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
