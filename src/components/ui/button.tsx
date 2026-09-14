@@ -19,6 +19,7 @@ const buttonVariants = cva(
         hero: "bg-accent text-accent-foreground shadow-lg hover:-translate-y-0.5 hover:bg-accent/90",
         heroOutline:
           "border border-primary-foreground/60 bg-transparent text-primary-foreground hover:-translate-y-0.5 hover:bg-primary-foreground hover:text-primary",
+        gold: "relative isolate overflow-hidden border border-accent bg-transparent text-accent hover:text-primary before:absolute before:inset-0 before:-z-10 before:translate-y-full before:bg-accent before:transition-transform before:duration-500 hover:before:translate-y-0",
         forest: "bg-primary text-primary-foreground shadow-lg hover:-translate-y-0.5 hover:bg-primary/90",
       },
       size: {
