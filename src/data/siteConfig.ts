@@ -5,12 +5,12 @@ import sunsetImage from "@/assets/bentota-sunset.jpg";
 import wildlifeImage from "@/assets/bentota-wildlife.jpg";
 import crocodileImage from "@/assets/bentota-crocodile.jpg";
 import boatImage from "@/assets/bentota-boat.jpg";
-import logoAsset from "@/assets/sunset-lagoon-logo.png.asset.json";
+import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 
-export const LOGO_URL = logoAsset.url;
+export const LOGO_URL = logoImage;
 
 export const images = {
-  logo: { src: LOGO_URL, alt: "Sunset Lagoon Boat House logo", width: 1216, height: 1263 },
+  logo: { src: LOGO_URL, alt: "Sunset Lagoon Boat House logo", width: 922, height: 920 },
   hero: { src: heroImage, alt: "Safari boat crossing the Bentota River at sunset", width: 1920, height: 1088 },
   introduction: { src: riverImage, alt: "A peaceful guided journey along the Bentota River", width: 1600, height: 1104 },
   story: { src: sunsetImage, alt: "Sun setting over tropical forest beside the Bentota River", width: 1920, height: 1088 },
