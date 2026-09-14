@@ -14,7 +14,17 @@ export const images = {
 
 export const LOCATION_ADDRESS = "Bentota, Sri Lanka";
 
-export const siteConfig = {
+type SiteConfig = {
+  name: string;
+  fullName: string;
+  descriptor: string;
+  location: string;
+  contact: { phone: string; whatsapp: string; email: string; hours: string };
+  social: { facebook: string; instagram: string; whatsapp: string };
+  navigation: ReadonlyArray<{ label: string; href: string }>;
+};
+
+export const siteConfig: SiteConfig = {
   name: "Sunset Lagoon",
   fullName: "Sunset Lagoon Boat House",
   descriptor: "Bentota Boat Safari",
@@ -35,7 +45,7 @@ export const siteConfig = {
     { label: "Location", href: "#location" },
     { label: "Contact", href: "#contact" },
   ],
-} as const;
+};
 
 export function getWhatsAppUrl() {
   return siteConfig.contact.whatsapp

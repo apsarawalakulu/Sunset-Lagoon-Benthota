@@ -7,6 +7,7 @@ export function Gallery() {
   const [selected, setSelected] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const count = galleryImages.length;
+  const activeImage = selected === null ? undefined : galleryImages[selected];
 
   useEffect(() => {
     if (selected === null) return;
@@ -31,12 +32,12 @@ export function Gallery() {
         </button>
       ))}
     </div>
-    {selected !== null && <div className="fixed inset-0 z-[70] grid place-items-center bg-foreground/95 p-4 sm:p-10" role="dialog" aria-modal="true" aria-label="River gallery lightbox" onClick={() => setSelected(null)}>
+    {selected !== null && activeImage && <div className="fixed inset-0 z-[70] grid place-items-center bg-foreground/95 p-4 sm:p-10" role="dialog" aria-modal="true" aria-label="River gallery lightbox" onClick={() => setSelected(null)}>
       <Button ref={closeRef} variant="heroOutline" size="icon" className="absolute right-5 top-5" onClick={() => setSelected(null)} aria-label="Close gallery"><X /></Button>
       <Button variant="heroOutline" size="icon" className="absolute left-4 top-1/2 -translate-y-1/2" onClick={(event) => { event.stopPropagation(); setSelected((selected - 1 + count) % count); }} aria-label="Previous image"><ChevronLeft /></Button>
       <figure className="max-h-[85vh] max-w-6xl" onClick={(event) => event.stopPropagation()}>
-        <img src={galleryImages[selected].src} alt={galleryImages[selected].alt} width={galleryImages[selected].width} height={galleryImages[selected].height} className="max-h-[78vh] max-w-full object-contain" />
-        <figcaption className="mt-4 text-center text-sm text-primary-foreground/80">{galleryImages[selected].caption} · {selected + 1}/{count}</figcaption>
+        <img src={activeImage.src} alt={activeImage.alt} width={activeImage.width} height={activeImage.height} className="max-h-[78vh] max-w-full object-contain" />
+        <figcaption className="mt-4 text-center text-sm text-primary-foreground/80">{activeImage.caption} · {selected + 1}/{count}</figcaption>
       </figure>
       <Button variant="heroOutline" size="icon" className="absolute right-4 top-1/2 -translate-y-1/2" onClick={(event) => { event.stopPropagation(); setSelected((selected + 1) % count); }} aria-label="Next image"><ChevronRight /></Button>
     </div>}
