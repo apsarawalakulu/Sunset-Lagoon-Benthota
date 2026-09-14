@@ -19,6 +19,8 @@
  */
 
 @theme inline {
+  --font-sans: "DM Sans", sans-serif;
+  --font-serif: "DM Serif Display", serif;
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,29 +61,33 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  --color-accent-strong: var(--accent-strong);
+  --color-sand: var(--sand);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.129 0.042 264.695);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.129 0.042 264.695);
+  --radius: 0.35rem;
+  --background: oklch(0.975 0.012 88);
+  --foreground: oklch(0.205 0.035 150);
+  --card: oklch(0.99 0.008 90);
+  --card-foreground: oklch(0.205 0.035 150);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
-  --primary-foreground: oklch(0.984 0.003 247.858);
-  --secondary: oklch(0.968 0.007 247.896);
-  --secondary-foreground: oklch(0.208 0.042 265.755);
-  --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
-  --accent: oklch(0.968 0.007 247.896);
-  --accent-foreground: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.285 0.067 150);
+  --primary-foreground: oklch(0.97 0.012 88);
+  --secondary: oklch(0.86 0.042 88);
+  --secondary-foreground: oklch(0.245 0.05 150);
+  --muted: oklch(0.925 0.024 92);
+  --muted-foreground: oklch(0.47 0.025 145);
+  --accent: oklch(0.73 0.12 67);
+  --accent-foreground: oklch(0.19 0.035 150);
+  --accent-strong: oklch(0.57 0.12 58);
+  --sand: oklch(0.935 0.035 87);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.929 0.013 255.508);
-  --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --border: oklch(0.83 0.025 92);
+  --input: oklch(0.83 0.025 92);
+  --ring: oklch(0.57 0.12 58);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -140,5 +146,38 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    letter-spacing: 0;
+    overflow-x: hidden;
   }
+
+  html { scroll-behavior: smooth; }
+  ::selection { background: var(--accent); color: var(--accent-foreground); }
+  a, button { outline-offset: 4px; }
+}
+
+@utility section-pad { padding-block: clamp(5rem, 9vw, 9rem); }
+
+.hero-overlay { background: linear-gradient(90deg, oklch(0.12 0.03 150 / .8) 0%, oklch(0.12 0.03 150 / .42) 48%, transparent 85%), linear-gradient(0deg, oklch(0.12 0.03 150 / .45), transparent 52%); }
+.story-overlay { background: linear-gradient(90deg, oklch(0.12 0.03 150 / .88), oklch(0.12 0.03 150 / .32)); }
+.hero-copy { animation: hero-reveal 1s ease-out both; }
+.hero-drift { animation: hero-drift 16s ease-out both; }
+.gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 250px; gap: .75rem; }
+.gallery-grid > :first-child { grid-row: span 2; }
+.gallery-grid > :nth-child(2), .gallery-grid > :nth-child(5) { grid-row: span 2; }
+.map-pattern { background-color: var(--sand); background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 44px 44px; }
+
+@keyframes hero-reveal { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-drift { from { transform: scale(1.04); } to { transform: scale(1); } }
+
+@media (max-width: 767px) {
+  .gallery-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: 190px; }
+  .gallery-grid > :first-child { grid-column: span 2; }
+  .gallery-grid > :nth-child(2), .gallery-grid > :nth-child(5) { grid-row: span 1; }
+  .hero-overlay { background: linear-gradient(0deg, oklch(0.12 0.03 150 / .76), oklch(0.12 0.03 150 / .18) 85%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
