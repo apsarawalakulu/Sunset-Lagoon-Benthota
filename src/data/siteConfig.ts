@@ -3,6 +3,8 @@ import mangroveImage from "@/assets/bentota-mangrove.jpg";
 import riverImage from "@/assets/bentota-river.jpg";
 import sunsetImage from "@/assets/bentota-sunset.jpg";
 import wildlifeImage from "@/assets/bentota-wildlife.jpg";
+import crocodileImage from "@/assets/bentota-crocodile.jpg";
+import boatImage from "@/assets/bentota-boat.jpg";
 import logoAsset from "@/assets/sunset-lagoon-logo.png.asset.json";
 
 export const LOGO_URL = logoAsset.url;
@@ -14,6 +16,8 @@ export const images = {
   story: { src: sunsetImage, alt: "Sun setting over tropical forest beside the Bentota River", width: 1920, height: 1088 },
   wildlife: { src: wildlifeImage, alt: "Kingfisher among mangroves along a tropical river", width: 1200, height: 1504 },
   mangroves: { src: mangroveImage, alt: "Boat travelling beneath a green mangrove canopy", width: 1200, height: 1504 },
+  crocodile: { src: crocodileImage, alt: "Crocodile gliding through the Bentota River mangroves", width: 1200, height: 1500 },
+  boat: { src: boatImage, alt: "Sunset Lagoon safari boat on the Bentota River at golden hour", width: 1600, height: 1100 },
 } as const;
 
 export const LOCATION_ADDRESS = "Bentota, Sri Lanka";
