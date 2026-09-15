@@ -11,7 +11,7 @@ export const images = {
   hero: { src: `${cloudinaryBase}/v1789443140/ChatGPT_Image_Sep_15_2026_09_01_33_AM.png`, alt: "Sunset Lagoon boat moored on the Bentota River at sunset", width: 1678, height: 937 },
   heroLogo: { src: `${cloudinaryBase}/v1789442959/ChatGPT_Image_Sep_15_2026_08_56_42_AM_2.png`, alt: "Sunset Lagoon Boat House emblem over a warm sunset", width: 1679, height: 937 },
   heroTemple: { src: `${cloudinaryBase}/v1789316022/d9f312e0-f7cf-40a3-b312-8745e9792c38_bentota-river-boat-safari-with-private-boat-beruwalabentotakosgodaahungalla.png`, alt: "Riverside Buddhist temple seen from the Bentota River", width: 720, height: 480 },
-  introduction: { src: `${cloudinaryBase}/v1789316021/Bentota-River-safari-18.jpg`, alt: "Green lizard resting among tropical leaves", width: 1280, height: 853 },
+  introduction: { src: `${cloudinaryBase}/v1789443976/images_1.jpg`, alt: "Tranquil stretch of the Bentota river surrounded by tropical greenery", width: 1280, height: 853 },
   story: { src: `${cloudinaryBase}/v1789443978/uovpp573cg7cj0z3kxhv.webp`, alt: "Safari boats on the Bentota River at sunset", width: 900, height: 507 },
   wildlife: { src: `${cloudinaryBase}/v1789443977/sri-lanka-national-bird-watching-month.webp`, alt: "Blue and orange kingfisher perched on a branch", width: 414, height: 276 },
   mangroves: { src: `${cloudinaryBase}/v1789443980/WhatsApp_Image_2026-09-14_at_23.58.09.jpg`, alt: "Dense mangrove canopy above a shaded waterway", width: 1280, height: 960 },
