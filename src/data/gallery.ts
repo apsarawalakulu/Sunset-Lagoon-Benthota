@@ -9,4 +9,6 @@ export const galleryImages = [
   { ...images.story, caption: "Safari boats at sunset" },
   { ...images.wildlife, caption: "Kingfisher along the riverbank" },
   { ...images.babyCrocodile, caption: "A young crocodile seen up close" },
+  { ...images.crocodile, caption: "A crocodile in the mangroves" },
+  { ...images.boat, caption: "The Sunset Lagoon safari boat" },
 ] as const;
