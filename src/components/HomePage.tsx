@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
 import { ArrowDown, ArrowRight, Bird, Compass, Leaf, MapPin, MessageCircle, Sailboat, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { experiences } from "@/data/experiences";
-import { getWhatsAppUrl, images, LOGO_URL, siteConfig } from "@/data/siteConfig";
+import { getWhatsAppUrl, heroSlides, images, LOGO_URL, siteConfig } from "@/data/siteConfig";
 
 import { Gallery } from "./Gallery";
 import { SiteNavbar } from "./SiteNavbar";
@@ -14,12 +15,25 @@ function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: strin
   return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}>{title}</h2>{intro && <p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p>}</div>;
 }
 
+function HeroSlideshow() {
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const interval = window.setInterval(() => setActiveSlide((current) => (current + 1) % heroSlides.length), 2500);
+    return () => window.clearInterval(interval);
+  }, []);
+
+  return <div className="absolute inset-0" aria-hidden="true">
+    {heroSlides.map((image, index) => <img key={image.src} src={image.src} alt="" width={image.width} height={image.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />)}
+  </div>;
+}
+
 export function HomePage() {
   return <div className="overflow-x-clip bg-background">
     <SiteNavbar />
     <main>
       <section id="home" className="relative flex min-h-[min(920px,100svh)] items-center justify-center overflow-hidden bg-foreground text-primary-foreground">
-        <img src={images.hero.src} alt={images.hero.alt} width={images.hero.width} height={images.hero.height} fetchPriority="high" className="hero-drift absolute inset-0 size-full object-cover opacity-70" />
+        <HeroSlideshow />
         <div className="hero-overlay absolute inset-0" />
         <div className="hero-copy relative mx-auto max-w-5xl px-6 pb-24 pt-36 text-center sm:px-8">
           <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-accent">Bentota · Sri Lanka</p>
