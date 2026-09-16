@@ -5,7 +5,6 @@ import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 export const LOGO_URL = logoImage;
 
 const cloudinaryBase = "https://res.cloudinary.com/qegkbvkj/image/upload";
-const cloudinaryVideoBase = "https://res.cloudinary.com/qegkbvkj/video/upload";
 
 export const images = {
   logo: { src: LOGO_URL, alt: "Sunset Lagoon Boat House logo", width: 922, height: 920 },
@@ -22,12 +21,9 @@ export const images = {
   monkey: { src: `${cloudinaryBase}/v1789443979/xm0cg6mvkcu7fjigebbj.webp`, alt: "Visitors observing monkeys in the riverside forest", width: 900, height: 507 },
   mangroveBoat: { src: `${cloudinaryBase}/v1789443978/Places-to-Visit-in-Bentota-1.webp`, alt: "A small safari boat passing through a mangrove channel", width: 1000, height: 731 },
   babyCrocodile: { src: `${cloudinaryBase}/v1789443977/images_6.jpg`, alt: "A young crocodile observed during a guided wildlife encounter", width: 404, height: 758 },
-  heroBoatSafari: { src: `${cloudinaryBase}/v1789461244/boat-safari-in-Bentota-e1581790027654.webp`, alt: "Boat safari gliding along the Bentota River", width: 800, height: 619 },
-  heroRiver: { src: `${cloudinaryBase}/v1789525537/bentota-river.jpg`, alt: "Bentota River reflecting tropical greenery", width: 1600, height: 1104 },
-  heroVideo: { src: `${cloudinaryVideoBase}/v1789461312/IMG_9189.mp4`, alt: "Sunset Lagoon boat drifting along the Bentota River", width: 1920, height: 1080, video: true },
 } as const;
 
-export const heroSlides = [images.hero, images.heroLogo, images.heroTemple, images.heroVideo, images.heroBoatSafari, images.mangroveBoat, images.heroRiver] as const;
+export const heroSlides = [images.hero, images.heroLogo, images.heroTemple] as const;
 
 export const LOCATION_ADDRESS = "Bentota, Sri Lanka";
 
