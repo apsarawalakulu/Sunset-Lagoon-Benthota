@@ -5,6 +5,7 @@ import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 export const LOGO_URL = logoImage;
 
 const cloudinaryBase = "https://res.cloudinary.com/qegkbvkj/image/upload";
+const cloudinaryVideoBase = "https://res.cloudinary.com/qegkbvkj/video/upload";
 
 export const images = {
   logo: { src: LOGO_URL, alt: "Sunset Lagoon Boat House logo", width: 922, height: 920 },
