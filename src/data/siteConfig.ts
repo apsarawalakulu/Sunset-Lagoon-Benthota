@@ -27,7 +27,7 @@ export const images = {
   heroVideo: { src: `${cloudinaryVideoBase}/v1789461312/IMG_9189.mov`, alt: "Sunset Lagoon boat drifting along the Bentota River", width: 1920, height: 1080, video: true },
 } as const;
 
-export const heroSlides = [images.hero, images.heroLogo, images.heroTemple] as const;
+export const heroSlides = [images.hero, images.heroLogo, images.heroTemple, images.heroVideo, images.heroBoatSafari, images.mangroveBoat, images.heroRiver] as const;
 
 export const LOCATION_ADDRESS = "Bentota, Sri Lanka";
 
