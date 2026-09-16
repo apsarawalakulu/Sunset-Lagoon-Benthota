@@ -26,7 +26,8 @@ export const images = {
 export const heroSlides = [
   {
     type: "video",
-    src: `${cloudinaryBase.replace("/image/", "/video/")}/f_mp4,q_auto/v1789461312/IMG_9189.mp4`,
+    src: `${cloudinaryBase.replace("/image/", "/video/")}/f_mp4,vc_h264,ac_none,q_auto/v1789461312/IMG_9189.mp4`,
+    webmSrc: `${cloudinaryBase.replace("/image/", "/video/")}/f_webm,vc_vp9,ac_none,q_auto/v1789461312/IMG_9189.webm`,
     width: 1920,
     height: 1080,
   },

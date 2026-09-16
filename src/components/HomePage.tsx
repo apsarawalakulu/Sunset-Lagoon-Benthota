@@ -38,7 +38,10 @@ function HeroSlideshow() {
 
   return <div className="absolute inset-0" aria-hidden="true">
     {heroSlides.map((media, index) => media.type === "video" ? (
-      <video ref={videoRef} key={media.src} src={media.src} width={media.width} height={media.height} muted playsInline preload="auto" onEnded={() => setActiveSlide((index + 1) % heroSlides.length)} onError={() => setActiveSlide((index + 1) % heroSlides.length)} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />
+      <video ref={videoRef} key={media.src} width={media.width} height={media.height} muted playsInline preload="auto" onEnded={() => setActiveSlide((index + 1) % heroSlides.length)} onError={() => setActiveSlide((index + 1) % heroSlides.length)} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`}>
+        <source src={media.webmSrc} type="video/webm" />
+        <source src={media.src} type="video/mp4" />
+      </video>
     ) : (
       <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 1 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />
     ))}
