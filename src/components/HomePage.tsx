@@ -24,7 +24,14 @@ function HeroSlideshow() {
   }, []);
 
   return <div className="absolute inset-0" aria-hidden="true">
-    {heroSlides.map((image, index) => <img key={image.src} src={image.src} alt="" width={image.width} height={image.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />)}
+    {heroSlides.map((slide, index) => {
+      const isActive = index === activeSlide;
+      const className = `hero-slide absolute inset-0 size-full object-cover opacity-70 ${isActive ? "is-active" : ""}`;
+      if ("video" in slide && slide.video) {
+        return <video key={slide.src} src={slide.src} autoPlay muted loop playsInline fetchPriority={index === 0 ? "high" : "auto"} className={className} />;
+      }
+      return <img key={slide.src} src={slide.src} alt="" width={slide.width} height={slide.height} fetchPriority={index === 0 ? "high" : "auto"} className={className} />;
+    })}
   </div>;
 }
 
