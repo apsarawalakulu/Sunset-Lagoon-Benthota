@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, Bird, Compass, Leaf, MapPin, MessageCircle, Sailboat, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { experiences } from "@/data/experiences";
@@ -17,14 +17,30 @@ function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: strin
 
 function HeroSlideshow() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    const interval = window.setInterval(() => setActiveSlide((current) => (current + 1) % heroSlides.length), 2500);
-    return () => window.clearInterval(interval);
-  }, []);
+    const slide = heroSlides[activeSlide];
+    if (slide.type === "video") {
+      const video = videoRef.current;
+      if (!video) return;
+      video.currentTime = 0;
+      void video.play().catch(() => {
+        window.setTimeout(() => setActiveSlide((activeSlide + 1) % heroSlides.length), 2500);
+      });
+      return () => video.pause();
+    }
+
+    const timeout = window.setTimeout(() => setActiveSlide((activeSlide + 1) % heroSlides.length), 2500);
+    return () => window.clearTimeout(timeout);
+  }, [activeSlide]);
 
   return <div className="absolute inset-0" aria-hidden="true">
-    {heroSlides.map((image, index) => <img key={image.src} src={image.src} alt="" width={image.width} height={image.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />)}
+    {heroSlides.map((media, index) => media.type === "video" ? (
+      <video ref={videoRef} key={media.src} src={media.src} width={media.width} height={media.height} muted playsInline preload="auto" onEnded={() => setActiveSlide((index + 1) % heroSlides.length)} onError={() => setActiveSlide((index + 1) % heroSlides.length)} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />
+    ) : (
+      <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 1 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover opacity-70 ${index === activeSlide ? "is-active" : ""}`} />
+    ))}
   </div>;
 }
 
