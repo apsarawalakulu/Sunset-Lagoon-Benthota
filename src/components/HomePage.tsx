@@ -21,6 +21,7 @@ function HeroSlideshow() {
 
   useEffect(() => {
     const slide = heroSlides[activeSlide];
+    if (!slide) return;
     if (slide.type === "video") {
       const video = videoRef.current;
       if (!video) return;
