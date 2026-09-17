@@ -159,18 +159,18 @@
 
 @utility section-pad { padding-block: clamp(5rem, 9vw, 9rem); }
 
-.hero-overlay { background: radial-gradient(ellipse at center, oklch(0.14 0.028 154 / .45) 0%, oklch(0.11 0.026 154 / .78) 70%), linear-gradient(0deg, oklch(0.11 0.026 154 / .9), oklch(0.11 0.026 154 / .35) 55%); }
+.hero-overlay { background: linear-gradient(180deg, oklch(0.11 0.026 154 / .44) 0%, oklch(0.11 0.026 154 / .08) 34%, oklch(0.11 0.026 154 / .16) 62%, oklch(0.11 0.026 154 / .5) 100%), linear-gradient(90deg, oklch(0.11 0.026 154 / .14), transparent 28%, transparent 72%, oklch(0.11 0.026 154 / .12)); }
 .story-overlay { background: linear-gradient(90deg, oklch(0.12 0.03 150 / .88), oklch(0.12 0.03 150 / .32)); }
-.hero-copy { animation: hero-reveal 1s ease-out both; }
-.hero-slide { opacity: 0; transform: scale(1.04); transition: opacity 1.15s ease-in-out; }
-.hero-slide.is-active { opacity: .7; animation: hero-drift 8s ease-out both; }
+.hero-copy { animation: hero-reveal 1s ease-out both; text-shadow: 0 2px 18px oklch(0.08 0.02 154 / .38); }
+.hero-slide { opacity: 0; transform: scale(1.045); transition: opacity 1.4s ease-in-out; will-change: opacity, transform; }
+.hero-slide.is-active { opacity: 1; animation: hero-drift 9s ease-out both; }
 .gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 250px; gap: .75rem; }
 .gallery-grid > :first-child { grid-row: span 2; }
 .gallery-grid > :nth-child(2), .gallery-grid > :nth-child(5) { grid-row: span 2; }
 .map-pattern { background-color: var(--sand); background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 44px 44px; }
 
 @keyframes hero-reveal { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes hero-drift { from { transform: scale(1.04); } to { transform: scale(1); } }
+@keyframes hero-drift { from { transform: scale(1.045); } to { transform: scale(1.01); } }
 
 @utility hairline-down { background: linear-gradient(to bottom, transparent, currentColor); }
 
