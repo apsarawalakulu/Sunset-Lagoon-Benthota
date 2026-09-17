@@ -1,5 +1,8 @@
 import crocodileImage from "@/assets/bentota-crocodile.jpg";
 import boatImage from "@/assets/bentota-boat.jpg";
+import heroBentotaSafari from "@/assets/hero-bentota-safari.jpg";
+import heroMangroveJourney from "@/assets/hero-mangrove-journey.jpg";
+import heroSunsetLagoon from "@/assets/hero-sunset-lagoon.jpg";
 import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 
 export const LOGO_URL = logoImage;
@@ -25,32 +28,22 @@ export const images = {
 
 export const heroSlides = [
   {
-    type: "video",
-    src: `${cloudinaryBase.replace("/image/", "/video/")}/f_mp4,vc_h264,ac_none,q_auto/v1789461312/IMG_9189.mp4`,
-    webmSrc: `${cloudinaryBase.replace("/image/", "/video/")}/f_webm,vc_vp9,ac_none,q_auto/v1789461312/IMG_9189.webm`,
-    width: 1920,
-    height: 1080,
+    src: heroBentotaSafari,
+    alt: "A covered safari boat carrying visitors across the Bentota River at golden hour",
+    width: 1536,
+    height: 1024,
   },
   {
-    type: "image",
-    src: `${cloudinaryBase}/v1789461244/boat-safari-in-Bentota-e1581790027654.webp`,
-    alt: "Boat safari cruising along the Bentota River",
-    width: 1280,
-    height: 853,
+    src: heroMangroveJourney,
+    alt: "A boat safari journey through lush tropical mangroves in Bentota",
+    width: 1536,
+    height: 1024,
   },
   {
-    type: "image",
-    src: `${cloudinaryBase}/v1789443978/Places-to-Visit-in-Bentota-1.webp`,
-    alt: "Safari boat passing through a lush Bentota mangrove channel",
-    width: 1000,
-    height: 731,
-  },
-  {
-    type: "image",
-    src: `${cloudinaryBase}/v1789525537/bentota-river.jpg`,
-    alt: "Scenic view across the Bentota River",
-    width: 1600,
-    height: 1067,
+    src: heroSunsetLagoon,
+    alt: "A safari boat crossing the calm Bentota lagoon beneath a tropical sunset",
+    width: 1536,
+    height: 1024,
   },
 ] as const;
 
