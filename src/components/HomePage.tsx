@@ -99,7 +99,7 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8"><SectionTitle eyebrow="Travel with intention" title="Why Explore With Sunset Lagoon?" />
           <div className="mt-14 grid border-y border-border sm:grid-cols-2 lg:grid-cols-4">{[
             [Compass, "Local Experience", "Discover Bentota through a local perspective."], [Leaf, "Nature First", "Experience the river, mangroves and surrounding ecosystem."], [Waves, "Relaxed Journey", "Enjoy a peaceful and memorable boat experience."], [Sailboat, "Personal Service", "A friendly, welcoming experience from start to finish."],
-          ].map(([Icon, title, text], index) => { const FeatureIcon = Icon as typeof Compass; return <div key={title as string} className={`py-8 sm:p-8 ${index > 0 ? "sm:border-l sm:border-border" : ""}`}><FeatureIcon className="size-6 text-accent-strong" strokeWidth={1.5} /><h3 className="mt-8 font-serif text-2xl font-light tracking-tight">{title as string}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{text as string}</p></div>; })}</div>
+          ].map(([Icon, title, text], index) => { const FeatureIcon = Icon as typeof Compass; return <Reveal key={title as string} delay={index * 0.1} className={`py-8 sm:p-8 ${index > 0 ? "sm:border-l sm:border-border" : ""}`}><FeatureIcon className="size-6 text-accent-strong" strokeWidth={1.5} /><h3 className="mt-8 font-serif text-2xl font-light tracking-tight">{title as string}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{text as string}</p></Reveal>; })}</div>
         </div>
       </section>
 
