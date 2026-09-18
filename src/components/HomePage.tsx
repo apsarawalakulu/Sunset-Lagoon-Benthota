@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { MotionConfig } from "framer-motion";
 import { ArrowDown, ArrowRight, Bird, Compass, Leaf, MapPin, MessageCircle, Sailboat, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FlipFadeText } from "@/components/ui/flip-fade-text";
+import TextAnimation from "@/components/ui/staggerText";
 import { experiences } from "@/data/experiences";
 import { getWhatsAppUrl, heroSlides, images, LOGO_URL, siteConfig } from "@/data/siteConfig";
 
 import { Gallery } from "./Gallery";
+import { Reveal } from "./Reveal";
 import { SiteNavbar } from "./SiteNavbar";
 
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
@@ -12,7 +16,7 @@ function Eyebrow({ children, light = false }: { children: React.ReactNode; light
 }
 
 function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: string; title: string; intro?: string; light?: boolean }) {
-  return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}>{title}</h2>{intro && <p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p>}</div>;
+  return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}><TextAnimation>{title}</TextAnimation></h2>{intro && <Reveal delay={0.15}><p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p></Reveal>}</div>;
 }
 
 function HeroSlideshow() {
@@ -31,14 +35,14 @@ function HeroSlideshow() {
 }
 
 export function HomePage() {
-  return <div className="overflow-x-clip bg-background">
+  return <MotionConfig reducedMotion="user"><div className="overflow-x-clip bg-background">
     <SiteNavbar />
     <main>
       <section id="home" className="relative flex min-h-[min(920px,100svh)] items-center justify-center overflow-hidden bg-foreground text-primary-foreground">
         <HeroSlideshow />
         <div className="hero-overlay absolute inset-0" />
         <div className="hero-copy relative mx-auto max-w-5xl px-6 pb-24 pt-36 text-center sm:px-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-accent">Bentota · Sri Lanka</p>
+          <p className="flex flex-wrap items-center justify-center gap-x-3 text-[11px] font-bold uppercase tracking-[0.5em] text-accent"><span>Bentota · Sri Lanka</span><span aria-hidden="true" className="hidden h-px w-6 bg-accent/60 sm:block" /><FlipFadeText textClassName="text-[11px] font-bold uppercase tracking-[0.5em] text-accent" /></p>
           <h1 className="mt-8 font-serif text-5xl font-light leading-[0.92] tracking-tight sm:text-7xl lg:text-[6.6rem]">Discover the Hidden <span className="italic">Beauty</span> of Bentota</h1>
           <p className="mx-auto mt-10 max-w-md text-sm font-light leading-relaxed text-primary-foreground/80 sm:text-base">Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.</p>
           <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -77,17 +81,17 @@ export function HomePage() {
         <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12">
           <div className="flex items-end justify-between gap-6"><SectionTitle eyebrow="On the water" title="Choose Your Experience" /><p className="hidden max-w-xs text-sm leading-7 text-muted-foreground lg:block">Each route reveals a different rhythm of the river, from open water to intimate green passages.</p></div>
           <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {experiences.map((experience, index) => <article key={experience.id} className={`group ${index === 1 ? "md:mt-14" : ""}`}>
+            {experiences.map((experience, index) => <Reveal key={experience.id} delay={index * 0.12}><article className={`group ${index === 1 ? "md:mt-14" : ""}`}>
               <div className={`overflow-hidden bg-muted ${index === 1 ? "aspect-[4/5]" : "aspect-[4/5] md:aspect-[3/4]"}`}><img src={experience.image.src} alt={experience.image.alt} width={experience.image.width} height={experience.image.height} loading="lazy" className="size-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
               <div className="border-b border-border py-6"><p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent-strong">0{index + 1} · {experience.category}</p><h3 className="mt-3 font-serif text-3xl font-light tracking-tight">{experience.title}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{experience.description}</p><a href="#contact" className="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest">Explore <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></a></div>
-            </article>)}
+            </article></Reveal>)}
           </div>
         </div>
       </section>
 
       <section id="story" className="relative min-h-[70vh] overflow-hidden py-28 text-primary-foreground sm:py-40">
         <img src={images.story.src} alt={images.story.alt} width={images.story.width} height={images.story.height} loading="lazy" className="absolute inset-0 size-full object-cover" /><div className="story-overlay absolute inset-0" />
-        <div className="relative mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12"><div className="max-w-3xl"><Eyebrow light>Beyond the shoreline</Eyebrow><h2 className="font-serif text-5xl font-light leading-[1.02] tracking-tight sm:text-7xl">A Different Side of <span className="italic">Bentota</span></h2><p className="mt-7 max-w-xl text-lg leading-8 text-primary-foreground/75">Slow down. Breathe in the tropical air. Follow the river and discover a side of Bentota that can only be experienced from the water.</p></div></div>
+        <div className="relative mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12"><div className="max-w-3xl"><Eyebrow light>Beyond the shoreline</Eyebrow><h2 className="font-serif text-5xl font-light leading-[1.02] tracking-tight sm:text-7xl"><TextAnimation>A Different Side of Bentota</TextAnimation></h2><Reveal delay={0.15}><p className="mt-7 max-w-xl text-lg leading-8 text-primary-foreground/75">Slow down. Breathe in the tropical air. Follow the river and discover a side of Bentota that can only be experienced from the water.</p></Reveal></div></div>
         <svg className="absolute -bottom-1 left-0 w-full text-background" viewBox="0 0 1440 90" fill="currentColor" aria-hidden="true"><path d="M0 56C240 8 410 92 720 48c310-44 480 25 720-24v66H0Z" /></svg>
       </section>
 
@@ -95,7 +99,7 @@ export function HomePage() {
         <div className="mx-auto max-w-7xl px-5 sm:px-8"><SectionTitle eyebrow="Travel with intention" title="Why Explore With Sunset Lagoon?" />
           <div className="mt-14 grid border-y border-border sm:grid-cols-2 lg:grid-cols-4">{[
             [Compass, "Local Experience", "Discover Bentota through a local perspective."], [Leaf, "Nature First", "Experience the river, mangroves and surrounding ecosystem."], [Waves, "Relaxed Journey", "Enjoy a peaceful and memorable boat experience."], [Sailboat, "Personal Service", "A friendly, welcoming experience from start to finish."],
-          ].map(([Icon, title, text], index) => { const FeatureIcon = Icon as typeof Compass; return <div key={title as string} className={`py-8 sm:p-8 ${index > 0 ? "sm:border-l sm:border-border" : ""}`}><FeatureIcon className="size-6 text-accent-strong" strokeWidth={1.5} /><h3 className="mt-8 font-serif text-2xl font-light tracking-tight">{title as string}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{text as string}</p></div>; })}</div>
+          ].map(([Icon, title, text], index) => { const FeatureIcon = Icon as typeof Compass; return <Reveal key={title as string} delay={index * 0.1} className={`py-8 sm:p-8 ${index > 0 ? "sm:border-l sm:border-border" : ""}`}><FeatureIcon className="size-6 text-accent-strong" strokeWidth={1.5} /><h3 className="mt-8 font-serif text-2xl font-light tracking-tight">{title as string}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{text as string}</p></Reveal>; })}</div>
         </div>
       </section>
 
@@ -119,5 +123,5 @@ export function HomePage() {
         ].map(([label, value]) => <div key={label} className="bg-foreground p-6"><dt className="text-[9px] font-bold uppercase tracking-[0.22em] text-accent">{label}</dt><dd className="mt-3 text-sm text-primary-foreground/75">{value}</dd></div>)}</dl></div></section>
     </main>
     <footer className="border-t border-primary-foreground/10 bg-foreground px-5 py-12 text-primary-foreground sm:px-8"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[1fr_2fr]"><div><img src={LOGO_URL} alt="Sunset Lagoon Boat House logo" width={96} height={96} loading="lazy" className="mb-5 size-24 object-contain" /><p className="flex items-baseline gap-2"><span className="font-brand text-4xl leading-[1.15]">Sunset</span><span className="text-3xl font-bold uppercase tracking-[0.06em]">Lagoon</span></p><p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-primary-foreground/50">Boat House · Bentota</p><p className="mt-5 max-w-xs text-sm text-primary-foreground/60">Discover the beauty of Bentota from the water.</p></div><nav className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-end sm:gap-6" aria-label="Footer navigation">{siteConfig.navigation.map((item) => <a key={item.href} href={item.href} className="text-[10px] font-bold uppercase tracking-widest text-primary-foreground/60 hover:text-primary-foreground">{item.label}</a>)}</nav></div><div className="mt-12 flex flex-col justify-between gap-4 border-t border-primary-foreground/10 pt-6 text-[10px] uppercase tracking-widest text-primary-foreground/40 sm:flex-row"><p>© 2026 Sunset Lagoon Boat House. All rights reserved.</p><p>Bentota · Sri Lanka</p></div></div></footer>
-  </div>;
+  </div></MotionConfig>;
 }
