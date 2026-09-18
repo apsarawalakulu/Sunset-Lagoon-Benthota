@@ -81,10 +81,10 @@ export function HomePage() {
         <div className="mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12">
           <div className="flex items-end justify-between gap-6"><SectionTitle eyebrow="On the water" title="Choose Your Experience" /><p className="hidden max-w-xs text-sm leading-7 text-muted-foreground lg:block">Each route reveals a different rhythm of the river, from open water to intimate green passages.</p></div>
           <div className="mt-14 grid gap-8 md:grid-cols-3">
-            {experiences.map((experience, index) => <article key={experience.id} className={`group ${index === 1 ? "md:mt-14" : ""}`}>
+            {experiences.map((experience, index) => <Reveal key={experience.id} delay={index * 0.12}><article className={`group ${index === 1 ? "md:mt-14" : ""}`}>
               <div className={`overflow-hidden bg-muted ${index === 1 ? "aspect-[4/5]" : "aspect-[4/5] md:aspect-[3/4]"}`}><img src={experience.image.src} alt={experience.image.alt} width={experience.image.width} height={experience.image.height} loading="lazy" className="size-full object-cover transition-transform duration-700 group-hover:scale-105" /></div>
               <div className="border-b border-border py-6"><p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent-strong">0{index + 1} · {experience.category}</p><h3 className="mt-3 font-serif text-3xl font-light tracking-tight">{experience.title}</h3><p className="mt-3 text-sm leading-7 text-muted-foreground">{experience.description}</p><a href="#contact" className="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest">Explore <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" /></a></div>
-            </article>)}
+            </article></Reveal>)}
           </div>
         </div>
       </section>
