@@ -35,14 +35,14 @@ function HeroSlideshow() {
 }
 
 export function HomePage() {
-  return <div className="overflow-x-clip bg-background">
+  return <MotionConfig reducedMotion="user"><div className="overflow-x-clip bg-background">
     <SiteNavbar />
     <main>
       <section id="home" className="relative flex min-h-[min(920px,100svh)] items-center justify-center overflow-hidden bg-foreground text-primary-foreground">
         <HeroSlideshow />
         <div className="hero-overlay absolute inset-0" />
         <div className="hero-copy relative mx-auto max-w-5xl px-6 pb-24 pt-36 text-center sm:px-8">
-          <p className="text-[11px] font-bold uppercase tracking-[0.5em] text-accent">Bentota · Sri Lanka</p>
+          <p className="flex flex-wrap items-center justify-center gap-x-3 text-[11px] font-bold uppercase tracking-[0.5em] text-accent"><span>Bentota · Sri Lanka</span><span aria-hidden="true" className="hidden h-px w-6 bg-accent/60 sm:block" /><FlipFadeText textClassName="text-[11px] font-bold uppercase tracking-[0.5em] text-accent" /></p>
           <h1 className="mt-8 font-serif text-5xl font-light leading-[0.92] tracking-tight sm:text-7xl lg:text-[6.6rem]">Discover the Hidden <span className="italic">Beauty</span> of Bentota</h1>
           <p className="mx-auto mt-10 max-w-md text-sm font-light leading-relaxed text-primary-foreground/80 sm:text-base">Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.</p>
           <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
