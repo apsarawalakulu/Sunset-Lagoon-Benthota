@@ -91,7 +91,7 @@ export function HomePage() {
 
       <section id="story" className="relative min-h-[70vh] overflow-hidden py-28 text-primary-foreground sm:py-40">
         <img src={images.story.src} alt={images.story.alt} width={images.story.width} height={images.story.height} loading="lazy" className="absolute inset-0 size-full object-cover" /><div className="story-overlay absolute inset-0" />
-        <div className="relative mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12"><div className="max-w-3xl"><Eyebrow light>Beyond the shoreline</Eyebrow><h2 className="font-serif text-5xl font-light leading-[1.02] tracking-tight sm:text-7xl">A Different Side of <span className="italic">Bentota</span></h2><p className="mt-7 max-w-xl text-lg leading-8 text-primary-foreground/75">Slow down. Breathe in the tropical air. Follow the river and discover a side of Bentota that can only be experienced from the water.</p></div></div>
+        <div className="relative mx-auto max-w-screen-2xl px-5 sm:px-8 lg:px-12"><div className="max-w-3xl"><Eyebrow light>Beyond the shoreline</Eyebrow><h2 className="font-serif text-5xl font-light leading-[1.02] tracking-tight sm:text-7xl"><TextAnimation>A Different Side of Bentota</TextAnimation></h2><Reveal delay={0.15}><p className="mt-7 max-w-xl text-lg leading-8 text-primary-foreground/75">Slow down. Breathe in the tropical air. Follow the river and discover a side of Bentota that can only be experienced from the water.</p></Reveal></div></div>
         <svg className="absolute -bottom-1 left-0 w-full text-background" viewBox="0 0 1440 90" fill="currentColor" aria-hidden="true"><path d="M0 56C240 8 410 92 720 48c310-44 480 25 720-24v66H0Z" /></svg>
       </section>
 
