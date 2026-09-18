@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { MotionConfig } from "framer-motion";
 import { ArrowDown, ArrowRight, Bird, Compass, Leaf, MapPin, MessageCircle, Sailboat, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { FlipFadeText } from "@/components/ui/flip-fade-text";
+import TextAnimation from "@/components/ui/staggerText";
 import { experiences } from "@/data/experiences";
 import { getWhatsAppUrl, heroSlides, images, LOGO_URL, siteConfig } from "@/data/siteConfig";
 
 import { Gallery } from "./Gallery";
+import { Reveal } from "./Reveal";
 import { SiteNavbar } from "./SiteNavbar";
 
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
@@ -12,7 +16,7 @@ function Eyebrow({ children, light = false }: { children: React.ReactNode; light
 }
 
 function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: string; title: string; intro?: string; light?: boolean }) {
-  return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}>{title}</h2>{intro && <p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p>}</div>;
+  return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}><TextAnimation>{title}</TextAnimation></h2>{intro && <Reveal delay={0.15}><p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p></Reveal>}</div>;
 }
 
 function HeroSlideshow() {
