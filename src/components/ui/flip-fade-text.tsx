@@ -55,7 +55,7 @@ const Word = memo(function Word({
   staggerDelay: number;
   exitStaggerDelay: number;
   letterDuration: number;
-  textClassName?: string;
+  textClassName?: string | undefined;
 }) {
   const letters = useMemo(() => text.split(""), [text]);
 
