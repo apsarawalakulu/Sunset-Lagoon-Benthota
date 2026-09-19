@@ -43,7 +43,7 @@ export function HomePage() {
         <div className="hero-overlay absolute inset-0" />
         <div className="hero-copy relative mx-auto max-w-5xl px-6 pb-24 pt-36 text-center sm:px-8">
           <p className="flex flex-wrap items-center justify-center gap-x-3 text-[11px] font-bold uppercase tracking-[0.5em] text-accent"><span>Bentota · Sri Lanka</span><span aria-hidden="true" className="hidden h-px w-6 bg-accent/60 sm:block" /><FlipFadeText textClassName="text-[11px] font-bold uppercase tracking-[0.5em] text-accent" /></p>
-          <h1 className="mt-8 font-serif text-5xl font-light leading-[0.92] tracking-tight sm:text-7xl lg:text-[6.6rem]">Discover the Hidden <span className="italic">Beauty</span> of Bentota</h1>
+          <h1 className="mt-8 font-serif text-5xl font-light leading-[0.92] tracking-tight sm:text-7xl lg:text-[6.6rem]"><FlipFadeText words={["Discover the Hidden "]} interval={0} textClassName="font-inherit" /><span className="italic"><FlipFadeText words={["Beauty"]} interval={0} textClassName="font-inherit" /></span>{" "}<FlipFadeText words={["of Bentota"]} interval={0} textClassName="font-inherit" /></h1>
           <p className="mx-auto mt-10 max-w-md text-sm font-light leading-relaxed text-primary-foreground/80 sm:text-base">Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.</p>
           <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild variant="gold" size="lg" className="px-12 tracking-[0.3em]"><a href="#experience">Begin the journey</a></Button>
@@ -60,7 +60,7 @@ export function HomePage() {
             <div className="mt-10 flex items-center gap-4"><span className="h-px w-8 bg-accent-strong" /><span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent-strong">The Sunset Lagoon experience</span></div>
           </div>
           <div className="lg:col-span-7">
-            <h2 className="font-serif text-4xl font-light leading-tight tracking-tight sm:text-5xl lg:text-6xl">An intimate escape into the <span className="italic text-primary">untamed beauty</span> of the river.</h2>
+            <h2 className="font-serif text-4xl font-light leading-tight tracking-tight sm:text-5xl lg:text-6xl"><FlipFadeText words={["An intimate escape into the "]} interval={0} textClassName="font-inherit" /><span className="italic text-primary"><FlipFadeText words={["untamed beauty"]} interval={0} textClassName="font-inherit" /></span>{" "}<FlipFadeText words={["of the river."]} interval={0} textClassName="font-inherit" /></h2>
             <div className="mt-12 grid gap-10 sm:grid-cols-2">
               <p className="text-sm leading-8 text-muted-foreground sm:text-base">Sunset Lagoon offers a local way to experience Bentota—following the river through mangroves, tropical greenery and peaceful natural surroundings.</p>
               <p className="text-sm leading-8 text-muted-foreground sm:text-base">Every journey is an invitation to slow down, watch the light shift across the water and see this landscape the way the river reveals it.</p>

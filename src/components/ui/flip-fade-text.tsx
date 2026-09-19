@@ -57,11 +57,11 @@ const Word = memo(function Word({
   letterDuration: number;
   textClassName?: string | undefined;
 }) {
-  const letters = useMemo(() => text.split(""), [text]);
+  const words = useMemo(() => text.split(" "), [text]);
 
   return (
     <motion.span
-      className={cn("inline-flex", textClassName)}
+      className={cn("inline", textClassName)}
       initial="initial"
       animate="animate"
       exit="exit"
@@ -71,8 +71,13 @@ const Word = memo(function Word({
         exit: { opacity: 1, transition: { staggerChildren: exitStaggerDelay } },
       }}
     >
-      {letters.map((char, i) => (
-        <Letter key={`${char}-${i}`} char={char} letterDuration={letterDuration} />
+      {words.map((word, wordIndex) => (
+        <span key={`${word}-${wordIndex}`} className="inline-flex whitespace-nowrap">
+          {word.split("").map((char, charIndex) => (
+            <Letter key={`${char}-${charIndex}`} char={char} letterDuration={letterDuration} />
+          ))}
+          {wordIndex < words.length - 1 ? <span>&nbsp;</span> : null}
+        </span>
       ))}
     </motion.span>
   );
@@ -92,6 +97,7 @@ export function FlipFadeText({
   const updateIndex = useCallback(() => setIndex((prev) => (prev + 1) % words.length), [words.length]);
 
   useEffect(() => {
+    if (words.length < 2) return;
     const timer = setInterval(updateIndex, interval);
     return () => clearInterval(timer);
   }, [updateIndex, interval]);
@@ -99,8 +105,8 @@ export function FlipFadeText({
   const currentWord = words[index] ?? "";
 
   return (
-    <span className={cn("inline-flex items-center", className)}>
-      <span className="relative inline-flex" style={{ perspective: "1000px" }}>
+    <span className={cn("inline", className)}>
+      <span className="relative inline" style={{ perspective: "1000px" }}>
         <AnimatePresence mode="wait">
           <Word
             key={currentWord}
