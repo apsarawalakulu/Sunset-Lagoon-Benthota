@@ -25,6 +25,21 @@ export const images = {
   babyCrocodile: { src: `${cloudinaryBase}/v1789443977/images_6.jpg`, alt: "A young crocodile observed during a guided wildlife encounter", width: 404, height: 758 },
 } as const;
 
+export const heroSlidesMobile = [
+  {
+    src: "/hero/mobile/mangrove-boat-adventure.webp",
+    alt: "Guests cruising past dense mangrove forest on a Bentota river safari",
+    width: 940,
+    height: 1672,
+  },
+  {
+    src: "/hero/mobile/lakeside-sunset-buddha.webp",
+    alt: "Sunset over the Bentota lagoon with the riverside Buddha statue",
+    width: 940,
+    height: 1672,
+  },
+] as const;
+
 export const heroSlides = [
   {
     src: "/hero/mangrove-waterway-adventure.webp",
@@ -43,12 +58,6 @@ export const heroSlides = [
     alt: "A boat safari journey through lush tropical mangroves in Bentota",
     width: 1536,
     height: 1024,
-  },
-  {
-    src: "/hero/mangrove-waterway-adventure.webp",
-    alt: "Guests cruising past dense mangrove forest on a Bentota river safari",
-    width: 2056,
-    height: 765,
   },
 ] as const;
 

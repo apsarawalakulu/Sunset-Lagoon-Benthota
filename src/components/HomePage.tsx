@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FlipFadeText } from "@/components/ui/flip-fade-text";
 import TextAnimation from "@/components/ui/staggerText";
 import { experiences } from "@/data/experiences";
-import { getWhatsAppUrl, heroSlides, images, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_URL, LOGO_URL, siteConfig } from "@/data/siteConfig";
+import { getWhatsAppUrl, heroSlides, heroSlidesMobile, images, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_URL, LOGO_URL, siteConfig } from "@/data/siteConfig";
 import { mediaApi, type MediaItem, type SectionsMediaMap } from "@/services/mediaApi";
 
 import { useSiteSettings } from "@/hooks/useApiData";
@@ -30,13 +30,10 @@ function HeroSlideshow() {
 
   useEffect(() => {
     // Continuous loop: advance every 4.5s, forever, starting on every page load.
-    const id = window.setInterval(
-      () => setActiveSlide((prev) => (prev + 1) % heroSlides.length),
-      4500
-    );
+    const id = window.setInterval(() => setActiveSlide((prev) => prev + 1), 4500);
     const onVisible = () => {
       if (document.visibilityState === "visible") {
-        setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+        setActiveSlide((prev) => prev + 1);
       }
     };
     document.addEventListener("visibilitychange", onVisible);
@@ -46,11 +43,21 @@ function HeroSlideshow() {
     };
   }, []);
 
-  return <div className="absolute inset-0" aria-hidden="true">
-    {heroSlides.map((media, index) => (
-      <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === activeSlide ? "is-active" : ""}`} />
-    ))}
-  </div>;
+  const desktopIndex = activeSlide % heroSlides.length;
+  const mobileIndex = activeSlide % heroSlidesMobile.length;
+
+  return <>
+    <div className="absolute inset-0 hidden md:block" aria-hidden="true">
+      {heroSlides.map((media, index) => (
+        <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === desktopIndex ? "is-active" : ""}`} />
+      ))}
+    </div>
+    <div className="absolute inset-0 md:hidden" aria-hidden="true">
+      {heroSlidesMobile.map((media, index) => (
+        <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === mobileIndex ? "is-active" : ""}`} />
+      ))}
+    </div>
+  </>;
 }
 
 export function HomePage() {
