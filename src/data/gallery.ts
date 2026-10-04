@@ -1,7 +1,6 @@
 import { images } from "./siteConfig";
 
 export const galleryImages = [
-  { ...images.introduction, caption: "Wildlife among the tropical greenery" },
   { ...images.forest, caption: "Life within the mangrove forest" },
   { ...images.mangroves, caption: "Beneath the mangrove canopy" },
   { ...images.monkey, caption: "A quiet wildlife encounter" },

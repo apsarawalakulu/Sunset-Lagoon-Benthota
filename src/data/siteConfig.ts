@@ -2,7 +2,6 @@ import crocodileImage from "@/assets/bentota-crocodile.jpg";
 import boatImage from "@/assets/bentota-boat.jpg";
 import heroBentotaSafari from "@/assets/hero-bentota-safari.jpg";
 import heroMangroveJourney from "@/assets/hero-mangrove-journey.jpg";
-import heroSunsetLagoon from "@/assets/hero-sunset-lagoon.jpg";
 import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 
 export const LOGO_URL = logoImage;
@@ -28,6 +27,12 @@ export const images = {
 
 export const heroSlides = [
   {
+    src: "/hero/mangrove-waterway-adventure.webp",
+    alt: "Guests cruising past dense mangrove forest on a Bentota river safari",
+    width: 2056,
+    height: 765,
+  },
+  {
     src: heroBentotaSafari,
     alt: "A covered safari boat carrying visitors across the Bentota River at golden hour",
     width: 1536,
@@ -40,14 +45,20 @@ export const heroSlides = [
     height: 1024,
   },
   {
-    src: heroSunsetLagoon,
-    alt: "A safari boat crossing the calm Bentota lagoon beneath a tropical sunset",
-    width: 1536,
-    height: 1024,
+    src: "/hero/mangrove-waterway-adventure.webp",
+    alt: "Guests cruising past dense mangrove forest on a Bentota river safari",
+    width: 2056,
+    height: 765,
   },
 ] as const;
 
 export const LOCATION_ADDRESS = "Bentota, Sri Lanka";
+
+export const GOOGLE_MAPS_URL =
+  "https://www.google.com/maps/place//@6.424814,79.9994562,54m/data=!3m1!1e3!4m6!1m5!3m4!2zNsKwMjUnMjkuMiJOIDc5wrA1OSc1OC42IkU!8m2!3d6.4247778!4d79.9996111?hl=en&entry=ttu";
+
+export const GOOGLE_MAPS_EMBED_URL =
+  "https://maps.google.com/maps?q=6.4247778,79.9996111&z=16&output=embed";
 
 type SiteConfig = {
   name: string;
@@ -65,9 +76,9 @@ export const siteConfig: SiteConfig = {
   descriptor: "Bentota Boat Safari",
   location: LOCATION_ADDRESS,
   contact: {
-    phone: "To be confirmed",
-    whatsapp: "",
-    email: "To be confirmed",
+    phone: "+94 767 498 169",
+    whatsapp: "+94 776 838 289",
+    email: "sunsetlagoon.boats@gmail.com",
     hours: "To be confirmed",
   },
   social: { facebook: "", instagram: "", whatsapp: "" },
@@ -76,6 +87,7 @@ export const siteConfig: SiteConfig = {
     { label: "Experience", href: "#experience" },
     { label: "About", href: "#about" },
     { label: "Gallery", href: "#gallery" },
+    { label: "Reviews", href: "#reviews" },
     { label: "Wildlife", href: "#wildlife" },
     { label: "Location", href: "#location" },
     { label: "Contact", href: "#contact" },

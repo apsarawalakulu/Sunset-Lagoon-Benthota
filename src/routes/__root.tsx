@@ -79,6 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Sunset Lagoon Boat House" },
       { name: "description", content: "Boat safari experiences on the Bentota River in Sri Lanka." },
+      { name: "theme-color", content: "#1e2b25" },
       { name: "author", content: "Sunset Lagoon Boat House" },
       { property: "og:site_name", content: "Sunset Lagoon Boat House" },
       { property: "og:type", content: "website" },
