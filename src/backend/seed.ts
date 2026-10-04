@@ -31,7 +31,7 @@ export const DEFAULT_SETTINGS = {
     "Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.",
   about_title: "Rooted in Bentota",
   about_description:
-    "A love for this river shapes the way we welcome people onto the water. Sunset Lagoon is grounded in a local connection to Bentota and a respect for its natural setting. We invite visitors to explore thoughtfully, enjoy the changing river landscape and leave with a closer feeling for this corner of Sri Lanka.",
+    "Sunset Lagoon Boat House is a locally run safari operation on the Bentota River. Our boats slip through mangrove tunnels, drift past riverside villages and temples, and pause where birdlife gathers — at sunrise, when the river wakes, and at sunset, when it turns to gold. We keep our groups small, our presence on the water respectful, and our welcome warm from arrival to farewell.",
   untamed_beauty_title: "An intimate escape into the untamed beauty of the river.",
   experience_section_title: "Choose Your Experience",
   experience_1_title: "River Safari",

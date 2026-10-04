@@ -732,7 +732,7 @@ export function SettingsPage() {
                         rows={3}
                         value={form.about_description ?? ""}
                         onChange={(e) => handleFieldChange("about_description", e.target.value)}
-                        placeholder={defaults.about_description ?? "A love for this river shapes the way we welcome people onto the water..."}
+                        placeholder={defaults.about_description ?? "Locally run safaris on the Bentota River..."}
                         className="w-full rounded-lg border border-slate-800 bg-slate-950/80 p-3 text-xs text-slate-100 placeholder-slate-600 focus:border-amber-500/50 focus:outline-none focus:ring-1 focus:ring-amber-500/50"
                       />
                     </div>
