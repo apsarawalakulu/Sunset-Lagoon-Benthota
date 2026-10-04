@@ -41,54 +41,6 @@ const CATEGORY_PRESETS = [
   "General",
 ] as const;
 
-function getLocationBadgeText(location?: string) {
-  switch (location) {
-    case "hero":
-      return "Hero Only";
-    case "both":
-      return "Gallery + Hero";
-    case "about":
-      return "About Section";
-    case "story":
-      return "Story Banner";
-    case "wildlife":
-      return "Wildlife Section";
-    case "experience_1":
-      return "Exp 1: River Safari";
-    case "experience_2":
-      return "Exp 2: Mangroves";
-    case "experience_3":
-      return "Exp 3: Wildlife";
-    case "gallery":
-    default:
-      return "Gallery Only";
-  }
-}
-
-function getLocationBadgeClass(location?: string) {
-  switch (location) {
-    case "hero":
-      return "bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30";
-    case "both":
-      return "bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30";
-    case "about":
-      return "bg-teal-500/15 text-teal-700 dark:text-teal-300 border border-teal-500/30";
-    case "story":
-      return "bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30";
-    case "wildlife":
-      return "bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30";
-    case "experience_1":
-      return "bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30";
-    case "experience_2":
-      return "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30";
-    case "experience_3":
-      return "bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30";
-    case "gallery":
-    default:
-      return "bg-muted text-muted-foreground border border-border";
-  }
-}
-
 export function MediaManager() {
   const [items, setItems] = useState<MediaItem[]>([]);
   const [stats, setStats] = useState<MediaStats>({
@@ -519,7 +471,7 @@ export function MediaManager() {
         </div>
 
         {/* Quick Summary Badges */}
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-6">
+        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-5">
           <div className="rounded-lg border border-border bg-muted/20 p-2.5 text-center">
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Total Media</span>
             <p className="mt-0.5 text-base font-bold text-foreground">{stats.total}</p>
@@ -531,14 +483,6 @@ export function MediaManager() {
           <div className="rounded-lg border border-border bg-muted/20 p-2.5 text-center">
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Videos</span>
             <p className="mt-0.5 text-base font-bold text-foreground">{stats.videos}</p>
-          </div>
-          <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 p-2.5 text-center">
-            <span className="text-[10px] uppercase tracking-wider text-amber-700 dark:text-amber-400 font-semibold flex items-center justify-center gap-1">
-              <Star className="size-2.5 fill-amber-500 text-amber-500" /> Active Hero
-            </span>
-            <p className="mt-0.5 text-base font-bold text-amber-800 dark:text-amber-300">
-              {stats.heroes !== undefined ? stats.heroes : items.filter((i) => i.is_hero).length}
-            </p>
           </div>
           <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-2.5 text-center">
             <span className="text-[10px] uppercase tracking-wider text-emerald-700 dark:text-emerald-400">Live (Visible)</span>
@@ -610,39 +554,6 @@ export function MediaManager() {
                 {c}
               </option>
             ))}
-          </select>
-
-          {/* Location Filter */}
-          <select
-            value={locationFilter}
-            onChange={(e) => setLocationFilter(e.target.value)}
-            className="h-8 rounded-md border border-input bg-background px-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-accent-strong"
-          >
-            <option value="all">All Locations</option>
-            <optgroup label="General & Hero">
-              <option value="gallery">Gallery Only</option>
-              <option value="hero">Hero Only</option>
-              <option value="both">Gallery + Hero</option>
-            </optgroup>
-            <optgroup label="Homepage Sections">
-              <option value="about">About Section</option>
-              <option value="story">Story Banner</option>
-              <option value="wildlife">Wildlife Section</option>
-              <option value="experience_1">Exp 1: River Safari</option>
-              <option value="experience_2">Exp 2: Mangroves</option>
-              <option value="experience_3">Exp 3: Wildlife</option>
-            </optgroup>
-          </select>
-
-          {/* Hero Filter */}
-          <select
-            value={heroFilter}
-            onChange={(e) => setHeroFilter(e.target.value as "all" | "heroes" | "non_heroes")}
-            className="h-8 rounded-md border border-input bg-background px-2.5 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-accent-strong"
-          >
-            <option value="all">Hero & Gallery</option>
-            <option value="heroes">⭐ Active Hero</option>
-            <option value="non_heroes">Non-Hero</option>
           </select>
 
           {/* Status Filter */}
@@ -743,11 +654,6 @@ export function MediaManager() {
 
                   {/* Top Overlay Badges */}
                   <div className="absolute left-2.5 top-2.5 flex flex-wrap items-center gap-1.5">
-                    {item.is_hero && (
-                      <span className="inline-flex items-center gap-1 rounded bg-amber-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-950 shadow-sm animate-pulse">
-                        <Star className="size-2.5 fill-amber-950 text-amber-950" /> Hero
-                      </span>
-                    )}
                     <span
                       className={`inline-flex items-center gap-1 rounded px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
                         isVideo
@@ -799,14 +705,7 @@ export function MediaManager() {
                     </p>
                   )}
 
-                  <div className="mt-2 flex items-center justify-between text-[10px]">
-                    <span
-                      className={`inline-flex items-center px-1.5 py-0.5 rounded font-semibold text-[9px] uppercase tracking-wider ${getLocationBadgeClass(
-                        item.display_location
-                      )}`}
-                    >
-                      {getLocationBadgeText(item.display_location)}
-                    </span>
+                  <div className="mt-2 flex items-center justify-end text-[10px]">
                     <span className="text-muted-foreground">{item.formatted_size}</span>
                   </div>
 
@@ -835,27 +734,6 @@ export function MediaManager() {
                             <EyeOff className="mr-1 size-3" /> Hidden
                           </>
                         )}
-                      </Button>
-
-                      {/* Quick Hero Toggle */}
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleToggleHero(item)}
-                        title={
-                          item.is_hero
-                            ? "Click to unset as Hero (returns to default slideshow)"
-                            : "Click to set as website Hero media"
-                        }
-                        className={`h-7 px-2 text-[11px] cursor-pointer transition-colors ${
-                          item.is_hero
-                            ? "bg-amber-100 text-amber-900 font-semibold hover:bg-amber-200 dark:bg-amber-950/60 dark:text-amber-200"
-                            : "text-muted-foreground hover:text-amber-700 hover:bg-amber-50 dark:hover:bg-amber-950/20"
-                        }`}
-                      >
-                        <Star className={`mr-1 size-3 ${item.is_hero ? "fill-amber-500 text-amber-500" : ""}`} />
-                        {item.is_hero ? "Hero" : "Set Hero"}
                       </Button>
                     </div>
 
@@ -1078,202 +956,6 @@ export function MediaManager() {
               </div>
             </div>
 
-            {/* Display Location */}
-            <div className="space-y-3">
-              <div>
-                <Label className="text-xs font-semibold uppercase tracking-wider text-foreground">
-                  Display Location
-                </Label>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
-                  Choose where this media appears: in the general Gallery, as the Hero header, or in a specific homepage section.
-                </p>
-              </div>
-
-              {/* General Locations */}
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                  General & Hero Header
-                </span>
-                <div className="grid grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("gallery");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "gallery"
-                        ? "border-emerald-600 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold shadow-xs ring-1 ring-emerald-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Gallery</span>
-                    <span className="text-[10px] text-muted-foreground">Gallery Only</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("hero");
-                      setUploadIsHero(true);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "hero"
-                        ? "border-amber-500 bg-amber-500/10 text-amber-800 dark:text-amber-300 font-semibold shadow-xs ring-1 ring-amber-500/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Hero</span>
-                    <span className="text-[10px] text-muted-foreground">Hero Only</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("both");
-                      setUploadIsHero(true);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "both"
-                        ? "border-purple-600 bg-purple-500/10 text-purple-700 dark:text-purple-300 font-semibold shadow-xs ring-1 ring-purple-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Gallery + Hero</span>
-                    <span className="text-[10px] text-muted-foreground">Both Places</span>
-                  </button>
-                </div>
-              </div>
-
-              {/* Homepage Feature Sections */}
-              <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                  Homepage Section Feature Images
-                </span>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("about");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "about"
-                        ? "border-teal-600 bg-teal-500/10 text-teal-700 dark:text-teal-300 font-semibold shadow-xs ring-1 ring-teal-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">About Section</span>
-                    <span className="text-[10px] text-muted-foreground">Untamed Beauty Intro</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("story");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "story"
-                        ? "border-indigo-600 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-semibold shadow-xs ring-1 ring-indigo-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Story Banner</span>
-                    <span className="text-[10px] text-muted-foreground">Beyond Shoreline</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("wildlife");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "wildlife"
-                        ? "border-cyan-600 bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 font-semibold shadow-xs ring-1 ring-cyan-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Wildlife Section</span>
-                    <span className="text-[10px] text-muted-foreground">Life Along River</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("experience_1");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "experience_1"
-                        ? "border-amber-600 bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold shadow-xs ring-1 ring-amber-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Exp 1: River Safari</span>
-                    <span className="text-[10px] text-muted-foreground">Experience Card 1</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("experience_2");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "experience_2"
-                        ? "border-emerald-600 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold shadow-xs ring-1 ring-emerald-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Exp 2: Mangroves</span>
-                    <span className="text-[10px] text-muted-foreground">Experience Card 2</span>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setUploadLocation("experience_3");
-                      setUploadIsHero(false);
-                    }}
-                    className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                      uploadLocation === "experience_3"
-                        ? "border-blue-600 bg-blue-500/10 text-blue-700 dark:text-blue-300 font-semibold shadow-xs ring-1 ring-blue-600/40"
-                        : "border-border text-muted-foreground hover:bg-muted/15"
-                    }`}
-                  >
-                    <span className="font-semibold">Exp 3: Wildlife</span>
-                    <span className="text-[10px] text-muted-foreground">Experience Card 3</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Set as Active Hero Checkbox */}
-            <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
-              <label className="flex items-start gap-2.5 cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={(uploadLocation === "hero" || uploadLocation === "both") && uploadIsHero}
-                  onChange={(e) => {
-                    const checked = e.target.checked;
-                    setUploadIsHero(checked);
-                    if (checked) {
-                      setUploadLocation("both");
-                    } else {
-                      if (uploadLocation === "hero") {
-                        setUploadLocation("gallery");
-                      }
-                    }
-                  }}
-                  className="mt-0.5 size-4 rounded border-border text-amber-600 focus:ring-amber-500"
-                />
-                <div>
-                  <span className="text-xs font-semibold text-foreground flex items-center gap-1">
-                    <Star className="size-3.5 fill-amber-500 text-amber-500" />
-                    Set as Active Hero Media
-                  </span>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">
-                    When enabled, this media will immediately become the active background for the website hero section (replacing any previous Hero).
-                  </p>
-                </div>
-              </label>
-            </div>
-
             {/* Progress Bar during Upload */}
             {isUploading && (
               <div className="space-y-1">
@@ -1434,202 +1116,6 @@ export function MediaManager() {
                     Hidden
                   </button>
                 </div>
-              </div>
-
-              {/* Display Location */}
-              <div className="space-y-3">
-                <div>
-                  <Label className="text-xs font-semibold uppercase tracking-wider text-foreground">
-                    Display Location
-                  </Label>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">
-                    Choose where this media appears: in the general Gallery, as the Hero header, or in a specific homepage section.
-                  </p>
-                </div>
-
-                {/* General Locations */}
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                    General & Hero Header
-                  </span>
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("gallery");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "gallery"
-                          ? "border-emerald-600 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold shadow-xs ring-1 ring-emerald-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Gallery</span>
-                      <span className="text-[10px] text-muted-foreground">Gallery Only</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("hero");
-                        setEditIsHero(true);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "hero"
-                          ? "border-amber-500 bg-amber-500/10 text-amber-800 dark:text-amber-300 font-semibold shadow-xs ring-1 ring-amber-500/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Hero</span>
-                      <span className="text-[10px] text-muted-foreground">Hero Only</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("both");
-                        setEditIsHero(true);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "both"
-                          ? "border-purple-600 bg-purple-500/10 text-purple-700 dark:text-purple-300 font-semibold shadow-xs ring-1 ring-purple-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Gallery + Hero</span>
-                      <span className="text-[10px] text-muted-foreground">Both Places</span>
-                    </button>
-                  </div>
-                </div>
-
-                {/* Homepage Feature Sections */}
-                <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground block mb-1.5">
-                    Homepage Section Feature Images
-                  </span>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("about");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "about"
-                          ? "border-teal-600 bg-teal-500/10 text-teal-700 dark:text-teal-300 font-semibold shadow-xs ring-1 ring-teal-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">About Section</span>
-                      <span className="text-[10px] text-muted-foreground">Untamed Beauty Intro</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("story");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "story"
-                          ? "border-indigo-600 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 font-semibold shadow-xs ring-1 ring-indigo-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Story Banner</span>
-                      <span className="text-[10px] text-muted-foreground">Beyond Shoreline</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("wildlife");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "wildlife"
-                          ? "border-cyan-600 bg-cyan-500/10 text-cyan-700 dark:text-cyan-300 font-semibold shadow-xs ring-1 ring-cyan-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Wildlife Section</span>
-                      <span className="text-[10px] text-muted-foreground">Life Along River</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("experience_1");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "experience_1"
-                          ? "border-amber-600 bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold shadow-xs ring-1 ring-amber-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Exp 1: River Safari</span>
-                      <span className="text-[10px] text-muted-foreground">Experience Card 1</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("experience_2");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "experience_2"
-                          ? "border-emerald-600 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold shadow-xs ring-1 ring-emerald-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Exp 2: Mangroves</span>
-                      <span className="text-[10px] text-muted-foreground">Experience Card 2</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setEditLocation("experience_3");
-                        setEditIsHero(false);
-                      }}
-                      className={`flex flex-col items-center justify-center rounded-lg border p-2 text-center text-xs font-medium cursor-pointer transition-all ${
-                        editLocation === "experience_3"
-                          ? "border-blue-600 bg-blue-500/10 text-blue-700 dark:text-blue-300 font-semibold shadow-xs ring-1 ring-blue-600/40"
-                          : "border-border text-muted-foreground hover:bg-muted/15"
-                      }`}
-                    >
-                      <span className="font-semibold">Exp 3: Wildlife</span>
-                      <span className="text-[10px] text-muted-foreground">Experience Card 3</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Set as Active Hero Checkbox */}
-              <div className="rounded-lg border border-amber-500/30 bg-amber-500/5 p-3">
-                <label className="flex items-start gap-2.5 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    checked={(editLocation === "hero" || editLocation === "both") && editIsHero}
-                    onChange={(e) => {
-                      const checked = e.target.checked;
-                      setEditIsHero(checked);
-                      if (checked) {
-                        setEditLocation("both");
-                      } else {
-                        if (editLocation === "hero") {
-                          setEditLocation("gallery");
-                        }
-                      }
-                    }}
-                    className="mt-0.5 size-4 rounded border-border text-amber-600 focus:ring-amber-500"
-                  />
-                  <div>
-                    <span className="text-xs font-semibold text-foreground flex items-center gap-1">
-                      <Star className="size-3.5 fill-amber-500 text-amber-500" />
-                      Set as Active Hero Media
-                    </span>
-                    <p className="text-[11px] text-muted-foreground mt-0.5">
-                      When enabled, this media becomes the active website hero background, replacing any previous Hero selection.
-                    </p>
-                  </div>
-                </label>
               </div>
 
               {/* Optional Replacement File */}

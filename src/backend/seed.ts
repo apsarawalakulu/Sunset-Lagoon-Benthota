@@ -99,6 +99,14 @@ const SEED_GALLERY = [
   { title: "Riverside temple from the water", url: `${CLOUDINARY_BASE}/v1789316022/d9f312e0-f7cf-40a3-b312-8745e9792c38_bentota-river-boat-safari-with-private-boat-beruwalabentotakosgodaahungalla.png`, category: "River Safari" },
 ];
 
+const SEED_HERO_SLIDES = [
+  { device: "desktop", src: "/hero/mangrove-waterway-adventure.webp", alt: "Guests cruising past dense mangrove forest on a Bentota river safari", sort_order: 0 },
+  { device: "desktop", src: "/hero/hero-bentota-safari.jpg", alt: "A covered safari boat carrying visitors across the Bentota River at golden hour", sort_order: 1 },
+  { device: "desktop", src: "/hero/hero-mangrove-journey.jpg", alt: "A boat safari journey through lush tropical mangroves in Bentota", sort_order: 2 },
+  { device: "mobile", src: "/hero/mobile/mangrove-boat-adventure.webp", alt: "Guests cruising past dense mangrove forest on a Bentota river safari", sort_order: 0 },
+  { device: "mobile", src: "/hero/mobile/lakeside-sunset-buddha.webp", alt: "Sunset over the Bentota lagoon with the riverside Buddha statue", sort_order: 1 },
+];
+
 const SEED_BOATS = [
   { name: "Lagoon Star", registration_number: "SL-BT-001", capacity: 8, description: "Covered safari boat for larger groups.", status: "active" },
   { name: "River Explorer", registration_number: "SL-BT-002", capacity: 8, description: "Comfortable mid-size safari boat.", status: "active" },
@@ -114,7 +122,6 @@ export async function seedDemoContent(): Promise<void> {
 
   const expCount = await sql`SELECT COUNT(*)::int AS count FROM experiences`;
   if (Number((expCount[0] as unknown as { count: number }).count ?? 0) > 0) return;
-
   const expIds: number[] = [];
   for (let i = 0; i < SEED_EXPERIENCES.length; i++) {
     const e = SEED_EXPERIENCES[i]!;
@@ -138,6 +145,13 @@ export async function seedDemoContent(): Promise<void> {
     await sql`
       INSERT INTO boats (name, registration_number, capacity, description, status)
       VALUES (${b.name}, ${b.registration_number}, ${b.capacity}, ${b.description}, ${b.status})
+    `;
+  }
+
+  for (const h of SEED_HERO_SLIDES) {
+    await sql`
+      INSERT INTO hero_slides (device, src, alt, sort_order, is_active)
+      VALUES (${h.device}, ${h.src}, ${h.alt}, ${h.sort_order}, TRUE)
     `;
   }
 

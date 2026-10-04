@@ -23,6 +23,7 @@ import {
   MessageCircle,
   Upload,
   Image as ImageIcon,
+  Images,
   Sparkles,
 } from "lucide-react";
 import { LOGO_URL } from "@/data/siteConfig";
@@ -33,6 +34,7 @@ import {
   type SafariDurationOption,
 } from "@/services/adminSettings";
 import { AdminLayout } from "@/components/admin/AdminLayout";
+import { HeroSlidesManager } from "@/components/admin/HeroSlidesManager";
 
 export const Route = createFileRoute("/admin/settings")({
   head: () => ({
@@ -44,7 +46,7 @@ export const Route = createFileRoute("/admin/settings")({
   component: SettingsPage,
 });
 
-type TabId = "business" | "website" | "booking" | "safari" | "system";
+type TabId = "business" | "website" | "booking" | "safari" | "system" | "hero";
 
 export function SettingsPage() {
   const navigate = useNavigate();
@@ -248,6 +250,7 @@ export function SettingsPage() {
     { id: "booking", label: "Booking Rules", icon: CalendarCheck2 },
     { id: "safari", label: "Safari & Schedule", icon: Clock },
     { id: "system", label: "System Preferences", icon: Sliders },
+    { id: "hero", label: "Hero Slides", icon: Images },
   ];
 
   return (
@@ -1237,7 +1240,23 @@ export function SettingsPage() {
               </div>
             )}
 
+            {activeTab === "hero" && (
+              <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5 sm:p-6 space-y-6">
+                <div>
+                  <h3 className="font-serif text-lg font-medium text-amber-100">
+                    Hero Banner Slides
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Add or remove the rotating banner images for computers and phones.
+                    Changes go live on the website immediately.
+                  </p>
+                </div>
+                <HeroSlidesManager />
+              </div>
+            )}
+
             {/* Bottom Save Bar */}
+            {activeTab !== "hero" && (
             <div className="flex items-center justify-between border-t border-slate-800 pt-4">
               <span className="text-[11px] text-slate-500">
                 {form.updated_at
@@ -1274,6 +1293,7 @@ export function SettingsPage() {
                 </button>
               </div>
             </div>
+            )}
           </form>
         )}
 
@@ -1303,6 +1323,7 @@ export function SettingsPage() {
                   Cancel
                 </button>
 
+                {activeTab !== "hero" && (
                 <button
                   onClick={() => handleResetToDefaults(activeTab)}
                   disabled={resetting}
@@ -1310,6 +1331,7 @@ export function SettingsPage() {
                 >
                   Reset {activeTab} Only
                 </button>
+                )}
 
                 <button
                   onClick={() => handleResetToDefaults("all")}

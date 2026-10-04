@@ -184,8 +184,12 @@ function ReviewsPage() {
       setTimeout(() => setSuccessMessage(null), 4000);
       fetchReviews();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Google sync failed.";
-      setErrorMessage(msg);
+      const raw = err instanceof Error ? err.message : "Google sync failed.";
+      setErrorMessage(
+        /not configured|GOOGLE_PLACES|API key|Place ID/i.test(raw)
+          ? "Google review sync isn't connected yet. Ask your developer to switch it on."
+          : raw
+      );
     } finally {
       setSyncing(false);
     }

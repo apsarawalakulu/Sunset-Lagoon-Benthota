@@ -6,6 +6,16 @@ import {
   type ReviewData,
   type SiteSettingsData,
 } from "@/services/api";
+import { heroApi, type PublicHeroSlide } from "@/services/heroApi";
+
+export function useHeroSlides() {
+  return useQuery<{ desktop: PublicHeroSlide[]; mobile: PublicHeroSlide[] }>({
+    queryKey: ["hero-slides"],
+    queryFn: () => heroApi.list(),
+    staleTime: 1000 * 60 * 5,
+    retry: 1,
+  });
+}
 
 export function useExperiences() {
   return useQuery<ExperienceData[]>({

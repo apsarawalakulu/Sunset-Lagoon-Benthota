@@ -1,7 +1,5 @@
 import crocodileImage from "@/assets/bentota-crocodile.jpg";
 import boatImage from "@/assets/bentota-boat.jpg";
-import heroBentotaSafari from "@/assets/hero-bentota-safari.jpg";
-import heroMangroveJourney from "@/assets/hero-mangrove-journey.jpg";
 import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 
 export const LOGO_URL = logoImage;
@@ -48,13 +46,13 @@ export const heroSlides = [
     height: 765,
   },
   {
-    src: heroBentotaSafari,
+    src: "/hero/hero-bentota-safari.jpg",
     alt: "A covered safari boat carrying visitors across the Bentota River at golden hour",
     width: 1536,
     height: 1024,
   },
   {
-    src: heroMangroveJourney,
+    src: "/hero/hero-mangrove-journey.jpg",
     alt: "A boat safari journey through lush tropical mangroves in Bentota",
     width: 1536,
     height: 1024,

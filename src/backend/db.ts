@@ -247,6 +247,17 @@ const SCHEMA_STATEMENTS = [
   // Visitor country from the hosting edge (Vercel sends x-vercel-ip-country).
   `ALTER TABLE page_views ADD COLUMN IF NOT EXISTS country CHAR(2)`,
   `CREATE INDEX IF NOT EXISTS page_views_country_idx ON page_views (country)`,
+  // Homepage hero slides, managed from Site Settings (device: desktop | mobile).
+  `CREATE TABLE IF NOT EXISTS hero_slides (
+    id SERIAL PRIMARY KEY,
+    device TEXT NOT NULL DEFAULT 'desktop',
+    src TEXT NOT NULL,
+    alt TEXT,
+    sort_order INTEGER NOT NULL DEFAULT 0,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  )`,
 ];
 
 let schemaPromise: Promise<void> | null = null;

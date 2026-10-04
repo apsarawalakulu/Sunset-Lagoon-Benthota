@@ -219,7 +219,7 @@ export function AdminLayout({
           <div className="flex items-center justify-between text-[11px] text-slate-400">
             <span className="flex items-center gap-1.5 font-mono text-emerald-400">
               <Shield className="h-3.5 w-3.5" />
-              <span>Sanctum v4</span>
+              <span>System Online</span>
             </span>
             <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[9px] font-semibold text-emerald-400 border border-emerald-500/20 uppercase tracking-wider">
               Admin Role

@@ -8,7 +8,7 @@ import { experiences } from "@/data/experiences";
 import { getWhatsAppUrl, heroSlides, heroSlidesMobile, images, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_URL, LOGO_URL, siteConfig } from "@/data/siteConfig";
 import { mediaApi, type MediaItem, type SectionsMediaMap } from "@/services/mediaApi";
 
-import { useSiteSettings } from "@/hooks/useApiData";
+import { useHeroSlides, useSiteSettings } from "@/hooks/useApiData";
 import { Link } from "@tanstack/react-router";
 import { BookingModal } from "./BookingModal";
 import { ContactForm } from "./ContactForm";
@@ -27,6 +27,13 @@ function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: strin
 
 function HeroSlideshow() {
   const [activeSlide, setActiveSlide] = useState(0);
+  const { data: liveSlides } = useHeroSlides();
+
+  // Database-managed slides win when present; otherwise the built-in set.
+  const desktopSlides =
+    liveSlides && liveSlides.desktop.length > 0 ? liveSlides.desktop : heroSlides;
+  const mobileSlides =
+    liveSlides && liveSlides.mobile.length > 0 ? liveSlides.mobile : heroSlidesMobile;
 
   useEffect(() => {
     // Continuous loop: advance every 4.5s, forever, starting on every page load.
@@ -43,18 +50,18 @@ function HeroSlideshow() {
     };
   }, []);
 
-  const desktopIndex = activeSlide % heroSlides.length;
-  const mobileIndex = activeSlide % heroSlidesMobile.length;
+  const desktopIndex = activeSlide % desktopSlides.length;
+  const mobileIndex = activeSlide % mobileSlides.length;
 
   return <>
     <div className="absolute inset-0 hidden md:block" aria-hidden="true">
-      {heroSlides.map((media, index) => (
-        <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === desktopIndex ? "is-active" : ""}`} />
+      {desktopSlides.map((media, index) => (
+        <img key={media.src} src={media.src} alt="" width={"width" in media ? media.width : undefined} height={"height" in media ? media.height : undefined} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === desktopIndex ? "is-active" : ""}`} />
       ))}
     </div>
     <div className="absolute inset-0 md:hidden" aria-hidden="true">
-      {heroSlidesMobile.map((media, index) => (
-        <img key={media.src} src={media.src} alt="" width={media.width} height={media.height} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === mobileIndex ? "is-active" : ""}`} />
+      {mobileSlides.map((media, index) => (
+        <img key={media.src} src={media.src} alt="" width={"width" in media ? media.width : undefined} height={"height" in media ? media.height : undefined} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === mobileIndex ? "is-active" : ""}`} />
       ))}
     </div>
   </>;
