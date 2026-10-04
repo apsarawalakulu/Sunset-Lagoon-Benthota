@@ -88,7 +88,7 @@ export const siteConfig: SiteConfig = {
     phone: "+94 767 498 169",
     whatsapp: "+94 776 838 289",
     email: "sunsetlagoon.boats@gmail.com",
-    hours: "To be confirmed",
+    hours: "Open daily · 06:00 – 19:00",
   },
   social: { facebook: "", instagram: "", whatsapp: "" },
   navigation: [

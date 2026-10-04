@@ -1,4 +1,5 @@
 import { createServerFn } from "@tanstack/react-start";
+import { getRequestHeader } from "@tanstack/react-start/server";
 import { db, ensureSchema } from "./db";
 import { requireAdmin } from "./auth";
 
@@ -25,6 +26,12 @@ export interface AnalyticsReferrer {
   views: number;
 }
 
+export interface AnalyticsCountry {
+  code: string;
+  visitors: number;
+  views: number;
+}
+
 export interface AnalyticsSummary {
   visitors: number;
   pageViews: number;
@@ -33,6 +40,7 @@ export interface AnalyticsSummary {
   daily: AnalyticsDaily[];
   topPages: AnalyticsPage[];
   referrers: AnalyticsReferrer[];
+  countries: AnalyticsCountry[];
 }
 
 /** Record one page view. Public, no auth. Admin pages are never tracked (see tracker). */
@@ -61,9 +69,17 @@ export const trackPageViewFn = createServerFn({ method: "POST" })
       LIMIT 1
     `;
     if (recent.length === 0) {
+      // Country comes from the hosting edge (Vercel). Absent locally — stored as NULL.
+      let country: string | null = null;
+      try {
+        const header = getRequestHeader("x-vercel-ip-country");
+        if (header && /^[A-Za-z]{2}$/.test(header)) country = header.toUpperCase();
+      } catch {
+        country = null;
+      }
       await sql`
-        INSERT INTO page_views (path, referrer, referrer_host, visitor_id)
-        VALUES (${path}, ${referrer}, ${host}, ${visitorId})
+        INSERT INTO page_views (path, referrer, referrer_host, visitor_id, country)
+        VALUES (${path}, ${referrer}, ${host}, ${visitorId}, ${country})
       `;
     }
     return { success: true };
@@ -117,6 +133,13 @@ export const analyticsOverviewFn = createServerFn({ method: "GET" })
         AND referrer_host IS NOT NULL
       GROUP BY referrer_host ORDER BY views DESC LIMIT 8
     `;
+    const countries = await sql`
+      SELECT country AS code, COUNT(*)::int AS views, COUNT(DISTINCT visitor_id)::int AS visitors
+      FROM page_views
+      WHERE created_at >= CURRENT_DATE - (${days - 1} || ' days')::interval
+        AND country IS NOT NULL
+      GROUP BY country ORDER BY views DESC LIMIT 10
+    `;
 
     const t = (totals[0] as unknown as Row) ?? {};
     const b = (bounce[0] as unknown as Row) ?? {};
@@ -139,6 +162,11 @@ export const analyticsOverviewFn = createServerFn({ method: "GET" })
       referrers: (refs as unknown as Row[])
         .map((r) => ({ host: String(r["host"] ?? ""), views: num(r["views"]) }))
         .filter((r) => r.host !== "" && !SELF_HOSTS.some((s) => r.host === s || r.host.endsWith(`.${s}`) || r.host.endsWith("vercel.app"))),
+      countries: (countries as unknown as Row[]).map((r) => ({
+        code: String(r["code"] ?? ""),
+        visitors: num(r["visitors"]),
+        views: num(r["views"]),
+      })),
     };
     return { success: true, data: summary };
   });

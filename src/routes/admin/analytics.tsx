@@ -39,7 +39,13 @@ const EMPTY: AnalyticsSummary = {
   daily: [],
   topPages: [],
   referrers: [],
+  countries: [],
 };
+
+function flagEmoji(code: string): string {
+  if (!/^[A-Z]{2}$/.test(code)) return "";
+  return String.fromCodePoint(...code.split("").map((c) => 127397 + c.charCodeAt(0)));
+}
 
 function StatCard({
   icon: Icon,
@@ -216,7 +222,7 @@ function AdminAnalyticsPage() {
           </div>
         </div>
 
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 sm:p-6">
             <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Top pages</h2>
             {data.topPages.length === 0 ? (
@@ -246,6 +252,28 @@ function AdminAnalyticsPage() {
                   <li key={r.host} className="flex items-center justify-between gap-3 text-sm">
                     <span className="truncate text-[13px] text-slate-200">{r.host}</span>
                     <span className="shrink-0 text-xs text-slate-400">{r.views} visits</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <div className="rounded-xl border border-slate-800 bg-slate-900/80 p-4 sm:p-6 md:col-span-2 xl:col-span-1">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Top countries</h2>
+            {data.countries.length === 0 ? (
+              <p className="mt-4 text-sm text-slate-500">
+                No country data yet — it records from the next visit on the live site.
+              </p>
+            ) : (
+              <ul className="mt-4 space-y-2.5">
+                {data.countries.map((c) => (
+                  <li key={c.code} className="flex items-center justify-between gap-3 text-sm">
+                    <span className="truncate text-[13px] text-slate-200">
+                      <span className="mr-2 text-base">{flagEmoji(c.code)}</span>
+                      {c.code}
+                    </span>
+                    <span className="shrink-0 text-xs text-slate-400">
+                      {c.visitors} visitors · {c.views} views
+                    </span>
                   </li>
                 ))}
               </ul>

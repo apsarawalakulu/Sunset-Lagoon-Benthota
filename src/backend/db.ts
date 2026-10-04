@@ -244,6 +244,9 @@ const SCHEMA_STATEMENTS = [
   )`,
   `CREATE INDEX IF NOT EXISTS page_views_created_idx ON page_views (created_at)`,
   `CREATE INDEX IF NOT EXISTS page_views_visitor_idx ON page_views (visitor_id)`,
+  // Visitor country from the hosting edge (Vercel sends x-vercel-ip-country).
+  `ALTER TABLE page_views ADD COLUMN IF NOT EXISTS country CHAR(2)`,
+  `CREATE INDEX IF NOT EXISTS page_views_country_idx ON page_views (country)`,
 ];
 
 let schemaPromise: Promise<void> | null = null;

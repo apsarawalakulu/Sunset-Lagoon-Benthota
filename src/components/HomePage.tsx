@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
-import { ArrowDown, ArrowRight, Bird, Compass, Leaf, MapPin, MessageCircle, Sailboat, Waves } from "lucide-react";
+import { ArrowRight, Bird, Compass, Leaf, MapPin, MessageCircle, Sailboat, Waves } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FlipFadeText } from "@/components/ui/flip-fade-text";
 import TextAnimation from "@/components/ui/staggerText";
@@ -160,7 +160,6 @@ export function HomePage() {
             <Button asChild variant="heroOutline" size="lg" className="hidden px-10 tracking-[0.3em] sm:inline-flex"><a href="#gallery">View the river</a></Button>
           </div>
         </div>
-        <a href="#about" aria-label="Scroll to our story" className="absolute inset-x-0 bottom-8 z-10 mx-auto flex w-fit flex-col items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-primary-foreground/60"><span>Follow the river</span><span className="hairline-down block h-10 w-px text-primary-foreground/70" /><ArrowDown className="size-3.5 animate-bounce" /></a>
       </section>
 
       <section id="about" className="section-pad scroll-mt-20 bg-sand">
