@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
 import {
   LayoutDashboard,
@@ -68,6 +68,15 @@ export function AdminLayout({
   const [loggingOut, setLoggingOut] = useState(false);
   const { data: liveSettings } = useSiteSettings();
   const logoUrl = liveSettings?.logo_url || LOGO_URL;
+
+  // The admin theme is dark: flip the design-system tokens while any admin
+  // page is mounted (including Radix portals, which render into document.body).
+  useEffect(() => {
+    document.body.classList.add("dark");
+    return () => {
+      document.body.classList.remove("dark");
+    };
+  }, []);
 
   const handleLogout = async () => {
     if (loggingOut) return;
