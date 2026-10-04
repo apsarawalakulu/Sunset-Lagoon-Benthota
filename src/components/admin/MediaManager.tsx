@@ -31,6 +31,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { mediaApi, type MediaItem, type MediaStats } from "@/services/mediaApi";
+import { displayMediaTitle } from "@/lib/media";
 
 const CATEGORY_PRESETS = [
   "Boats & Lagoon",
@@ -495,7 +496,7 @@ export function MediaManager() {
             </Button>
             <Button
               type="button"
-              variant="gold"
+              variant="outline"
               size="sm"
               onClick={() => openUploadModal("video")}
               className="h-9 gap-1.5 text-xs font-semibold tracking-wider cursor-pointer"
@@ -686,7 +687,7 @@ export function MediaManager() {
             </Button>
             <Button
               type="button"
-              variant="gold"
+              variant="outline"
               size="sm"
               onClick={() => openUploadModal("video")}
               className="text-xs"
@@ -734,7 +735,7 @@ export function MediaManager() {
                   ) : (
                     <img
                       src={item.url}
-                      alt={item.title}
+                      alt={displayMediaTitle(item.title, item.category)}
                       loading="lazy"
                       className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -782,9 +783,9 @@ export function MediaManager() {
                   <div className="flex items-start justify-between gap-2">
                     <h4
                       className="font-medium text-xs text-foreground line-clamp-1 group-hover:text-accent-strong transition-colors"
-                      title={item.title}
+                      title={displayMediaTitle(item.title, item.category)}
                     >
-                      {item.title}
+                      {displayMediaTitle(item.title, item.category)}
                     </h4>
                   </div>
 
@@ -1349,7 +1350,7 @@ export function MediaManager() {
                 {activeItem.type === "video" ? (
                   <video src={activeItem.url} controls className="size-full object-contain" />
                 ) : (
-                  <img src={activeItem.url} alt={activeItem.title} className="size-full object-contain" />
+                  <img src={activeItem.url} alt={displayMediaTitle(activeItem.title, activeItem.category)} className="size-full object-contain" />
                 )}
               </div>
 
@@ -1695,7 +1696,7 @@ export function MediaManager() {
               Delete Media Permanently?
             </DialogTitle>
             <DialogDescription className="text-xs text-muted-foreground leading-relaxed">
-              Are you sure you want to delete <strong className="text-foreground">{activeItem?.title}</strong>?
+              Are you sure you want to delete <strong className="text-foreground">{activeItem ? displayMediaTitle(activeItem.title, activeItem.category) : ""}</strong>?
               This will permanently remove the database record and delete the physical file from server storage.
             </DialogDescription>
           </DialogHeader>
@@ -1764,13 +1765,13 @@ export function MediaManager() {
             ) : (
               <img
                 src={activeItem.url}
-                alt={activeItem.title}
+                alt={displayMediaTitle(activeItem.title, activeItem.category)}
                 className="max-h-[75vh] max-w-full rounded-lg object-contain shadow-2xl"
               />
             )}
 
             <div className="mt-3 text-center text-white">
-              <h3 className="text-sm font-semibold">{activeItem.title}</h3>
+              <h3 className="text-sm font-semibold">{displayMediaTitle(activeItem.title, activeItem.category)}</h3>
               <p className="text-xs text-white/70">
                 {activeItem.category} · {activeItem.formatted_size} · Status: {activeItem.status}
               </p>

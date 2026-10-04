@@ -5,6 +5,7 @@ import { BookingModal } from "@/components/BookingModal";
 import { SiteNavbar } from "@/components/SiteNavbar";
 import { galleryImages } from "@/data/gallery";
 import { LOGO_URL, siteConfig } from "@/data/siteConfig";
+import { displayMediaTitle } from "@/lib/media";
 import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
 import { useSiteSettings } from "@/hooks/useApiData";
 import { isApiConnected } from "@/services/api";
@@ -261,7 +262,7 @@ function GalleryPage() {
                   type="button"
                   onClick={() => setSelected(index)}
                   className="group relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-muted shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left"
-                  aria-label={`Open media: ${item.title}`}
+                  aria-label={`Open media: ${displayMediaTitle(item.title, item.category)}`}
                 >
                   {isVideo ? (
                     <div className="relative size-full bg-black/90 flex items-center justify-center overflow-hidden">
@@ -284,7 +285,7 @@ function GalleryPage() {
                   ) : (
                     <img
                       src={item.url}
-                      alt={item.title}
+                      alt={displayMediaTitle(item.title, item.category)}
                       loading="lazy"
                       className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -300,7 +301,7 @@ function GalleryPage() {
                   {/* Caption Gradient */}
                   <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-foreground/95 via-foreground/60 to-transparent px-4 pb-4 pt-16 transition-opacity duration-300">
                     <p className="text-sm font-semibold text-primary-foreground line-clamp-1">
-                      {item.title}
+                      {displayMediaTitle(item.title, item.category)}
                     </p>
                     {item.description && (
                       <p className="mt-1 text-xs text-primary-foreground/70 line-clamp-1 font-light">
@@ -360,12 +361,12 @@ function GalleryPage() {
             ) : (
               <img
                 src={activeItem.url}
-                alt={activeItem.title}
+                alt={displayMediaTitle(activeItem.title, activeItem.category)}
                 className="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl"
               />
             )}
             <figcaption className="mt-4 text-center text-sm text-primary-foreground/90 font-medium">
-              <span>{activeItem.title}</span>
+              <span>{displayMediaTitle(activeItem.title, activeItem.category)}</span>
               {activeItem.category && (
                 <span className="ml-2 text-xs text-accent uppercase tracking-wider font-semibold">
                   · {activeItem.category}
