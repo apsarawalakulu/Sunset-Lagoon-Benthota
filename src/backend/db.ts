@@ -233,8 +233,17 @@ const SCHEMA_STATEMENTS = [
   `ALTER TABLE reviews ADD COLUMN IF NOT EXISTS source TEXT NOT NULL DEFAULT 'website'`,
   `ALTER TABLE reviews ADD COLUMN IF NOT EXISTS source_id TEXT`,
   `CREATE UNIQUE INDEX IF NOT EXISTS reviews_source_unique ON reviews (source, source_id) WHERE source_id IS NOT NULL`,
-  // Timestamp of the last successful Google sync (public pages refresh when stale).
-  `ALTER TABLE site_settings ADD COLUMN IF NOT EXISTS google_last_sync TIMESTAMPTZ`,
+  // Lightweight first-party analytics (page views for the admin dashboard).
+  `CREATE TABLE IF NOT EXISTS page_views (
+    id SERIAL PRIMARY KEY,
+    path TEXT NOT NULL,
+    referrer TEXT,
+    referrer_host TEXT,
+    visitor_id TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  )`,
+  `CREATE INDEX IF NOT EXISTS page_views_created_idx ON page_views (created_at)`,
+  `CREATE INDEX IF NOT EXISTS page_views_visitor_idx ON page_views (visitor_id)`,
 ];
 
 let schemaPromise: Promise<void> | null = null;

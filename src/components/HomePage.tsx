@@ -149,7 +149,8 @@ export function HomePage() {
           <p className="mx-auto mt-10 max-w-md text-sm font-light leading-relaxed text-primary-foreground/80 sm:text-base">{heroSubtitle}</p>
           <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <Button asChild variant="gold" size="lg" className="px-12 tracking-[0.3em]"><a href="#experience">Begin the journey</a></Button>
-            <Button asChild variant="heroOutline" size="lg" className="px-10 tracking-[0.3em]"><a href="#gallery">View the river</a></Button>
+            <Button variant="forest" size="lg" className="px-10 tracking-[0.3em] sm:hidden" onClick={() => handleOpenBooking()}>Book a safari</Button>
+            <Button asChild variant="heroOutline" size="lg" className="hidden px-10 tracking-[0.3em] sm:inline-flex"><a href="#gallery">View the river</a></Button>
           </div>
         </div>
         <a href="#about" aria-label="Scroll to our story" className="absolute inset-x-0 bottom-8 z-10 mx-auto flex w-fit flex-col items-center gap-3 text-[9px] font-bold uppercase tracking-[0.3em] text-primary-foreground/60"><span>Follow the river</span><span className="hairline-down block h-10 w-px text-primary-foreground/70" /><ArrowDown className="size-3.5 animate-bounce" /></a>

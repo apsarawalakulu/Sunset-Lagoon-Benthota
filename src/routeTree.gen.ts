@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 import { Route as AdminBoatsRouteImport } from './routes/admin/boats'
 import { Route as AdminBookingsRouteImport } from './routes/admin/bookings'
 import { Route as AdminDashboardRouteImport } from './routes/admin/dashboard'
@@ -31,6 +32,11 @@ const IndexRoute = IndexRouteImport.update({
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminBoatsRoute = AdminBoatsRouteImport.update({
@@ -92,6 +98,7 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/boats': typeof AdminBoatsRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/boats': typeof AdminBoatsRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/gallery': typeof GalleryRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/boats': typeof AdminBoatsRoute
   '/admin/bookings': typeof AdminBookingsRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -140,6 +149,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/gallery'
+    | '/admin/analytics'
     | '/admin/boats'
     | '/admin/bookings'
     | '/admin/dashboard'
@@ -155,6 +165,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/gallery'
+    | '/admin/analytics'
     | '/admin/boats'
     | '/admin/bookings'
     | '/admin/dashboard'
@@ -170,6 +181,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/gallery'
+    | '/admin/analytics'
     | '/admin/boats'
     | '/admin/bookings'
     | '/admin/dashboard'
@@ -186,6 +198,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GalleryRoute: typeof GalleryRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminBoatsRoute: typeof AdminBoatsRoute
   AdminBookingsRoute: typeof AdminBookingsRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
@@ -213,6 +226,13 @@ declare module '@tanstack/react-router' {
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/boats': {
@@ -298,6 +318,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GalleryRoute: GalleryRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminBoatsRoute: AdminBoatsRoute,
   AdminBookingsRoute: AdminBookingsRoute,
   AdminDashboardRoute: AdminDashboardRoute,

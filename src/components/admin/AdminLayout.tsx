@@ -17,6 +17,7 @@ import {
   Shield,
   Loader2,
   ChevronRight,
+  ChartColumn,
 } from "lucide-react";
 import { adminAuth, type AdminUser } from "@/services/adminAuth";
 import { LOGO_URL } from "@/data/siteConfig";
@@ -42,6 +43,7 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { label: "Dashboard", href: "/admin/dashboard", icon: LayoutDashboard },
+  { label: "Analytics", href: "/admin/analytics", icon: ChartColumn },
   { label: "Bookings", href: "/admin/bookings", icon: CalendarCheck2, badgeKey: "bookings" },
   { label: "Safari Schedule", href: "/admin/schedules", icon: Clock },
   { label: "Experiences", href: "/admin/experiences", icon: Compass },
