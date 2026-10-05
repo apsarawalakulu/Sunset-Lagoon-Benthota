@@ -19,6 +19,28 @@ import { uploadToCloudinary } from "@/services/uploads";
 
 type Device = "desktop" | "mobile";
 
+const MIN_SIZE: Record<Device, { w: number; h: number; label: string }> = {
+  desktop: { w: 1280, h: 720, label: "1280 × 720" },
+  mobile: { w: 720, h: 1280, label: "720 × 1280" },
+};
+
+function getImageDimensions(file: File): Promise<{ w: number; h: number }> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = () => {
+      const dims = { w: img.naturalWidth, h: img.naturalHeight };
+      URL.revokeObjectURL(url);
+      resolve(dims);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Could not read this image file. Please choose another."));
+    };
+    img.src = url;
+  });
+}
+
 function verifyImageUrl(src: string): Promise<void> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -139,13 +161,10 @@ function AddSlideForm({
   const [progress, setProgress] = useState<number | null>(null);
   const [status, setStatus] = useState<{ kind: "success" | "error"; text: string } | null>(null);
   const [fileKey, setFileKey] = useState(0);
+  const [sizeWarning, setSizeWarning] = useState<{ w: number; h: number } | null>(null);
 
-  const handleAdd = async () => {
-    setStatus(null);
-    if (!file) {
-      setStatus({ kind: "error", text: "Choose an image first." });
-      return;
-    }
+  const doUpload = async () => {
+    if (!file) return;
     try {
       setSaving(true);
       setProgress(0);
@@ -166,6 +185,33 @@ function AddSlideForm({
     }
   };
 
+  const handleAdd = async () => {
+    setStatus(null);
+    if (!file) {
+      setStatus({ kind: "error", text: "Choose an image first." });
+      return;
+    }
+    const min = MIN_SIZE[device];
+    try {
+      const dims = await getImageDimensions(file);
+      if (dims.w < min.w || dims.h < min.h) {
+        // Too small for this view — ask before applying.
+        setSizeWarning(dims);
+        return;
+      }
+    } catch (err) {
+      setStatus({ kind: "error", text: err instanceof Error ? err.message : "Could not read this image." });
+      return;
+    }
+    await doUpload();
+  };
+
+  const dismissWarning = () => {
+    setSizeWarning(null);
+    setFile(null);
+    setFileKey((k) => k + 1);
+  };
+
   return (
     <div className="rounded-lg border border-dashed border-slate-700 bg-slate-950/50 p-3">
       {status && (
@@ -181,6 +227,39 @@ function AddSlideForm({
           </div>
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
             <div className="h-full bg-amber-500 transition-all duration-200" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+      )}
+      {sizeWarning && (
+        <div className="rounded-md border border-amber-500/40 bg-amber-500/10 p-3">
+          <p className="text-xs font-semibold text-amber-200">
+            Small image: {sizeWarning.w} × {sizeWarning.h}px
+          </p>
+          <p className="mt-1 text-[11px] leading-relaxed text-slate-300">
+            {device === "desktop" ? "Desktop" : "Mobile"} banners need at least{" "}
+            {MIN_SIZE[device].label}px, or the photo may look blurry fullscreen.
+            Use it anyway?
+          </p>
+          <div className="mt-2 flex gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setSizeWarning(null);
+                void doUpload();
+              }}
+              disabled={saving}
+              className="rounded-md bg-amber-500 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-amber-400 disabled:opacity-60"
+            >
+              Yes, use it
+            </button>
+            <button
+              type="button"
+              onClick={dismissWarning}
+              disabled={saving}
+              className="rounded-md border border-slate-700 px-3 py-1.5 text-xs font-semibold text-slate-300 hover:bg-slate-800 disabled:opacity-60"
+            >
+              No
+            </button>
           </div>
         </div>
       )}
