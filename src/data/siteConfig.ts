@@ -62,7 +62,7 @@ export const heroSlides = [
 export const LOCATION_ADDRESS = "Bentota, Sri Lanka";
 
 export const GOOGLE_MAPS_URL =
-  "https://www.google.com/maps/place//@6.424814,79.9994562,54m/data=!3m1!1e3!4m6!1m5!3m4!2zNsKwMjUnMjkuMiJOIDc5wrA1OSc1OC42IkU!8m2!3d6.4247778!4d79.9996111?hl=en&entry=ttu";
+  "https://www.google.com/maps/place/Sunset+Lagoon+Boat+House/@6.4248125,79.9995625,865m/data=!3m1!1e3!4m16!1m9!3m8!1s0x3ae22f8a90d97809:0xb5ca1a9240ec597a!2sSunset+Lagoon+Boat+House!8m2!3d6.4248125!4d79.9995625!9m1!1b1!16s%2Fg%2F11zxxddqfb!3m5!1s0x3ae22f8a90d97809:0xb5ca1a9240ec597a!8m2!3d6.4248125!4d79.9995625!16s%2Fg%2F11zxxddqfb?hl=en&entry=ttu";
 
 export const GOOGLE_MAPS_EMBED_URL =
   "https://maps.google.com/maps?q=6.4247778,79.9996111&z=16&output=embed";
