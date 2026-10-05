@@ -129,17 +129,12 @@ function Simulator({
 
 function AddSlideForm({
   device,
-  otherLabel,
   onAdded,
 }: {
   device: Device;
-  otherLabel: string;
   onAdded: () => void;
 }) {
   const [file, setFile] = useState<File | null>(null);
-  const [url, setUrl] = useState("");
-  const [alt, setAlt] = useState("");
-  const [alsoOther, setAlsoOther] = useState(false);
   const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const [status, setStatus] = useState<{ kind: "success" | "error"; text: string } | null>(null);
@@ -147,35 +142,19 @@ function AddSlideForm({
 
   const handleAdd = async () => {
     setStatus(null);
+    if (!file) {
+      setStatus({ kind: "error", text: "Choose an image first." });
+      return;
+    }
     try {
-      let src = url.trim();
-      if (file) {
-        setSaving(true);
-        setProgress(0);
-        const uploaded = await uploadToCloudinary(file, (pct) => setProgress(pct));
-        setProgress(100);
-        // First verify the uploaded file actually serves before saving the slide.
-        await verifyImageUrl(uploaded.url);
-        src = uploaded.url;
-      }
-      if (!src) {
-        setStatus({ kind: "error", text: "Choose a file or paste an image URL." });
-        return;
-      }
-      if (!file) {
-        // Pasted URLs are verified too, so broken links never reach the website.
-        setSaving(true);
-        await verifyImageUrl(src);
-      }
-      const other: Device = device === "desktop" ? "mobile" : "desktop";
-      await heroApi.save(null, { device, src, alt: alt.trim() || null, is_active: true });
-      if (alsoOther) {
-        await heroApi.save(null, { device: other, src, alt: alt.trim() || null, is_active: true });
-      }
+      setSaving(true);
+      setProgress(0);
+      const uploaded = await uploadToCloudinary(file, (pct) => setProgress(pct));
+      setProgress(100);
+      // First verify the uploaded file actually serves before saving the slide.
+      await verifyImageUrl(uploaded.url);
+      await heroApi.save(null, { device, src: uploaded.url, alt: null, is_active: true });
       setFile(null);
-      setUrl("");
-      setAlt("");
-      setAlsoOther(false);
       setFileKey((k) => k + 1);
       setStatus({ kind: "success", text: "Image uploaded, verified and added to the website." });
       onAdded();
@@ -184,13 +163,6 @@ function AddSlideForm({
     } finally {
       setSaving(false);
       setProgress(null);
-    }
-  };
-
-  const onEnter = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      void handleAdd();
     }
   };
 
@@ -213,7 +185,7 @@ function AddSlideForm({
         </div>
       )}
       <div className="flex flex-col gap-2">
-        <label className="flex cursor-pointer items-center gap-2 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-300 hover:border-amber-500/50">
+        <label className="flex cursor-pointer items-center gap-2 rounded-md border border-slate-700 bg-slate-900 px-3 py-2.5 text-xs text-slate-300 hover:border-amber-500/50">
           <Upload className="size-3.5 shrink-0 text-amber-400" />
           <span className="truncate">{file ? file.name : "Upload image..."}</span>
           <input
@@ -224,40 +196,15 @@ function AddSlideForm({
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           />
         </label>
-        <input
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          onKeyDown={onEnter}
-          placeholder="...or paste image URL"
-          className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-amber-500/60"
-        />
-        <div className="flex gap-2">
-          <input
-            value={alt}
-            onChange={(e) => setAlt(e.target.value)}
-            onKeyDown={onEnter}
-            placeholder="Alt text (optional)"
-            className="flex-1 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-amber-500/60"
-          />
-          <button
-            type="button"
-            onClick={() => void handleAdd()}
-            disabled={saving}
-            className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-amber-500 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-amber-400 disabled:opacity-60"
-          >
-            {saving ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
-            Add
-          </button>
-        </div>
-        <label className="flex cursor-pointer items-center gap-2 text-xs text-slate-400">
-          <input
-            type="checkbox"
-            checked={alsoOther}
-            onChange={(e) => setAlsoOther(e.target.checked)}
-            className="size-3.5 rounded border-slate-700 text-amber-500 focus:ring-amber-500"
-          />
-          Also use this image for {otherLabel}
-        </label>
+        <button
+          type="button"
+          onClick={() => void handleAdd()}
+          disabled={saving || !file}
+          className="inline-flex items-center justify-center gap-1.5 rounded-md bg-amber-500 px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-amber-400 disabled:opacity-60"
+        >
+          {saving ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
+          Add
+        </button>
       </div>
     </div>
   );
@@ -344,7 +291,6 @@ function DeviceSection({
   device,
   title,
   hint,
-  otherLabel,
   slides,
   busyId,
   onToggle,
@@ -355,7 +301,6 @@ function DeviceSection({
   device: Device;
   title: string;
   hint: string;
-  otherLabel: string;
   slides: HeroSlide[];
   busyId: number | null;
   onToggle: (s: HeroSlide) => void;
@@ -378,7 +323,7 @@ function DeviceSection({
         />
       </div>
       <div className="mt-2">
-        <AddSlideForm device={device} otherLabel={otherLabel} onAdded={onAdded} />
+        <AddSlideForm device={device} onAdded={onAdded} />
       </div>
     </section>
   );
@@ -486,7 +431,6 @@ export function HeroSlidesManager() {
           device="desktop"
           title="Desktop Banner Images"
           hint="Wide landscape images (16:9 works best). Shown on tablets and computers."
-          otherLabel="mobile too"
           slides={slides}
           busyId={busyId}
           onToggle={handleToggle}
@@ -498,7 +442,6 @@ export function HeroSlidesManager() {
           device="mobile"
           title="Mobile Banner Images"
           hint="Tall portrait images (9:16 works best). Shown on phones."
-          otherLabel="desktop too"
           slides={slides}
           busyId={busyId}
           onToggle={handleToggle}
