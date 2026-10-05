@@ -69,7 +69,7 @@ function Simulator({
 }) {
   const isDesktop = device === "desktop";
   return (
-    <div className={isDesktop ? "w-full" : "mx-auto w-[200px]"}>
+    <div className={isDesktop ? "w-full" : "mx-auto w-[220px]"}>
       <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-slate-400">
         {isDesktop ? <Monitor className="size-3.5" /> : <Smartphone className="size-3.5" />}
         {isDesktop ? "Desktop preview" : "Mobile preview"}
@@ -96,7 +96,7 @@ function Simulator({
             <span className="h-3.5 w-16 rounded-full bg-slate-950" />
           </div>
         )}
-        <div className={`relative w-full overflow-hidden ${isDesktop ? "aspect-video" : "aspect-[9/19]"}`}>
+        <div className={`relative w-full overflow-hidden ${isDesktop ? "aspect-video" : "aspect-[390/844]"}`}>
           {slide ? (
             <img src={slide.src} alt={slide.alt || "Hero preview"} className="absolute inset-0 size-full object-cover" />
           ) : (
@@ -320,7 +320,6 @@ function SlideList({
           <img src={s.src} alt="" className="size-11 shrink-0 rounded-md object-cover" loading="lazy" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-semibold text-slate-200">{s.alt || "Untitled slide"}</p>
-            <p className="truncate font-mono text-[10px] text-slate-500">{s.src}</p>
           </div>
           <div className="flex shrink-0 items-center">
             <button
