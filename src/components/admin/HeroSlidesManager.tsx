@@ -19,6 +19,25 @@ import { uploadToCloudinary } from "@/services/uploads";
 
 type Device = "desktop" | "mobile";
 
+function verifyImageUrl(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const timer = window.setTimeout(
+      () => reject(new Error("Upload finished, but the image could not be verified. Please try again.")),
+      20000
+    );
+    img.onload = () => {
+      window.clearTimeout(timer);
+      resolve();
+    };
+    img.onerror = () => {
+      window.clearTimeout(timer);
+      reject(new Error("Upload finished, but the image could not be verified. Please try again."));
+    };
+    img.src = src;
+  });
+}
+
 function Simulator({
   device,
   slide,
@@ -108,42 +127,25 @@ function Simulator({
   );
 }
 
-function verifyImageUrl(src: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    const timer = window.setTimeout(
-      () => reject(new Error("Upload finished, but the image could not be verified. Please try again.")),
-      20000
-    );
-    img.onload = () => {
-      window.clearTimeout(timer);
-      resolve();
-    };
-    img.onerror = () => {
-      window.clearTimeout(timer);
-      reject(new Error("Upload finished, but the image could not be verified. Please try again."));
-    };
-    img.src = src;
-  });
-}
-
 function AddSlideForm({
   device,
+  otherLabel,
   onAdded,
 }: {
   device: Device;
+  otherLabel: string;
   onAdded: () => void;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [url, setUrl] = useState("");
   const [alt, setAlt] = useState("");
+  const [alsoOther, setAlsoOther] = useState(false);
   const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const [status, setStatus] = useState<{ kind: "success" | "error"; text: string } | null>(null);
   const [fileKey, setFileKey] = useState(0);
 
-  const handleAdd = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAdd = async () => {
     setStatus(null);
     try {
       let src = url.trim();
@@ -165,10 +167,15 @@ function AddSlideForm({
         setSaving(true);
         await verifyImageUrl(src);
       }
+      const other: Device = device === "desktop" ? "mobile" : "desktop";
       await heroApi.save(null, { device, src, alt: alt.trim() || null, is_active: true });
+      if (alsoOther) {
+        await heroApi.save(null, { device: other, src, alt: alt.trim() || null, is_active: true });
+      }
       setFile(null);
       setUrl("");
       setAlt("");
+      setAlsoOther(false);
       setFileKey((k) => k + 1);
       setStatus({ kind: "success", text: "Image uploaded, verified and added to the website." });
       onAdded();
@@ -180,8 +187,15 @@ function AddSlideForm({
     }
   };
 
+  const onEnter = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      void handleAdd();
+    }
+  };
+
   return (
-    <form onSubmit={handleAdd} className="rounded-lg border border-dashed border-slate-700 bg-slate-950/50 p-3">
+    <div className="rounded-lg border border-dashed border-slate-700 bg-slate-950/50 p-3">
       {status && (
         <p className={`mb-2 text-xs ${status.kind === "success" ? "text-emerald-300" : "text-rose-300"}`}>
           {status.text}
@@ -213,6 +227,7 @@ function AddSlideForm({
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
+          onKeyDown={onEnter}
           placeholder="...or paste image URL"
           className="rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-amber-500/60"
         />
@@ -220,20 +235,31 @@ function AddSlideForm({
           <input
             value={alt}
             onChange={(e) => setAlt(e.target.value)}
+            onKeyDown={onEnter}
             placeholder="Alt text (optional)"
             className="flex-1 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-200 placeholder-slate-500 outline-none focus:border-amber-500/60"
           />
           <button
-            type="submit"
+            type="button"
+            onClick={() => void handleAdd()}
             disabled={saving}
-            className="inline-flex items-center gap-1.5 rounded-md bg-amber-500 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-amber-400 disabled:opacity-60"
+            className="inline-flex shrink-0 items-center gap-1.5 rounded-md bg-amber-500 px-3 py-2 text-xs font-bold uppercase tracking-wider text-slate-950 hover:bg-amber-400 disabled:opacity-60"
           >
             {saving ? <Loader2 className="size-3.5 animate-spin" /> : <Plus className="size-3.5" />}
             Add
           </button>
         </div>
+        <label className="flex cursor-pointer items-center gap-2 text-xs text-slate-400">
+          <input
+            type="checkbox"
+            checked={alsoOther}
+            onChange={(e) => setAlsoOther(e.target.checked)}
+            className="size-3.5 rounded border-slate-700 text-amber-500 focus:ring-amber-500"
+          />
+          Also use this image for {otherLabel}
+        </label>
       </div>
-    </form>
+    </div>
   );
 }
 
@@ -254,23 +280,23 @@ function SlideList({
 }) {
   const list = slides.filter((s) => s.device === device);
   if (list.length === 0) {
-    return <p className="rounded-lg border border-dashed border-slate-800 p-4 text-center text-xs text-slate-500">No slides yet.</p>;
+    return <p className="rounded-lg border border-dashed border-slate-800 p-3 text-center text-xs text-slate-500">No slides yet.</p>;
   }
   return (
-    <ul className="space-y-2">
+    <ul className="space-y-1.5">
       {list.map((s, i) => (
         <li
           key={s.id}
-          className={`flex items-center gap-3 rounded-lg border p-2 ${
+          className={`flex items-center gap-2 rounded-lg border p-1.5 ${
             s.is_active ? "border-slate-700 bg-slate-900" : "border-slate-800 bg-slate-950 opacity-60"
           }`}
         >
-          <img src={s.src} alt="" className="size-14 shrink-0 rounded-md object-cover" loading="lazy" />
+          <img src={s.src} alt="" className="size-11 shrink-0 rounded-md object-cover" loading="lazy" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-semibold text-slate-200">{s.alt || "Untitled slide"}</p>
             <p className="truncate font-mono text-[10px] text-slate-500">{s.src}</p>
           </div>
-          <div className="flex shrink-0 items-center gap-1">
+          <div className="flex shrink-0 items-center">
             <button
               type="button"
               onClick={() => onMove(s, -1)}
@@ -311,6 +337,50 @@ function SlideList({
         </li>
       ))}
     </ul>
+  );
+}
+
+function DeviceSection({
+  device,
+  title,
+  hint,
+  otherLabel,
+  slides,
+  busyId,
+  onToggle,
+  onDelete,
+  onMove,
+  onAdded,
+}: {
+  device: Device;
+  title: string;
+  hint: string;
+  otherLabel: string;
+  slides: HeroSlide[];
+  busyId: number | null;
+  onToggle: (s: HeroSlide) => void;
+  onDelete: (s: HeroSlide) => void;
+  onMove: (s: HeroSlide, dir: -1 | 1) => void;
+  onAdded: () => void;
+}) {
+  return (
+    <section>
+      <h3 className="font-serif text-base font-medium text-amber-100">{title}</h3>
+      <p className="mt-0.5 text-[11px] text-slate-400">{hint}</p>
+      <div className="mt-2">
+        <SlideList
+          device={device}
+          slides={slides}
+          busyId={busyId}
+          onToggle={onToggle}
+          onDelete={onDelete}
+          onMove={onMove}
+        />
+      </div>
+      <div className="mt-2">
+        <AddSlideForm device={device} otherLabel={otherLabel} onAdded={onAdded} />
+      </div>
+    </section>
   );
 }
 
@@ -394,9 +464,11 @@ export function HeroSlidesManager() {
     slides.find((s) => s.device === device && s.is_active) ?? null;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       {error && (
-        <div className="rounded-lg border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-200">{error}</div>
+        <div className="flex items-start gap-2 rounded-lg border border-rose-500/30 bg-rose-950/40 p-3 text-xs text-rose-200">
+          <AlertCircle className="size-4 shrink-0" /> {error}
+        </div>
       )}
       {notice && (
         <div className="flex items-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-950/40 p-3 text-xs text-emerald-200">
@@ -404,49 +476,37 @@ export function HeroSlidesManager() {
         </div>
       )}
 
-      <section>
-        <h3 className="font-serif text-lg font-medium text-amber-100">Live Banner Preview</h3>
-        <p className="mt-1 text-xs text-slate-400">
-          Exactly how the first active slide of each set looks on the website right now.
-        </p>
-        {loading ? (
-          <div className="mt-4 flex items-center gap-2 text-xs text-slate-500">
-            <Loader2 className="size-4 animate-spin" /> Loading preview...
-          </div>
-        ) : (
-          <div className="mt-4 grid items-start gap-6 lg:grid-cols-[1fr_220px]">
-            <Simulator device="desktop" slide={firstActive("desktop")} />
-            <Simulator device="mobile" slide={firstActive("mobile")} />
-          </div>
-        )}
-      </section>
+      <div className="grid items-start gap-6 lg:grid-cols-[1fr_220px]">
+        <Simulator device="desktop" slide={loading ? null : firstActive("desktop")} />
+        <Simulator device="mobile" slide={loading ? null : firstActive("mobile")} />
+      </div>
 
-      {(["desktop", "mobile"] as const).map((device) => (
-        <section key={device}>
-          <h3 className="font-serif text-lg font-medium text-amber-100">
-            {device === "desktop" ? "Desktop Banner Images" : "Mobile Banner Images"}
-          </h3>
-          <p className="mt-1 text-xs text-slate-400">
-            {device === "desktop"
-              ? "Wide landscape images (16:9 works best). Shown on tablets and computers."
-              : "Tall portrait images (9:16 works best). Shown on phones."}{" "}
-            Changes go live immediately.
-          </p>
-          <div className="mt-3">
-            <SlideList
-              device={device}
-              slides={slides}
-              busyId={busyId}
-              onToggle={handleToggle}
-              onDelete={(s) => setPendingDelete(s)}
-              onMove={handleMove}
-            />
-          </div>
-          <div className="mt-3">
-            <AddSlideForm device={device} onAdded={load} />
-          </div>
-        </section>
-      ))}
+      <div className="grid items-start gap-6 xl:grid-cols-2">
+        <DeviceSection
+          device="desktop"
+          title="Desktop Banner Images"
+          hint="Wide landscape images (16:9 works best). Shown on tablets and computers."
+          otherLabel="mobile too"
+          slides={slides}
+          busyId={busyId}
+          onToggle={handleToggle}
+          onDelete={(s) => setPendingDelete(s)}
+          onMove={handleMove}
+          onAdded={load}
+        />
+        <DeviceSection
+          device="mobile"
+          title="Mobile Banner Images"
+          hint="Tall portrait images (9:16 works best). Shown on phones."
+          otherLabel="desktop too"
+          slides={slides}
+          busyId={busyId}
+          onToggle={handleToggle}
+          onDelete={(s) => setPendingDelete(s)}
+          onMove={handleMove}
+          onAdded={load}
+        />
+      </div>
 
       {pendingDelete && (
         <div
