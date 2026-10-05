@@ -78,7 +78,7 @@ function Simulator({
         className={
           isDesktop
             ? "overflow-hidden rounded-xl border border-slate-700 bg-slate-950 shadow-2xl"
-            : "overflow-hidden rounded-[2rem] border-[6px] border-slate-700 bg-slate-950 shadow-2xl"
+            : "relative overflow-hidden rounded-[2rem] border-[6px] border-slate-700 bg-slate-950 shadow-2xl"
         }
       >
         {isDesktop && (
@@ -95,6 +95,13 @@ function Simulator({
           <div className="flex justify-center rounded-t-[26px] bg-slate-900 py-1.5">
             <span className="h-3.5 w-16 rounded-full bg-slate-950" />
           </div>
+        )}
+        {/* Inset cover ring: paints over any sub-pixel bleed at the rounded corners. */}
+        {!isDesktop && (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-10 rounded-[2rem] shadow-[inset_0_0_0_4px_#334155]"
+          />
         )}
         <div className={`relative w-full overflow-hidden ${isDesktop ? "aspect-video" : "aspect-[390/844] rounded-b-[26px]"}`}>
           {slide ? (
