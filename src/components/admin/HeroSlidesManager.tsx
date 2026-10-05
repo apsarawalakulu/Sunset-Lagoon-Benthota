@@ -92,11 +92,11 @@ function Simulator({
           </div>
         )}
         {!isDesktop && (
-          <div className="flex justify-center bg-slate-900 py-1.5">
+          <div className="flex justify-center rounded-t-[26px] bg-slate-900 py-1.5">
             <span className="h-3.5 w-16 rounded-full bg-slate-950" />
           </div>
         )}
-        <div className={`relative w-full overflow-hidden ${isDesktop ? "aspect-video" : "aspect-[390/844]"}`}>
+        <div className={`relative w-full overflow-hidden ${isDesktop ? "aspect-video" : "aspect-[390/844] rounded-b-[26px]"}`}>
           {slide ? (
             <img src={slide.src} alt={slide.alt || "Hero preview"} className="absolute inset-0 size-full object-cover" />
           ) : (
