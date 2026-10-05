@@ -456,7 +456,7 @@ function GalleryPage() {
           </div>
           <div className="mt-12 flex flex-col justify-between gap-4 border-t border-primary-foreground/10 pt-6 text-[10px] uppercase tracking-widest text-primary-foreground/40 sm:flex-row">
             <p>© 2026 Sunset Lagoon Boat House. All rights reserved.</p>
-            <p>Bentota · Sri Lanka · <a href="/admin/login" className="underline-offset-4 hover:text-primary-foreground hover:underline">Admin Login</a></p>
+            <p>Bentota · Sri Lanka</p>
           </div>
         </div>
       </footer>

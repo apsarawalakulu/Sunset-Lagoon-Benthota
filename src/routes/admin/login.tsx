@@ -143,10 +143,6 @@ function AdminLoginPage() {
             <ArrowLeft className="h-3.5 w-3.5" />
             <span>Return to Public Website</span>
           </a>
-          <span className="flex items-center gap-1 text-slate-500 text-[11px] font-mono">
-            <ShieldCheck className="h-3.5 w-3.5 text-emerald-400" />
-            <span>Neon Postgres</span>
-          </span>
         </div>
 
         {/* Card */}
