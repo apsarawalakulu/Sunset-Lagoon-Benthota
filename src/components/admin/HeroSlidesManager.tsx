@@ -108,6 +108,25 @@ function Simulator({
   );
 }
 
+function verifyImageUrl(src: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const timer = window.setTimeout(
+      () => reject(new Error("Upload finished, but the image could not be verified. Please try again.")),
+      20000
+    );
+    img.onload = () => {
+      window.clearTimeout(timer);
+      resolve();
+    };
+    img.onerror = () => {
+      window.clearTimeout(timer);
+      reject(new Error("Upload finished, but the image could not be verified. Please try again."));
+    };
+    img.src = src;
+  });
+}
+
 function AddSlideForm({
   device,
   onAdded,
@@ -119,38 +138,66 @@ function AddSlideForm({
   const [url, setUrl] = useState("");
   const [alt, setAlt] = useState("");
   const [saving, setSaving] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [progress, setProgress] = useState<number | null>(null);
+  const [status, setStatus] = useState<{ kind: "success" | "error"; text: string } | null>(null);
+  const [fileKey, setFileKey] = useState(0);
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
+    setStatus(null);
     try {
       let src = url.trim();
       if (file) {
         setSaving(true);
-        const uploaded = await uploadToCloudinary(file);
+        setProgress(0);
+        const uploaded = await uploadToCloudinary(file, (pct) => setProgress(pct));
+        setProgress(100);
+        // First verify the uploaded file actually serves before saving the slide.
+        await verifyImageUrl(uploaded.url);
         src = uploaded.url;
       }
       if (!src) {
-        setError("Choose a file or paste an image URL.");
+        setStatus({ kind: "error", text: "Choose a file or paste an image URL." });
         return;
       }
-      setSaving(true);
+      if (!file) {
+        // Pasted URLs are verified too, so broken links never reach the website.
+        setSaving(true);
+        await verifyImageUrl(src);
+      }
       await heroApi.save(null, { device, src, alt: alt.trim() || null, is_active: true });
       setFile(null);
       setUrl("");
       setAlt("");
+      setFileKey((k) => k + 1);
+      setStatus({ kind: "success", text: "Image uploaded, verified and added to the website." });
       onAdded();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not add slide.");
+      setStatus({ kind: "error", text: err instanceof Error ? err.message : "Could not add slide." });
     } finally {
       setSaving(false);
+      setProgress(null);
     }
   };
 
   return (
     <form onSubmit={handleAdd} className="rounded-lg border border-dashed border-slate-700 bg-slate-950/50 p-3">
-      {error && <p className="mb-2 text-xs text-rose-300">{error}</p>}
+      {status && (
+        <p className={`mb-2 text-xs ${status.kind === "success" ? "text-emerald-300" : "text-rose-300"}`}>
+          {status.text}
+        </p>
+      )}
+      {progress !== null && (
+        <div className="mb-2 space-y-1">
+          <div className="flex justify-between text-[11px] text-slate-400">
+            <span>Uploading image...</span>
+            <span>{progress}%</span>
+          </div>
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-slate-800">
+            <div className="h-full bg-amber-500 transition-all duration-200" style={{ width: `${progress}%` }} />
+          </div>
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <label className="flex cursor-pointer items-center gap-2 rounded-md border border-slate-700 bg-slate-900 px-3 py-2 text-xs text-slate-300 hover:border-amber-500/50">
           <Upload className="size-3.5 shrink-0 text-amber-400" />
@@ -158,6 +205,7 @@ function AddSlideForm({
           <input
             type="file"
             accept="image/*"
+            key={fileKey}
             className="sr-only"
             onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           />

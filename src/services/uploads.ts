@@ -12,8 +12,12 @@ export function isUploadConfigured(): boolean {
 /**
  * Upload an image or video to Cloudinary using an unsigned upload preset.
  * Requires VITE_CLOUDINARY_CLOUD_NAME and VITE_CLOUDINARY_UPLOAD_PRESET.
+ * Reports upload progress when onProgress is provided (XMLHttpRequest).
  */
-export async function uploadToCloudinary(file: File): Promise<{ url: string; mimeType: string; size: number }> {
+export async function uploadToCloudinary(
+  file: File,
+  onProgress?: (percent: number) => void
+): Promise<{ url: string; mimeType: string; size: number }> {
   const { cloudName, preset } = getCloudinaryConfig();
   if (!cloudName || !preset) {
     throw new Error(
@@ -23,17 +27,27 @@ export async function uploadToCloudinary(file: File): Promise<{ url: string; mim
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", preset);
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`, {
-    method: "POST",
-    body: formData,
+  const json = await new Promise<{ secure_url?: string; error?: { message?: string } }>((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`);
+    if (xhr.upload && onProgress) {
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          onProgress(Math.round((event.loaded / event.total) * 100));
+        }
+      };
+    }
+    xhr.onload = () => {
+      try {
+        resolve(JSON.parse(xhr.responseText) as { secure_url?: string; error?: { message?: string } });
+      } catch {
+        reject(new Error("Upload failed. Unexpected server response."));
+      }
+    };
+    xhr.onerror = () => reject(new Error("Network error during upload."));
+    xhr.send(formData);
   });
-  let json: { secure_url?: string; error?: { message?: string } } | null = null;
-  try {
-    json = (await res.json()) as { secure_url?: string; error?: { message?: string } };
-  } catch {
-    json = null;
-  }
-  if (!res.ok || !json?.secure_url) {
+  if (!json?.secure_url) {
     throw new Error(json?.error?.message || "Upload failed. Check your Cloudinary preset settings.");
   }
   return { url: json.secure_url, mimeType: file.type || "", size: file.size || 0 };
