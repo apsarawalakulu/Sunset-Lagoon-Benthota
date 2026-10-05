@@ -318,6 +318,7 @@ export function HeroSlidesManager() {
   const [slides, setSlides] = useState<HeroSlide[]>([]);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [pendingDelete, setPendingDelete] = useState<HeroSlide | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
@@ -355,11 +356,13 @@ export function HeroSlidesManager() {
     }
   };
 
-  const handleDelete = async (s: HeroSlide) => {
-    if (!window.confirm("Delete this hero slide? The website falls back to built-in images if none remain.")) return;
-    setBusyId(s.id);
+  const handleDelete = async () => {
+    if (!pendingDelete) return;
+    const id = pendingDelete.id;
+    setPendingDelete(null);
+    setBusyId(id);
     try {
-      await heroApi.remove(s.id);
+      await heroApi.remove(id);
       flash("Slide deleted.");
       await load();
     } catch (err) {
@@ -435,7 +438,7 @@ export function HeroSlidesManager() {
               slides={slides}
               busyId={busyId}
               onToggle={handleToggle}
-              onDelete={handleDelete}
+              onDelete={(s) => setPendingDelete(s)}
               onMove={handleMove}
             />
           </div>
@@ -444,6 +447,55 @@ export function HeroSlidesManager() {
           </div>
         </section>
       ))}
+
+      {pendingDelete && (
+        <div
+          className="fixed inset-0 z-[70] grid place-items-center bg-slate-950/80 p-4 backdrop-blur-xs"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Delete hero slide"
+          onClick={() => setPendingDelete(null)}
+        >
+          <div
+            className="w-full max-w-sm rounded-2xl border border-slate-700 bg-slate-900 p-5 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3">
+              <img
+                src={pendingDelete.src}
+                alt=""
+                className="size-14 shrink-0 rounded-lg object-cover"
+              />
+              <div className="min-w-0">
+                <h3 className="font-serif text-lg text-slate-100">Delete this slide?</h3>
+                <p className="truncate text-xs text-slate-400">
+                  {pendingDelete.alt || pendingDelete.src}
+                </p>
+              </div>
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-slate-400">
+              It will disappear from the website rotation immediately. If no
+              slides remain, the website falls back to built-in images.
+            </p>
+            <div className="mt-5 flex justify-end gap-2">
+              <button
+                type="button"
+                onClick={() => setPendingDelete(null)}
+                className="rounded-lg border border-slate-700 px-4 py-2 text-xs font-semibold text-slate-300 hover:bg-slate-800"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="rounded-lg bg-rose-600 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white hover:bg-rose-500"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
