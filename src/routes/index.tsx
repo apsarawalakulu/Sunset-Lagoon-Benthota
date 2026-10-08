@@ -2,12 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 import { HomePage } from "@/components/HomePage";
 import { listApprovedReviewsFn } from "../backend/public";
 import {
-  DEFAULT_DESCRIPTION,
-  DEFAULT_TITLE,
-  OG_IMAGE,
-  SITE_URL,
-  absoluteUrl,
   businessJsonLd,
+  organizationJsonLd,
+  pageMeta,
+  websiteJsonLd,
 } from "@/lib/seo";
 
 export const Route = createFileRoute("/")({
@@ -25,26 +23,13 @@ export const Route = createFileRoute("/")({
       return { reviewCount: 0, ratingValue: 0 };
     }
   },
-  head: () => ({
-    meta: [
-      { title: DEFAULT_TITLE },
-      { name: "description", content: DEFAULT_DESCRIPTION },
-      { property: "og:title", content: DEFAULT_TITLE },
-      { property: "og:description", content: DEFAULT_DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: SITE_URL },
-      { property: "og:image", content: OG_IMAGE.url },
-      { property: "og:image:width", content: String(OG_IMAGE.width) },
-      { property: "og:image:height", content: String(OG_IMAGE.height) },
-      { property: "og:image:alt", content: OG_IMAGE.alt },
-      { property: "og:locale", content: "en_US" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: DEFAULT_TITLE },
-      { name: "twitter:description", content: DEFAULT_DESCRIPTION },
-      { name: "twitter:image", content: OG_IMAGE.url },
-    ],
-    links: [{ rel: "canonical", href: absoluteUrl("/") }],
-  }),
+  head: () =>
+    pageMeta({
+      title: "Sunset Lagoon Boat Safari Bentota | River & Mangrove Tours",
+      description:
+        "Explore the Bentota River with Sunset Lagoon Boat House. Discover mangroves, wildlife and peaceful waterways on an unforgettable boat safari in Sri Lanka.",
+      path: "/",
+    }),
   component: IndexPage,
 });
 
@@ -60,6 +45,14 @@ function IndexPage() {
           }}
         />
       )}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd()) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd()) }}
+      />
       <HomePage />
     </>
   );

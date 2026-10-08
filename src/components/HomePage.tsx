@@ -6,6 +6,7 @@ import { FlipFadeText } from "@/components/ui/flip-fade-text";
 import TextAnimation from "@/components/ui/staggerText";
 import { experiences } from "@/data/experiences";
 import { getWhatsAppUrl, heroSlides, heroSlidesMobile, images, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_URL, LOGO_URL, siteConfig } from "@/data/siteConfig";
+import { optimizedImage } from "@/lib/seo";
 import { mediaApi, type MediaItem, type SectionsMediaMap } from "@/services/mediaApi";
 
 import { useHeroSlides, useSiteSettings } from "@/hooks/useApiData";
@@ -14,6 +15,7 @@ import { BookingModal } from "./BookingModal";
 import { ContactForm } from "./ContactForm";
 import { ImageScatter } from "./ui/image-scatter";
 import { Reveal } from "./Reveal";
+import { FaqSection } from "./FaqSection";
 import { ReviewsSection } from "./ReviewsSection";
 import { SiteNavbar } from "./SiteNavbar";
 
@@ -174,7 +176,7 @@ export function HomePage() {
           <div className="lg:col-span-5">
             <div className="aspect-[4/5] overflow-hidden">
               <img
-                src={sectionsMedia?.about?.url || images.introduction.src}
+                src={optimizedImage(sectionsMedia?.about?.url || images.introduction.src, 900)}
                 alt={sectionsMedia?.about?.title || images.introduction.alt}
                 width={images.introduction.width}
                 height={images.introduction.height}
@@ -230,13 +232,19 @@ export function HomePage() {
                   : index === 2
                   ? experience3Title
                   : experience.title;
+              const detailHref =
+                index === 0
+                  ? "/river-safari-bentota"
+                  : index === 1
+                    ? "/mangrove-safari-bentota"
+                    : "/boat-safari-bentota";
 
               return (
                 <Reveal key={experience.id} delay={index * 0.12}>
                   <article className={`group ${index === 1 ? "md:mt-14" : ""}`}>
                     <div className={`overflow-hidden bg-muted ${index === 1 ? "aspect-[4/5]" : "aspect-[4/5] md:aspect-[3/4]"}`}>
                       <img
-                        src={expSrc}
+                        src={optimizedImage(expSrc, 800)}
                         alt={expAlt}
                         width={experience.image.width}
                         height={experience.image.height}
@@ -248,7 +256,7 @@ export function HomePage() {
                       <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-accent-strong">0{index + 1} · {experience.category}</p>
                       <h3 className="mt-3 font-serif text-3xl font-light tracking-tight">{expCardTitle}</h3>
                       <p className="mt-3 text-sm leading-7 text-muted-foreground">{experience.description}</p>
-                      <a href="#contact" className="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+                      <a href={detailHref} className="mt-5 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
                         Explore <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" />
                       </a>
                     </div>
@@ -262,7 +270,7 @@ export function HomePage() {
 
       <section id="story" className="relative min-h-[70vh] overflow-hidden py-28 text-primary-foreground sm:py-40">
         <img
-          src={sectionsMedia?.story?.url || images.story.src}
+          src={optimizedImage(sectionsMedia?.story?.url || images.story.src, 1600)}
           alt={sectionsMedia?.story?.title || images.story.alt}
           width={images.story.width}
           height={images.story.height}
@@ -287,7 +295,7 @@ export function HomePage() {
           <div className="relative">
             <div className="aspect-[4/5] overflow-hidden">
               <img
-                src={sectionsMedia?.wildlife?.url || images.wildlife.src}
+                src={optimizedImage(sectionsMedia?.wildlife?.url || images.wildlife.src, 800)}
                 alt={sectionsMedia?.wildlife?.title || images.wildlife.alt}
                 width={images.wildlife.width}
                 height={images.wildlife.height}
@@ -329,6 +337,8 @@ export function HomePage() {
 
       <ReviewsSection />
 
+      <FaqSection />
+
       <section className="section-pad bg-sand"><div className="mx-auto grid max-w-7xl gap-10 px-5 sm:px-8 lg:grid-cols-[1fr_1.2fr] lg:gap-24"><SectionTitle eyebrow="Our story" title={aboutTitle} /><div><p className="font-serif text-2xl font-light leading-relaxed text-foreground sm:text-3xl">A love for this river shapes everything we do — from the first push off the dock to the last light on the water.</p><p className="mt-6 max-w-2xl text-base leading-8 text-muted-foreground">{aboutDescription}</p></div></div></section>
 
       <section id="location" className="scroll-mt-20 bg-background"><div className="grid min-h-[580px] lg:grid-cols-2"><div className="section-pad flex items-center px-5 sm:px-12 lg:px-[max(3rem,calc((100vw-80rem)/2))]"><div><SectionTitle eyebrow="Come to the river" title="Find Us in Bentota" /><div className="mt-8 flex items-start gap-3"><MapPin className="mt-1 size-5 text-accent-strong" /><div><p className="font-semibold">{location}</p><p className="mt-2 max-w-md text-sm leading-7 text-muted-foreground">Find our dock on the Bentota River — tap below for turn-by-turn directions.</p></div></div><Button asChild variant="forest" size="lg" className="mt-8"><a href={mapsUrl} target="_blank" rel="noopener noreferrer">Get directions</a></Button></div></div><div className="min-h-96 border-l border-border lg:min-h-full"><iframe title="Map to Sunset Lagoon Boat House dock" src={GOOGLE_MAPS_EMBED_URL} loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="size-full min-h-96 border-0 lg:min-h-[580px]" /></div></div></section>
@@ -369,7 +379,7 @@ export function HomePage() {
         </div>
       </section>
     </main>
-    <footer className="border-t border-primary-foreground/10 bg-foreground px-5 py-12 text-primary-foreground sm:px-8"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[1fr_2fr]"><div><img src={logoUrl} alt={`${businessName} logo`} width={96} height={96} loading="lazy" className="mb-5 size-24 object-contain" /><p className="flex items-baseline gap-2"><span className="font-brand text-4xl leading-[1.15]">Sunset</span><span className="text-3xl font-bold uppercase tracking-[0.06em]">Lagoon</span></p><p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-primary-foreground/50">Boat House · Bentota</p><p className="mt-5 max-w-xs text-sm text-primary-foreground/60">{footerText}</p></div><nav className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-end sm:gap-6" aria-label="Footer navigation">{siteConfig.navigation.map((item) => <a key={item.href} href={item.href} className="text-[10px] font-bold uppercase tracking-widest text-primary-foreground/60 hover:text-primary-foreground">{item.label}</a>)}</nav></div><div className="mt-12 flex flex-col justify-between gap-4 border-t border-primary-foreground/10 pt-6 text-[10px] uppercase tracking-widest text-primary-foreground/40 sm:flex-row"><p>© 2026 {businessName}. All rights reserved.</p><p>Bentota · Sri Lanka</p></div></div></footer>
+    <footer className="border-t border-primary-foreground/10 bg-foreground px-5 py-12 text-primary-foreground sm:px-8"><div className="mx-auto max-w-7xl"><div className="grid gap-10 lg:grid-cols-[1fr_2fr]"><div><img src={logoUrl} alt={`${businessName} logo`} width={96} height={96} loading="lazy" className="mb-5 size-24 object-contain" /><p className="flex items-baseline gap-2"><span className="font-brand text-4xl leading-[1.15]">Sunset</span><span className="text-3xl font-bold uppercase tracking-[0.06em]">Lagoon</span></p><p className="mt-1 text-[9px] uppercase tracking-[0.24em] text-primary-foreground/50">Boat House · Bentota</p><p className="mt-5 max-w-xs text-sm text-primary-foreground/60">{footerText}</p></div><nav className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:justify-end sm:gap-6" aria-label="Footer navigation">{siteConfig.navigation.map((item) => <a key={item.href} href={item.href} className="text-[10px] font-bold uppercase tracking-widest text-primary-foreground/60 hover:text-primary-foreground">{item.label}</a>)}</nav></div><nav className="mt-6 flex flex-wrap gap-x-5 gap-y-2" aria-label="Popular safaris"><a href="/boat-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">Bentota Boat Safari</a><a href="/river-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">River Safari</a><a href="/mangrove-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">Mangrove Safari</a></nav><div className="mt-12 flex flex-col justify-between gap-4 border-t border-primary-foreground/10 pt-6 text-[10px] uppercase tracking-widest text-primary-foreground/40 sm:flex-row"><p>© 2026 {businessName}. All rights reserved.</p><p>Bentota · Sri Lanka</p></div></div></footer>
     <BookingModal
       open={isBookingModalOpen}
       onOpenChange={setIsBookingModalOpen}

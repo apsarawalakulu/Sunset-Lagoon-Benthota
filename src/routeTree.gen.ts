@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BoatSafariBentotaRouteImport } from './routes/boat-safari-bentota'
 import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as MangroveSafariBentotaRouteImport } from './routes/mangrove-safari-bentota'
+import { Route as RiverSafariBentotaRouteImport } from './routes/river-safari-bentota'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin/analytics'
 import { Route as AdminBoatsRouteImport } from './routes/admin/boats'
 import { Route as AdminBookingsRouteImport } from './routes/admin/bookings'
@@ -29,9 +32,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BoatSafariBentotaRoute = BoatSafariBentotaRouteImport.update({
+  id: '/boat-safari-bentota',
+  path: '/boat-safari-bentota',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const GalleryRoute = GalleryRouteImport.update({
   id: '/gallery',
   path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MangroveSafariBentotaRoute = MangroveSafariBentotaRouteImport.update({
+  id: '/mangrove-safari-bentota',
+  path: '/mangrove-safari-bentota',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RiverSafariBentotaRoute = RiverSafariBentotaRouteImport.update({
+  id: '/river-safari-bentota',
+  path: '/river-safari-bentota',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
@@ -97,7 +115,10 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/boat-safari-bentota': typeof BoatSafariBentotaRoute
   '/gallery': typeof GalleryRoute
+  '/mangrove-safari-bentota': typeof MangroveSafariBentotaRoute
+  '/river-safari-bentota': typeof RiverSafariBentotaRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/boats': typeof AdminBoatsRoute
   '/admin/bookings': typeof AdminBookingsRoute
@@ -113,7 +134,10 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/boat-safari-bentota': typeof BoatSafariBentotaRoute
   '/gallery': typeof GalleryRoute
+  '/mangrove-safari-bentota': typeof MangroveSafariBentotaRoute
+  '/river-safari-bentota': typeof RiverSafariBentotaRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/boats': typeof AdminBoatsRoute
   '/admin/bookings': typeof AdminBookingsRoute
@@ -130,7 +154,10 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/boat-safari-bentota': typeof BoatSafariBentotaRoute
   '/gallery': typeof GalleryRoute
+  '/mangrove-safari-bentota': typeof MangroveSafariBentotaRoute
+  '/river-safari-bentota': typeof RiverSafariBentotaRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/boats': typeof AdminBoatsRoute
   '/admin/bookings': typeof AdminBookingsRoute
@@ -148,7 +175,10 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/boat-safari-bentota'
     | '/gallery'
+    | '/mangrove-safari-bentota'
+    | '/river-safari-bentota'
     | '/admin/analytics'
     | '/admin/boats'
     | '/admin/bookings'
@@ -164,7 +194,10 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/boat-safari-bentota'
     | '/gallery'
+    | '/mangrove-safari-bentota'
+    | '/river-safari-bentota'
     | '/admin/analytics'
     | '/admin/boats'
     | '/admin/bookings'
@@ -180,7 +213,10 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/boat-safari-bentota'
     | '/gallery'
+    | '/mangrove-safari-bentota'
+    | '/river-safari-bentota'
     | '/admin/analytics'
     | '/admin/boats'
     | '/admin/bookings'
@@ -197,7 +233,10 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BoatSafariBentotaRoute: typeof BoatSafariBentotaRoute
   GalleryRoute: typeof GalleryRoute
+  MangroveSafariBentotaRoute: typeof MangroveSafariBentotaRoute
+  RiverSafariBentotaRoute: typeof RiverSafariBentotaRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminBoatsRoute: typeof AdminBoatsRoute
   AdminBookingsRoute: typeof AdminBookingsRoute
@@ -221,11 +260,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/boat-safari-bentota': {
+      id: '/boat-safari-bentota'
+      path: '/boat-safari-bentota'
+      fullPath: '/boat-safari-bentota'
+      preLoaderRoute: typeof BoatSafariBentotaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/gallery': {
       id: '/gallery'
       path: '/gallery'
       fullPath: '/gallery'
       preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mangrove-safari-bentota': {
+      id: '/mangrove-safari-bentota'
+      path: '/mangrove-safari-bentota'
+      fullPath: '/mangrove-safari-bentota'
+      preLoaderRoute: typeof MangroveSafariBentotaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/river-safari-bentota': {
+      id: '/river-safari-bentota'
+      path: '/river-safari-bentota'
+      fullPath: '/river-safari-bentota'
+      preLoaderRoute: typeof RiverSafariBentotaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/analytics': {
@@ -317,7 +377,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BoatSafariBentotaRoute: BoatSafariBentotaRoute,
   GalleryRoute: GalleryRoute,
+  MangroveSafariBentotaRoute: MangroveSafariBentotaRoute,
+  RiverSafariBentotaRoute: RiverSafariBentotaRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminBoatsRoute: AdminBoatsRoute,
   AdminBookingsRoute: AdminBookingsRoute,

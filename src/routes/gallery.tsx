@@ -6,6 +6,7 @@ import { SiteNavbar } from "@/components/SiteNavbar";
 import { galleryImages } from "@/data/gallery";
 import { LOGO_URL, siteConfig } from "@/data/siteConfig";
 import { displayMediaTitle } from "@/lib/media";
+import { breadcrumbJsonLd } from "@/lib/seo";
 import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
 import { useSiteSettings } from "@/hooks/useApiData";
 import { isApiConnected } from "@/services/api";
@@ -137,6 +138,17 @@ function GalleryPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(
+            breadcrumbJsonLd([
+              { name: "Home", path: "/" },
+              { name: "Gallery", path: "/gallery" },
+            ])
+          ),
+        }}
+      />
       <SiteNavbar onOpenBooking={() => setIsBookingModalOpen(true)} />
 
       {/* Hero Header */}
@@ -149,6 +161,19 @@ function GalleryPage() {
           >
             <ArrowLeft className="size-4" /> Back to Home
           </Link>
+          <nav aria-label="Breadcrumb" className="mb-6">
+            <ol className="flex flex-wrap items-center gap-2 text-[11px] font-bold uppercase tracking-[0.2em] text-primary-foreground/50">
+              <li>
+                <Link to="/" className="transition-colors hover:text-primary-foreground">
+                  Home
+                </Link>
+              </li>
+              <li aria-hidden="true">/</li>
+              <li aria-current="page" className="text-accent">
+                Gallery
+              </li>
+            </ol>
+          </nav>
 
           <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-accent mb-3">
             Visual Field Notes
@@ -454,6 +479,11 @@ function GalleryPage() {
               ))}
             </nav>
           </div>
+          <nav className="mt-6 flex flex-wrap gap-x-5 gap-y-2" aria-label="Popular safaris">
+            <a href="/boat-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">Bentota Boat Safari</a>
+            <a href="/river-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">River Safari</a>
+            <a href="/mangrove-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">Mangrove Safari</a>
+          </nav>
           <div className="mt-12 flex flex-col justify-between gap-4 border-t border-primary-foreground/10 pt-6 text-[10px] uppercase tracking-widest text-primary-foreground/40 sm:flex-row">
             <p>© 2026 Sunset Lagoon Boat House. All rights reserved.</p>
             <p>Bentota · Sri Lanka</p>
