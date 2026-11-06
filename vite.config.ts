@@ -6,6 +6,13 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+// The Lovable preset defaults nitro to cloudflare-module, so a plain Vercel
+// build would emit a Cloudflare Worker bundle. Opt into the Vercel preset
+// whenever Vercel runs the build (an explicit NITRO_PRESET still wins).
+if (process.env["VERCEL"] && !process.env["NITRO_PRESET"]) {
+  process.env["NITRO_PRESET"] = "vercel";
+}
+
 export default defineConfig({
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
