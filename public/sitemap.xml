@@ -1,28 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://sunsetlagoon.boats/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://www.sunsetlagoon.boats/</loc>
+    <lastmod>2026-11-06</lastmod>
+    <image:image>
+      <image:loc>https://www.sunsetlagoon.boats/animals/animal-1.jpeg</image:loc>
+      <image:title>Wildlife along the Bentota River in Sri Lanka</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.sunsetlagoon.boats/animals/animal-5.jpeg</image:loc>
+      <image:title>River wildlife seen on a Bentota boat safari</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://sunsetlagoon.boats/boat-safari-bentota</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://www.sunsetlagoon.boats/boat-safari-bentota</loc>
+    <lastmod>2026-11-06</lastmod>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/qegkbvkj/image/upload/f_auto,q_auto,c_limit,w_1600/v1789443978/uovpp573cg7cj0z3kxhv.webp</image:loc>
+      <image:title>Boat safari on the Bentota River at sunset, Sri Lanka</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://sunsetlagoon.boats/river-safari-bentota</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://www.sunsetlagoon.boats/river-safari-bentota</loc>
+    <lastmod>2026-11-06</lastmod>
+    <image:image>
+      <image:loc>https://www.sunsetlagoon.boats/hero/hero-bentota-safari-opt.jpg</image:loc>
+      <image:title>Safari boat crossing the Bentota River at golden hour</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://sunsetlagoon.boats/mangrove-safari-bentota</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://www.sunsetlagoon.boats/mangrove-safari-bentota</loc>
+    <lastmod>2026-11-06</lastmod>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/qegkbvkj/image/upload/f_auto,q_auto,c_limit,w_1600/v1789443980/WhatsApp_Image_2026-09-14_at_23.58.09.jpg</image:loc>
+      <image:title>Mangrove canopy above the Bentota River, Sri Lanka</image:title>
+    </image:image>
   </url>
   <url>
-    <loc>https://sunsetlagoon.boats/gallery</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://www.sunsetlagoon.boats/gallery</loc>
+    <lastmod>2026-11-06</lastmod>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/qegkbvkj/image/upload/v1790518218/w1enwoyjm2ztj30oyc3j.jpg</image:loc>
+      <image:title>Bentota River boat safari photo from our gallery</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://res.cloudinary.com/qegkbvkj/image/upload/v1791189218/gqgxjuuqcfgebn0dlxeq.jpg</image:loc>
+      <image:title>Mangrove and river scenery near Bentota, Sri Lanka</image:title>
+    </image:image>
   </url>
 </urlset>

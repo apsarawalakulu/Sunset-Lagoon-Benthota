@@ -132,7 +132,7 @@ function Simulator({
                   isDesktop ? "text-3xl" : "text-lg leading-tight"
                 }`}
               >
-                Discover the Hidden Beauty of Bentota
+                Boat Safari in Bentota, Sri Lanka
               </p>
               <div className={`mt-3 flex gap-2 ${isDesktop ? "" : "flex-col items-center"}`}>
                 <span

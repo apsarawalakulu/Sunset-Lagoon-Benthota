@@ -1,16 +1,49 @@
+# Sunset Lagoon Boat House — https://www.sunsetlagoon.boats
+# Everyone may crawl the public site. Only the admin area is private.
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+
+# Search engines
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
 
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /admin
+
+# AI search and citation crawlers
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+
+User-agent: Claude-SearchBot
+Allow: /
+Disallow: /admin
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+
+User-agent: Google-Extended
+Allow: /
+
+# Social previews
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
-Allow: /
-
-Sitemap: https://sunsetlagoon.boats/sitemap.xml
+Sitemap: https://www.sunsetlagoon.boats/sitemap.xml

@@ -9,6 +9,7 @@ import {
   LandingSection,
   LandingFooter,
   RelatedSafaris,
+  LandingServiceJsonLd,
 } from "@/components/landing";
 import { images } from "@/data/siteConfig";
 import { optimizedImage, pageMeta } from "@/lib/seo";
@@ -59,6 +60,11 @@ function BoatSafariPage() {
               { name: "Bentota Boat Safari", path: "/boat-safari-bentota" },
             ]}
           />
+          <LandingServiceJsonLd
+            name="Bentota Boat Safari"
+            description="Guided boat safaris on the Bentota River through mangroves, lagoons and riverside villages in Sri Lanka."
+            path="/boat-safari-bentota"
+          />
           <LandingHero
             eyebrow="Bentota · Sri Lanka"
             title="Bentota Boat Safari with Sunset Lagoon"
@@ -83,6 +89,11 @@ function BoatSafariPage() {
             </a>
             , and slow wildlife watching wherever the river decides. All departures leave from
             our Bentota dock with a local crew.
+          </p>
+          <p>
+            Staying near Bentota in Aluthgama, Beruwala, Kosgoda or Ahungalla? Our dock is a
+            short drive from the south-coast resorts, and every safari starts on the Bentota
+            River itself.
           </p>
           <LandingList
             items={[

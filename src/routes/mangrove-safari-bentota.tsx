@@ -9,6 +9,7 @@ import {
   LandingSection,
   LandingFooter,
   RelatedSafaris,
+  LandingServiceJsonLd,
 } from "@/components/landing";
 import { images } from "@/data/siteConfig";
 import { optimizedImage, pageMeta } from "@/lib/seo";
@@ -58,6 +59,11 @@ function MangroveSafariPage() {
               { name: "Home", path: "/" },
               { name: "Bentota Mangrove Safari", path: "/mangrove-safari-bentota" },
             ]}
+          />
+          <LandingServiceJsonLd
+            name="Bentota Mangrove Safari"
+            description="A slow boat safari through the mangrove tunnels and birdlife-rich channels of the Bentota River in Sri Lanka."
+            path="/mangrove-safari-bentota"
           />
           <LandingHero
             eyebrow="Tunnels · Roots · Birdlife"

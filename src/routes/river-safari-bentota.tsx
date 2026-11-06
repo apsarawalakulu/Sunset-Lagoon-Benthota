@@ -9,6 +9,7 @@ import {
   LandingSection,
   LandingFooter,
   RelatedSafaris,
+  LandingServiceJsonLd,
 } from "@/components/landing";
 import { optimizedImage, pageMeta } from "@/lib/seo";
 
@@ -58,12 +59,17 @@ function RiverSafariPage() {
               { name: "Bentota River Safari", path: "/river-safari-bentota" },
             ]}
           />
+          <LandingServiceJsonLd
+            name="Bentota River Safari"
+            description="A guided boat tour on the Bentota River past open lagoon water, riverside villages and a riverside temple in Sri Lanka."
+            path="/river-safari-bentota"
+          />
           <LandingHero
             eyebrow="Open water · Villages · Temples"
             title="Bentota River Safari"
             intro="The classic way to meet the river: open lagoon crossings, village waterfronts and a riverside temple, wrapped in golden morning or evening light."
             image={{
-              src: "/hero/hero-bentota-safari.jpg",
+              src: "/hero/hero-bentota-safari-opt.jpg",
               alt: "Safari boat crossing the Bentota River at golden hour",
             }}
           />

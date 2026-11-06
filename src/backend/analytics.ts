@@ -85,7 +85,7 @@ export const trackPageViewFn = createServerFn({ method: "POST" })
     return { success: true };
   });
 
-const SELF_HOSTS = ["localhost", "127.0.0.1", "sunsetlagoon.boats"];
+const SELF_HOSTS = ["localhost", "127.0.0.1", "sunsetlagoon.boats", "www.sunsetlagoon.boats"];
 
 export const analyticsOverviewFn = createServerFn({ method: "GET" })
   .inputValidator((d: { token: string; days?: number | undefined }) => d)

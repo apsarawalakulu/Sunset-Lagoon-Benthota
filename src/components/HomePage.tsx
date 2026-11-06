@@ -8,6 +8,7 @@ import { experiences } from "@/data/experiences";
 import { getWhatsAppUrl, heroSlides, heroSlidesMobile, images, GOOGLE_MAPS_EMBED_URL, GOOGLE_MAPS_URL, LOGO_URL, siteConfig } from "@/data/siteConfig";
 import { optimizedImage } from "@/lib/seo";
 import { mediaApi, type MediaItem, type SectionsMediaMap } from "@/services/mediaApi";
+import type { ReviewData } from "@/services/api";
 
 import { useHeroSlides, useSiteSettings } from "@/hooks/useApiData";
 import { Link } from "@tanstack/react-router";
@@ -22,6 +23,23 @@ import { SiteNavbar } from "./SiteNavbar";
 function Eyebrow({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
   return <p className={`mb-5 text-[11px] font-bold uppercase tracking-[0.28em] ${light ? "text-accent" : "text-accent-strong"}`}>{children}</p>;
 }
+
+/**
+ * Settings seeded before launch contain placeholder strings such as
+ * "To be confirmed". Treat those as unset so the verified defaults win.
+ */
+const PLACEHOLDER = /^(to be confirmed|tbc|n\/?a|none|—|-)$/i;
+function clean(value?: string | null): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed && !PLACEHOLDER.test(trimmed) ? trimmed : undefined;
+}
+
+// The seeded hero copy predates the SEO rewrite. Treat the exact old default
+// as "not customised" so the keyword-led H1 reaches deployed sites without
+// overwriting any genuinely custom text.
+const LEGACY_HERO_TITLE = "Discover the Hidden Beauty of Bentota";
+const LEGACY_HERO_SUBTITLE =
+  "Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.";
 
 function SectionTitle({ eyebrow, title, intro, light = false }: { eyebrow: string; title: string; intro?: string; light?: boolean }) {
   return <div className="max-w-3xl"><Eyebrow light={light}>{eyebrow}</Eyebrow><h2 className={`font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl lg:text-6xl ${light ? "text-primary-foreground" : "text-foreground"}`}><TextAnimation>{title}</TextAnimation></h2>{intro && <Reveal delay={0.15}><p className={`mt-6 max-w-2xl text-base leading-8 ${light ? "text-primary-foreground/70" : "text-muted-foreground"}`}>{intro}</p></Reveal>}</div>;
@@ -52,24 +70,40 @@ function HeroSlideshow() {
     };
   }, []);
 
-  const desktopIndex = activeSlide % desktopSlides.length;
-  const mobileIndex = activeSlide % mobileSlides.length;
+  const total = Math.max(desktopSlides.length, mobileSlides.length);
+  // Render the current frame plus the next one only. Each frame carries a
+  // desktop <source> and a mobile <img>, so a phone never downloads the wide
+  // desktop files (and vice versa), and the extra frames are not fetched.
+  const frames = total > 1 ? [activeSlide, activeSlide + 1] : [activeSlide];
 
-  return <>
-    <div className="absolute inset-0 hidden md:block" aria-hidden="true">
-      {desktopSlides.map((media, index) => (
-        <img key={media.src} src={media.src} alt="" width={"width" in media ? media.width : undefined} height={"height" in media ? media.height : undefined} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === desktopIndex ? "is-active" : ""}`} />
-      ))}
-    </div>
-    <div className="absolute inset-0 md:hidden" aria-hidden="true">
-      {mobileSlides.map((media, index) => (
-        <img key={media.src} src={media.src} alt="" width={"width" in media ? media.width : undefined} height={"height" in media ? media.height : undefined} fetchPriority={index === 0 ? "high" : "auto"} className={`hero-slide absolute inset-0 size-full object-cover object-center ${index === mobileIndex ? "is-active" : ""}`} />
-      ))}
-    </div>
-  </>;
+  return (
+    <>
+      {frames.map((frame) => {
+        const desktop = desktopSlides[frame % desktopSlides.length];
+        const mobile = mobileSlides[frame % mobileSlides.length];
+        if (!desktop || !mobile) return null;
+        const isActive = frame === activeSlide;
+        return (
+          <picture key={frame}>
+            <source media="(min-width: 768px)" srcSet={desktop.src} />
+            <img
+              src={mobile.src}
+              alt=""
+              width={"width" in mobile ? mobile.width : undefined}
+              height={"height" in mobile ? mobile.height : undefined}
+              loading="eager"
+              decoding="async"
+              fetchPriority={isActive ? "high" : "low"}
+              className={`hero-slide absolute inset-0 size-full object-cover object-center ${isActive ? "is-active" : ""}`}
+            />
+          </picture>
+        );
+      })}
+    </>
+  );
 }
 
-export function HomePage() {
+export function HomePage({ initialReviews = [] }: { initialReviews?: ReviewData[] }) {
   const { data: liveSettings } = useSiteSettings();
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [bookingExperienceId, setBookingExperienceId] = useState<string | null>(null);
@@ -78,8 +112,14 @@ export function HomePage() {
 
   const businessName = liveSettings?.business_name || siteConfig.fullName;
   const logoUrl = liveSettings?.logo_url || LOGO_URL;
-  const heroTitle = liveSettings?.hero_title || "Discover the Hidden Beauty of Bentota";
-  const heroSubtitle = liveSettings?.hero_subtitle || "Cruise through tranquil waters, mangrove forests and the wild beauty of Bentota with Sunset Lagoon Boat House.";
+  const heroTitle =
+    clean(liveSettings?.hero_title) && liveSettings?.hero_title !== LEGACY_HERO_TITLE
+      ? (liveSettings?.hero_title as string)
+      : "Boat Safari in Bentota, Sri Lanka";
+  const heroSubtitle =
+    clean(liveSettings?.hero_subtitle) && liveSettings?.hero_subtitle !== LEGACY_HERO_SUBTITLE
+      ? (liveSettings?.hero_subtitle as string)
+      : "Cruise the Bentota River with Sunset Lagoon Boat House — mangrove tunnels, river wildlife and golden water on Sri Lanka's south coast.";
   const aboutTitle = liveSettings?.about_title || "Rooted in Bentota";
   const aboutDescription = liveSettings?.about_description || "Sunset Lagoon Boat House is a locally run safari operation on the Bentota River. Our boats slip through mangrove tunnels, drift past riverside villages and temples, and pause where birdlife gathers — at sunrise, when the river wakes, and at sunset, when it turns to gold. We keep our groups small, our presence on the water respectful, and our welcome warm from arrival to farewell.";
   const untamedBeautyTitle = liveSettings?.untamed_beauty_title || "An intimate escape into the untamed beauty of the river.";
@@ -94,14 +134,18 @@ export function HomePage() {
   const galleryTitle = liveSettings?.gallery_title || "Moments on the River";
   const contactTitle = liveSettings?.contact_title || "Begin the Conversation";
   const footerText = liveSettings?.footer_text || "Discover the beauty of Bentota from the water.";
-  const phone = liveSettings?.phone || siteConfig.contact.phone;
-  const whatsapp = liveSettings?.whatsapp || siteConfig.contact.whatsapp;
-  const email = liveSettings?.email || siteConfig.contact.email;
-  const location = liveSettings?.address
-    ? `${liveSettings.address}, ${liveSettings.city || "Bentota"}`
-    : siteConfig.location;
+  const phone = clean(liveSettings?.phone) || siteConfig.contact.phone;
+  const whatsapp = clean(liveSettings?.whatsapp) || siteConfig.contact.whatsapp;
+  const email = clean(liveSettings?.email) || siteConfig.contact.email;
+  const rawAddress = clean(liveSettings?.address);
+  const city = clean(liveSettings?.city);
+  const baseLocation =
+    rawAddress && city && !rawAddress.toLowerCase().includes(city.toLowerCase())
+      ? `${rawAddress}, ${city}`
+      : rawAddress || city || siteConfig.location;
+  const location = /sri lanka/i.test(baseLocation) ? baseLocation : `${baseLocation}, Sri Lanka`;
   const mapsUrl = liveSettings?.google_maps_url || GOOGLE_MAPS_URL;
-  const openingHours = liveSettings?.opening_hours || siteConfig.contact.hours;
+  const openingHours = clean(liveSettings?.opening_hours) || siteConfig.contact.hours;
   const whatsappUrl = whatsapp
     ? `https://wa.me/${whatsapp.replace(/\D/g, "")}`
     : getWhatsAppUrl();
@@ -335,7 +379,7 @@ export function HomePage() {
           </Link>
         </div></div></div></section>
 
-      <ReviewsSection />
+      <ReviewsSection initialReviews={initialReviews} />
 
       <FaqSection />
 
@@ -351,7 +395,7 @@ export function HomePage() {
             <div>
               <SectionTitle eyebrow="Plan your visit" title={contactTitle} light />
               <p className="mt-6 max-w-lg text-base leading-8 text-primary-foreground/60">
-                Tell us when you’re visiting Bentota and what kind of river experience you have in mind. Contact details will appear here once confirmed.
+                Tell us when you’re visiting Bentota and what kind of river experience you have in mind. We’ll reply on WhatsApp or email to confirm your boat, departure time and meeting point.
               </p>
               <Button asChild variant="gold" size="lg" className="mt-9 px-10 tracking-[0.3em]">
                 <a href={whatsappUrl}><MessageCircle /> Chat on WhatsApp</a>

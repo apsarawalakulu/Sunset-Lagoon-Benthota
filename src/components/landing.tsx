@@ -4,7 +4,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookingModal } from "@/components/BookingModal";
 import { Reveal } from "@/components/Reveal";
-import { breadcrumbJsonLd, faqJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/seo";
 import { LOGO_URL, siteConfig } from "@/data/siteConfig";
 import type { Faq } from "@/components/FaqSection";
 
@@ -58,7 +58,16 @@ export function LandingHero({
         {intro}
       </p>
       <div className="mx-auto mt-10 aspect-[21/9] max-w-4xl overflow-hidden rounded-xl">
-        <img src={image.src} alt={image.alt} loading="eager" className="size-full object-cover" />
+        <img
+          src={image.src}
+          alt={image.alt}
+          width={1200}
+          height={514}
+          loading="eager"
+          decoding="async"
+          fetchPriority="high"
+          className="size-full object-cover"
+        />
       </div>
     </div>
   );
@@ -94,6 +103,25 @@ export function LandingList({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+export function LandingServiceJsonLd({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(serviceJsonLd({ name, description, path })),
+      }}
+    />
   );
 }
 

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Camera, CheckCircle2, Loader2, Send, Star } from "lucide-react";
 import { useReviews } from "@/hooks/useApiData";
 import { GOOGLE_MAPS_URL } from "@/data/siteConfig";
+import type { ReviewData } from "@/services/api";
 import { reviewApi } from "@/services/reviewApi";
 import { uploadToCloudinary } from "@/services/uploads";
 import { Reveal } from "./Reveal";
@@ -45,9 +46,11 @@ function RatingInput({ value, onChange }: { value: number; onChange: (v: number)
 const inputClass =
   "mt-1.5 w-full rounded-lg border border-input bg-background px-3 py-2.5 text-sm text-foreground placeholder-muted-foreground/60 focus:border-accent-strong focus:outline-none focus:ring-1 focus:ring-accent-strong";
 
-export function ReviewsSection() {
+export function ReviewsSection({ initialReviews = [] }: { initialReviews?: ReviewData[] }) {
   const { data: reviews } = useReviews();
-  const approved = reviews ?? [];
+  // Prefer live data once it arrives, but use the server-rendered list on the
+  // first paint so guests' words are present in the HTML.
+  const approved = reviews && reviews.length > 0 ? reviews : initialReviews;
 
   const [ref, setRef] = useState("");
   const [name, setName] = useState("");
@@ -137,7 +140,7 @@ export function ReviewsSection() {
                     </blockquote>
                     <figcaption className="mt-4 flex items-center gap-3">
                       {r.image ? (
-                        <img src={r.image} alt="" loading="lazy" className="size-10 rounded-full object-cover" />
+                        <img src={r.image} alt="" width={40} height={40} loading="lazy" decoding="async" className="size-10 rounded-full object-cover" />
                       ) : (
                         <span className="grid size-10 place-items-center rounded-full bg-primary font-serif text-lg text-primary-foreground">
                           {(r.customer_name || "G").charAt(0).toUpperCase()}

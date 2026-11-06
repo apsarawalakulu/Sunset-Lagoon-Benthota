@@ -6,44 +6,28 @@ import { SiteNavbar } from "@/components/SiteNavbar";
 import { galleryImages } from "@/data/gallery";
 import { LOGO_URL, siteConfig } from "@/data/siteConfig";
 import { displayMediaTitle } from "@/lib/media";
-import { breadcrumbJsonLd } from "@/lib/seo";
-import { OG_IMAGE, absoluteUrl } from "@/lib/seo";
+import { breadcrumbJsonLd, cloudinarySrcSet, pageMeta } from "@/lib/seo";
 import { useSiteSettings } from "@/hooks/useApiData";
 import { isApiConnected } from "@/services/api";
 import { mediaApi, type MediaItem } from "@/services/mediaApi";
+import { listPublicMediaFn } from "@/backend/public";
 
 export const Route = createFileRoute("/gallery")({
-  head: () => ({
-    meta: [
-      { title: "Gallery & River Moments | Sunset Lagoon Boat House Bentota" },
-      {
-        name: "description",
-        content:
-          "Browse our full photo and video gallery of Bentota River boat safaris, ancient mangrove tunnels, exotic wildlife, and golden lagoon sunsets.",
-      },
-      { property: "og:title", content: "Gallery & River Moments | Sunset Lagoon Boat House Bentota" },
-      {
-        property: "og:description",
-        content:
-          "Browse our full photo and video gallery of Bentota River boat safaris, ancient mangrove tunnels, exotic wildlife, and golden lagoon sunsets.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: absoluteUrl("/gallery") },
-      { property: "og:image", content: OG_IMAGE.url },
-      { property: "og:image:width", content: String(OG_IMAGE.width) },
-      { property: "og:image:height", content: String(OG_IMAGE.height) },
-      { property: "og:image:alt", content: OG_IMAGE.alt },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: "Gallery & River Moments | Sunset Lagoon Boat House Bentota" },
-      {
-        name: "twitter:description",
-        content:
-          "Browse our full photo and video gallery of Bentota River boat safaris, ancient mangrove tunnels, exotic wildlife, and golden lagoon sunsets.",
-      },
-      { name: "twitter:image", content: OG_IMAGE.url },
-    ],
-    links: [{ rel: "canonical", href: absoluteUrl("/gallery") }],
-  }),
+  head: () =>
+    pageMeta({
+      title: "Bentota Boat Safari Gallery | River & Wildlife Photos",
+      description:
+        "Browse photos and videos from our Bentota River boat safaris — mangrove tunnels, river wildlife, riverside temples and golden lagoon sunsets in Sri Lanka.",
+      path: "/gallery",
+    }),
+  loader: async () => {
+    try {
+      const items = await listPublicMediaFn({ data: {} });
+      return { media: items.length > 0 ? items : staticMediaFallback() };
+    } catch {
+      return { media: staticMediaFallback() };
+    }
+  },
   component: GalleryPage,
 });
 
@@ -71,13 +55,27 @@ function staticMediaFallback(): MediaItem[] {
   }));
 }
 
+/**
+ * Descriptive, length-bounded alt text. Media titles alone ("Wildlife",
+ * "River moment") tell a search engine nothing, so fall back through the
+ * description and finish with the location context.
+ */
+function galleryAlt(item: MediaItem): string {
+  const title = displayMediaTitle(item.title, item.category);
+  const description = item.description?.trim();
+  const base = description && description.length >= 10 ? description : title;
+  const alt = `${base} — Bentota river safari, Sri Lanka`;
+  return alt.length > 125 ? `${alt.slice(0, 122).trimEnd()}…` : alt;
+}
+
 function GalleryPage() {
+  const { media: initialMedia } = Route.useLoaderData();
   const { data: liveSettings } = useSiteSettings();
   const logoUrl = liveSettings?.logo_url || LOGO_URL;
   const businessName = liveSettings?.business_name || siteConfig.fullName;
 
-  const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [mediaItems, setMediaItems] = useState<MediaItem[]>(initialMedia);
+  const [isLoading, setIsLoading] = useState(false);
   const [typeFilter, setTypeFilter] = useState<"all" | "image" | "video">("all");
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [selected, setSelected] = useState<number | null>(null);
@@ -104,7 +102,14 @@ function GalleryPage() {
     }
   };
 
+  // The loader already supplied the full, server-rendered set. Only refetch
+  // when the visitor changes a filter, not on first paint.
+  const isFirstRender = useRef(true);
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     loadMedia();
   }, [typeFilter, categoryFilter]);
 
@@ -287,7 +292,7 @@ function GalleryPage() {
                   type="button"
                   onClick={() => setSelected(index)}
                   className="group relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-muted shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 text-left"
-                  aria-label={`Open media: ${displayMediaTitle(item.title, item.category)}`}
+                  aria-label={`Open media: ${galleryAlt(item)}`}
                 >
                   {isVideo ? (
                     <div className="relative size-full bg-black/90 flex items-center justify-center overflow-hidden">
@@ -310,8 +315,13 @@ function GalleryPage() {
                   ) : (
                     <img
                       src={item.url}
-                      alt={displayMediaTitle(item.title, item.category)}
+                      srcSet={cloudinarySrcSet(item.url, [480, 768, 1024])}
+                      sizes="(min-width: 1280px) 25vw, (min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
+                      alt={galleryAlt(item)}
+                      width={1200}
+                      height={900}
                       loading="lazy"
+                      decoding="async"
                       className="absolute inset-0 size-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   )}
@@ -386,7 +396,9 @@ function GalleryPage() {
             ) : (
               <img
                 src={activeItem.url}
-                alt={displayMediaTitle(activeItem.title, activeItem.category)}
+                alt={galleryAlt(activeItem)}
+                loading="lazy"
+                decoding="async"
                 className="max-h-[75vh] max-w-full object-contain rounded-lg shadow-2xl"
               />
             )}

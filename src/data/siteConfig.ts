@@ -1,13 +1,15 @@
 import crocodileImage from "@/assets/bentota-crocodile.jpg";
 import boatImage from "@/assets/bentota-boat.jpg";
-import logoImage from "@/assets/sunset-lagoon-cloudinary-logo.png";
 
-export const LOGO_URL = logoImage;
+// Served from /public as a 192×192 PNG (~80 KB) instead of the original
+// 922×922, 1.15 MB asset. 192 px covers the largest on-page logo (96 px)
+// at 2× pixel density.
+export const LOGO_URL = "/logo.png";
 
 const cloudinaryBase = "https://res.cloudinary.com/qegkbvkj/image/upload";
 
 export const images = {
-  logo: { src: LOGO_URL, alt: "Sunset Lagoon Boat House logo", width: 922, height: 920 },
+  logo: { src: LOGO_URL, alt: "Sunset Lagoon Boat House logo", width: 192, height: 192 },
   hero: { src: `${cloudinaryBase}/v1789443140/ChatGPT_Image_Sep_15_2026_09_01_33_AM.png`, alt: "Sunset Lagoon boat moored on the Bentota River at sunset", width: 1678, height: 937 },
   heroLogo: { src: `${cloudinaryBase}/v1789442959/ChatGPT_Image_Sep_15_2026_08_56_42_AM_2.png`, alt: "Sunset Lagoon Boat House emblem over a warm sunset", width: 1679, height: 937 },
   heroTemple: { src: `${cloudinaryBase}/v1789316022/d9f312e0-f7cf-40a3-b312-8745e9792c38_bentota-river-boat-safari-with-private-boat-beruwalabentotakosgodaahungalla.png`, alt: "Riverside Buddhist temple seen from the Bentota River", width: 720, height: 480 },
@@ -25,37 +27,37 @@ export const images = {
 
 export const heroSlidesMobile = [
   {
-    src: "/hero/mobile/mangrove-boat-adventure.webp",
+    src: "/hero/mobile/mangrove-boat-adventure-opt.jpg",
     alt: "Guests cruising past dense mangrove forest on a Bentota river safari",
-    width: 940,
-    height: 1672,
+    width: 720,
+    height: 1281,
   },
   {
-    src: "/hero/mobile/lakeside-sunset-buddha.webp",
+    src: "/hero/mobile/lakeside-sunset-buddha-opt.jpg",
     alt: "Sunset over the Bentota lagoon with the riverside Buddha statue",
-    width: 940,
-    height: 1672,
+    width: 720,
+    height: 1281,
   },
 ] as const;
 
 export const heroSlides = [
   {
-    src: "/hero/mangrove-waterway-adventure.webp",
+    src: "/hero/mangrove-waterway-adventure-opt.jpg",
     alt: "Guests cruising past dense mangrove forest on a Bentota river safari",
-    width: 2056,
-    height: 765,
+    width: 1400,
+    height: 521,
   },
   {
-    src: "/hero/hero-bentota-safari.jpg",
+    src: "/hero/hero-bentota-safari-opt.jpg",
     alt: "A covered safari boat carrying visitors across the Bentota River at golden hour",
-    width: 1536,
-    height: 1024,
+    width: 1400,
+    height: 933,
   },
   {
-    src: "/hero/hero-mangrove-journey.jpg",
+    src: "/hero/hero-mangrove-journey-opt.jpg",
     alt: "A boat safari journey through lush tropical mangroves in Bentota",
-    width: 1536,
-    height: 1024,
+    width: 1320,
+    height: 880,
   },
 ] as const;
 
