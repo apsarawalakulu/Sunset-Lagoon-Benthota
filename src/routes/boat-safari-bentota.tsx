@@ -176,10 +176,10 @@ function BoatSafariPage() {
             on this site: you book, we confirm personally, and you pay on the day.
           </p>
           <p>
-            Staying in Aluthgama, Beruwala, Kosgoda, Ahungalla or anywhere near Bentota? Our dock
-            is a short drive from the south-coast resorts, so a boat safari near you is easier
-            than you might expect — tell us where you are staying and we will share the meeting
-            point and a realistic pick-up time.
+            Staying in Aluthgama, Beruwala, Kosgoda, Ahungalla or anywhere near Bentota? A boat
+            ride on the Bentota River is a short drive from most south-coast hotels, so a boat
+            safari near you is easier than you might expect — tell us where you are staying and
+            we will share the meeting point and a realistic pick-up time.
           </p>
         </LandingSection>
 
