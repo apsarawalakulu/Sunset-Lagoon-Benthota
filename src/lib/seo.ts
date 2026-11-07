@@ -2,6 +2,12 @@ export const SITE_URL = "https://www.sunsetlagoon.boats";
 export const SITE_NAME = "Sunset Lagoon Boat House";
 export const SITE_TAGLINE = "Bentota Boat Safari";
 
+/** Verified public profiles, used for entity reconciliation via schema.org sameAs. */
+export const SOCIAL_PROFILES = [
+  "https://www.facebook.com/people/Sunset-Lagoon-Boat-House-Bentota/61594817414251/",
+  "https://x.com/Sunsetlagoon97",
+];
+
 export const NAP = {
   name: "Sunset Lagoon Boat House",
   locality: "Bentota",
@@ -106,6 +112,7 @@ function baseBusiness(): Record<string, unknown> {
     url: SITE_URL,
     image: OG_IMAGE.url,
     logo: LOGO_URL,
+    sameAs: SOCIAL_PROFILES,
     telephone: NAP.phone,
     email: NAP.email,
     hasMap: NAP.mapsUrl,
@@ -172,6 +179,7 @@ export function organizationJsonLd(): Record<string, unknown> {
     name: NAP.name,
     url: SITE_URL,
     logo: LOGO_URL,
+    sameAs: SOCIAL_PROFILES,
     contactPoint: {
       "@type": "ContactPoint",
       telephone: NAP.phone,

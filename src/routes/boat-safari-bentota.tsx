@@ -17,9 +17,9 @@ import { optimizedImage, pageMeta } from "@/lib/seo";
 export const Route = createFileRoute("/boat-safari-bentota")({
   head: () =>
     pageMeta({
-      title: "Bentota Boat Safari | River Wildlife & Mangrove Tour",
+      title: "Bentota Boat Safari | Prices, Tickets & River Tour Booking",
       description:
-        "Book a Bentota boat safari with Sunset Lagoon Boat House. Cruise the Bentota River through mangroves and lagoons, spot river wildlife, and choose sunrise or sunset departures.",
+        "Book a Bentota boat safari with Sunset Lagoon Boat House. Ask for a price, reserve your tickets and choose a 1–4 hour river, mangrove or wildlife tour at sunrise or sunset near Bentota, Sri Lanka.",
       path: "/boat-safari-bentota",
     }),
   component: BoatSafariPage,
@@ -45,6 +45,26 @@ const FAQS = [
     question: "Is a Bentota boat safari suitable for families with children?",
     answer:
       "Yes. The river is calm, boats are stable and covered, and up to 8 guests travel per booking. Tell us your group size and ages when booking so the crew can look after everyone.",
+  },
+  {
+    question: "How much does a Bentota boat safari cost?",
+    answer:
+      "The price depends on the route you choose — 1-hour highlights, 2-hour mangrove and temple, 3-hour wildlife or 4-hour grand safari — plus your group size and whether you travel at sunrise or sunset. Message us on WhatsApp at +94 776 838 289 with your date and group size and we will confirm the exact cost before you commit.",
+  },
+  {
+    question: "Do I need to buy boat safari tickets in advance?",
+    answer:
+      "Reserving ahead is recommended, especially for sunrise and sunset departures when boats fill first. Tickets are not timed entry passes: a reservation holds your boat and crew for that slot. No online payment is taken on this site — you book, we confirm personally, and you pay on the day.",
+  },
+  {
+    question: "Is there a boat safari near me in Bentota?",
+    answer:
+      "If you are staying in Bentota, Aluthgama, Beruwala, Kosgoda or Ahungalla, yes. Our dock is on the Bentota River a short drive from the south-coast resorts, and every safari starts there. Send us your hotel and we will share the meeting point and a realistic pick-up time.",
+  },
+  {
+    question: "Where can I read boat safari reviews from past guests?",
+    answer:
+      "Guest reviews appear on our homepage under Guest stories, and every one is matched to a real booking before it is published. We do not write or edit them, and we do not display a rating until genuine reviews exist.",
   },
 ];
 
@@ -128,6 +148,36 @@ function BoatSafariPage() {
             </a>{" "}
             and <a href="/gallery" className="font-semibold text-accent-strong hover:underline">gallery</a>{" "}
             for an honest picture of river life.
+          </p>
+        </LandingSection>
+
+        <LandingSection eyebrow="Prices & tickets" title="Bentota boat safari price, tickets and booking">
+          <p>
+            Looking for the Bentota boat safari price? Every trip is quoted for the route you
+            choose — a 1-hour highlights cruise, a 2-hour mangrove and temple route, a 3-hour
+            wildlife journey or a 4-hour grand safari — so the cost depends on duration, your
+            group size and whether you travel at sunrise or sunset. Message us on WhatsApp at{" "}
+            <a
+              href="https://wa.me/94776838289"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-accent-strong hover:underline"
+            >
+              +94 776 838 289
+            </a>{" "}
+            with your date and group size and we will confirm the exact price before you commit.
+          </p>
+          <p>
+            Boat safari tickets in Bentota are not timed entry passes. Reserving a departure
+            simply holds your boat and crew for that slot, which is why we ask for your date,
+            preferred time and group size. There are no online ticket fees and no card payment
+            on this site: you book, we confirm personally, and you pay on the day.
+          </p>
+          <p>
+            Staying in Aluthgama, Beruwala, Kosgoda, Ahungalla or anywhere near Bentota? Our dock
+            is a short drive from the south-coast resorts, so a boat safari near you is easier
+            than you might expect — tell us where you are staying and we will share the meeting
+            point and a realistic pick-up time.
           </p>
         </LandingSection>
 

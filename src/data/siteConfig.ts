@@ -75,7 +75,7 @@ type SiteConfig = {
   descriptor: string;
   location: string;
   contact: { phone: string; whatsapp: string; email: string; hours: string };
-  social: { facebook: string; instagram: string; whatsapp: string };
+  social: { facebook: string; instagram: string; x: string; whatsapp: string };
   navigation: ReadonlyArray<{ label: string; href: string }>;
 };
 
@@ -90,7 +90,12 @@ export const siteConfig: SiteConfig = {
     email: "sunsetlagoon.boats@gmail.com",
     hours: "Open daily · 06:00 – 19:00",
   },
-  social: { facebook: "", instagram: "", whatsapp: "" },
+  social: {
+    facebook: "https://www.facebook.com/people/Sunset-Lagoon-Boat-House-Bentota/61594817414251/",
+    instagram: "",
+    x: "https://x.com/Sunsetlagoon97",
+    whatsapp: "",
+  },
   navigation: [
     { label: "Home", href: "#home" },
     { label: "Experience", href: "#experience" },

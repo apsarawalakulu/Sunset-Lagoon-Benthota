@@ -6,6 +6,7 @@ import { BookingModal } from "@/components/BookingModal";
 import { Reveal } from "@/components/Reveal";
 import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/seo";
 import { LOGO_URL, siteConfig } from "@/data/siteConfig";
+import { SocialLinks } from "@/components/SocialLinks";
 import type { Faq } from "@/components/FaqSection";
 
 export function LandingCrumbs({ trail }: { trail: Array<{ name: string; path: string }> }) {
@@ -239,6 +240,7 @@ export function LandingFooter() {
           <Link to="/river-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">River Safari</Link>
           <Link to="/mangrove-safari-bentota" className="text-[10px] uppercase tracking-widest text-primary-foreground/40 hover:text-primary-foreground">Mangrove Safari</Link>
         </nav>
+        <SocialLinks className="mt-4 flex flex-wrap gap-x-5 gap-y-2" />
         <div className="mt-12 flex flex-col justify-between gap-4 border-t border-primary-foreground/10 pt-6 text-[10px] uppercase tracking-widest text-primary-foreground/40 sm:flex-row">
           <p>© 2026 Sunset Lagoon Boat House. All rights reserved.</p>
           <p>Bentota · Sri Lanka</p>

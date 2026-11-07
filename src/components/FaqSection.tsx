@@ -59,6 +59,16 @@ export const FAQS: Faq[] = [
     answer:
       "Rates depend on duration and group size. Message us on WhatsApp at +94 776 838 289 or send an enquiry through the contact section for current prices — no online payment is taken at booking time.",
   },
+  {
+    question: "Do I need to book boat safari tickets in advance?",
+    answer:
+      "It is best to reserve ahead, especially for sunrise and sunset departures. Tickets are not timed entry passes: a reservation holds your boat and crew for that slot, and you pay on the day rather than online.",
+  },
+  {
+    question: "Is there a boat safari near me?",
+    answer:
+      "If you are staying in Bentota, Aluthgama, Beruwala, Kosgoda or Ahungalla, our dock on the Bentota River is a short drive away. Send us your hotel name on WhatsApp and we will share the meeting point and a realistic pick-up time.",
+  },
 ];
 
 export function FaqSection() {

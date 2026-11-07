@@ -21,7 +21,7 @@ export const DEFAULT_SETTINGS = {
   google_maps_url: null as string | null,
   latitude: null as number | null,
   longitude: null as number | null,
-  facebook_url: "",
+  facebook_url: "https://www.facebook.com/people/Sunset-Lagoon-Boat-House-Bentota/61594817414251/",
   instagram_url: "",
   website_url: "",
   opening_hours: "To be confirmed",

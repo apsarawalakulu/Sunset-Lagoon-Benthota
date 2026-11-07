@@ -112,7 +112,7 @@ export function ReviewsSection({ initialReviews = [] }: { initialReviews?: Revie
             Guest stories
           </p>
           <h2 className="font-serif text-4xl font-light leading-[1.06] tracking-tight sm:text-5xl">
-            What Guests Say
+            Boat Safari Reviews from Our Guests
           </h2>
           <p className="mt-6 max-w-lg text-base leading-8 text-muted-foreground">
             Every review below is from a verified safari guest — each one is matched to a real
