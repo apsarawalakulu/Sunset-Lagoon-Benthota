@@ -9,6 +9,7 @@ import {
   LandingSection,
   LandingFooter,
   RelatedSafaris,
+  LandingBusinessJsonLd,
   LandingServiceJsonLd,
 } from "@/components/landing";
 import { optimizedImage, pageMeta } from "@/lib/seo";
@@ -59,6 +60,7 @@ function RiverSafariPage() {
               { name: "Bentota River Safari", path: "/river-safari-bentota" },
             ]}
           />
+          <LandingBusinessJsonLd />
           <LandingServiceJsonLd
             name="Bentota River Safari"
             description="A guided boat tour on the Bentota River past open lagoon water, riverside villages and a riverside temple in Sri Lanka."

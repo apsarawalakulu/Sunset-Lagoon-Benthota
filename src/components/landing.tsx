@@ -4,7 +4,7 @@ import { ArrowRight, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { BookingModal } from "@/components/BookingModal";
 import { Reveal } from "@/components/Reveal";
-import { breadcrumbJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, businessJsonLd, faqJsonLd, serviceJsonLd } from "@/lib/seo";
 import { LOGO_URL, siteConfig } from "@/data/siteConfig";
 import { SocialLinks } from "@/components/SocialLinks";
 import type { Faq } from "@/components/FaqSection";
@@ -104,6 +104,22 @@ export function LandingList({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+/**
+ * Defines the business node on landing pages so the Service `provider` @id
+ * resolves in the page's own graph, and carries the social profiles with it.
+ * No rating is emitted here; reviews live on the homepage graph.
+ */
+export function LandingBusinessJsonLd() {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(businessJsonLd({ reviewCount: 0, ratingValue: 0 })),
+      }}
+    />
   );
 }
 
